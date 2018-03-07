@@ -1,0 +1,36 @@
+<TableLayout
+    android:gravity="center"
+    android:background="@color/project_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/home"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableRow
+        android:gravity="center"
+        android:layout_width="match_parent">
+        <Button
+            style="@style/button_style"
+            android:text="Contacts"
+            android:onClick="buttonContacts"
+            android:id="@+id/contacts"/>
+    </TableRow>
+    <TableRow
+        android:gravity="center">
+        <Button
+            style="@style/button_style"
+            android:text="Opportunities"
+            android:onClick="buttonOpportunities"
+            android:id="@+id/opportunities"/>
+    </TableRow>
+
+    <TableRow
+        android:gravity="center">
+        <Button
+            style="@style/button_style"
+            android:text="Relationships"
+            android:onClick="buttonRelationships"
+            android:id="@+id/relationships"/>
+    </TableRow>
+
+</TableLayout>
