@@ -12,60 +12,64 @@
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/contacts_image"
+                android:id="@+id/contacts_image_browse"
                 android:src="@drawable/ic_launcher_background"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="left"
+                android:layout_margin="5dp">
                 <TextView
-                    android:id="@+id/nea_tv_categories"
+                    android:id="@+id/contacts_name_browse"
                     style="@style/text_view_style"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:text="Categories"
+                    android:text="Samuel D. Pollock"
                     android:textColor="#000" />
+
                 <TextView
-                    android:id="@+id/tv_categories"
+                    android:id="@+id/contacts_designation_browse"
                     style="@style/text_view_style"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:text="Categories"
-                    android:textColor="#000" />
+                    android:text="Information systems management"
+                    android:textColor="#000"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/contacts_company_browse"
+                    style="@style/text_view_style"
+                    android:text="First Choice Yard Help"
+                    android:textColor="#000"
+                    android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/nea_tv_vendor"
+            android:id="@+id/contacts_no_browse"
             style="@style/text_view_style"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Vendor"
+            android:text="9781342197"
             android:textColor="#000"
+            android:textSize="12sp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"/>
 
         <TextView
             style="@style/text_view_style"
-            android:id="@+id/nea_tv_date"
-            android:text="01-March-2018"
+            android:id="@+id/contacts_email_browse"
+            android:text="SamuelDPollock@teleworm.us"
             android:textColor="#5c6166"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
-            />
+            android:textSize="12sp"/>
 
     </LinearLayout>
 

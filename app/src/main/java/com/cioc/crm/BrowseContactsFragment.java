@@ -32,6 +32,9 @@ public class BrowseContactsFragment extends Fragment {
         browse_rv = v.findViewById(R.id.browse_recyclerView);
         browse_rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        BrowseAdapter browseAdapter = new BrowseAdapter(getContext());
+        browse_rv.setAdapter(browseAdapter);
+
         return v;
     }
 
