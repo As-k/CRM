@@ -10,15 +10,16 @@
         android:gravity="center"
         android:layout_width="match_parent">
         <Button
-            style="@style/button_style"
+            style="@style/home_button_style"
             android:text="Contacts"
             android:onClick="buttonContacts"
             android:id="@+id/contacts"/>
     </TableRow>
     <TableRow
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_margin="10dp">
         <Button
-            style="@style/button_style"
+            style="@style/home_button_style"
             android:text="Opportunities"
             android:onClick="buttonOpportunities"
             android:id="@+id/opportunities"/>
@@ -27,7 +28,7 @@
     <TableRow
         android:gravity="center">
         <Button
-            style="@style/button_style"
+            style="@style/home_button_style"
             android:text="Relationships"
             android:onClick="buttonRelationships"
             android:id="@+id/relationships"/>
