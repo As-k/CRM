@@ -19,7 +19,8 @@
         <activity android:name=".ContactsActivity" />
         <activity android:name=".OpportunitiesActivity" />
         <activity android:name=".RelationshipsActivity" />
-        <activity android:name=".EditContactActivity"></activity>
+        <activity android:name=".EditContactActivity" />
+        <activity android:name=".ViewDetailsActivity"></activity>
     </application>
 
 </manifest>

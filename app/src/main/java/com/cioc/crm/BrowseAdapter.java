@@ -1,6 +1,7 @@
 package com.cioc.crm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -79,6 +80,15 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, EditContactActivity.class));
+                }
+            });
+
+            viewDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, ViewDetailsActivity.class));
                 }
             });
         }
