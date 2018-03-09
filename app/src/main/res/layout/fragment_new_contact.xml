@@ -28,6 +28,48 @@
                 android:text="@string/create_a_new_contact"
                 style="@style/text_view_style"/>
 
+            <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/mrs."
+                    style="@style/text_view_style"
+                    android:text="Mrs."
+                    android:textColor="#3c4650"
+                    android:layout_centerVertical="true"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gender_sw"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@+id/mrs."
+                    android:checked="true"/>
+
+                <TextView
+                    android:id="@+id/mr."
+                    style="@style/text_view_style"
+                    android:text="Mr."
+                    android:textColor="#3c4650"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@+id/gender_sw" />
+
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/switch_profile"
+                    android:src="@drawable/male"
+                    android:layout_gravity="left"
+                    android:layout_alignParentRight="true"
+                    />
+
+            </RelativeLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -69,7 +111,7 @@
                 <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:id="@+id/contacts_company"
-                    android:hint="Comany"
+                    android:hint="Company"
                     android:inputType="textCapWords"
                     style="@style/edit_text_style"/>
             </android.support.design.widget.TextInputLayout>
@@ -171,6 +213,7 @@
                     android:textColor="@android:color/holo_green_dark"
                     android:layout_margin="5dp"
                     android:text="attached"
+                    android:textStyle="italic"
                     android:visibility="gone"/>
             </LinearLayout>
 

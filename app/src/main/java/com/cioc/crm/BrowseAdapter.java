@@ -52,7 +52,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
         holder.browseCompany.setText(contact_companies[position]);
         holder.browseMob.setText(contact_cnos[position]);
         holder.browseEmail.setText(contact_emails[position]);
-
     }
 
     @Override
@@ -88,7 +87,9 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
-                    context.startActivity(new Intent(context, ViewDetailsActivity.class));
+                    Intent intent = new Intent(context, ViewDetailsActivity.class);
+                    intent.putExtra("image", contact_images[getLayoutPosition()]);
+                    context.startActivity(intent);
                 }
             });
         }

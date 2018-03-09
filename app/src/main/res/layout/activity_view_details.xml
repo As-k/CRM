@@ -1,9 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cioc.crm.ViewDetailsActivity">
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/view_image"
+        android:src="@drawable/male"
+        />
+
+    <TextView
+        style="@style/text_view_style"
+        android:text="Samuel D. Pollock"
+        android:id="@+id/view_name"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        style="@style/text_view_style"
+        android:text="Information systems manager"
+        android:id="@+id/view_email"/>
+
+    <TextView
+        style="@style/text_view_style"
+        android:text="First Choice Yard Help"
+        android:id="@+id/view_mob_no"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        style="@style/text_view_style"
+        android:text="7854211505"
+        android:id="@+id/view_company"
+        android:drawableLeft="@drawable/ic_smartphone"
+        android:drawablePadding="2dp"/>
+
+    <TextView
+        style="@style/text_view_style"
+        android:text="SamuelDPollock@teleworm.us"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="2dp"/>
+
+
+
+
+</LinearLayout>

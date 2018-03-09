@@ -20,7 +20,8 @@
         <activity android:name=".OpportunitiesActivity" />
         <activity android:name=".RelationshipsActivity" />
         <activity android:name=".EditContactActivity" />
-        <activity android:name=".ViewDetailsActivity"></activity>
+        <activity android:name=".ViewDetailsActivity" />
+        <activity android:name=".NewContactActivity"></activity>
     </application>
 
 </manifest>
