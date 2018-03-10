@@ -13,20 +13,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void buttonContacts(View v)
-    {
+    public void buttonContacts(View v) {
         startActivity(new Intent(this,ContactsActivity.class));
     }
 
-    public void buttonOpportunities(View v)
-    {
+    public void buttonOpportunities(View v) {
         startActivity(new Intent(this,OpportunitiesActivity.class));
     }
 
-    public void buttonRelationships(View v)
-    {
+    public void buttonRelationships(View v) {
         startActivity(new Intent(this,RelationshipsActivity.class));
     }
-
-
 }

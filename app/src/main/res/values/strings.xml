@@ -3,4 +3,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="create_a_new_contact">Create a new contact</string>
+    <string name="show_advance_options">Show advance options</string>
+    <string name="hide_advance_options">Hide advance options</string>
+    <string name="company_details_optional">Company Details (Optional)</string>
+    <!--<string name="action_settings">Settings</string>-->
+    <!--<string name="camera">Camera</string>-->
+    <string name="import_contact">Import</string>
+    <string name="new_contact">New</string>
+    <string name="new_company">New</string>
+    <string name="update_company">Update</string>
 </resources>
