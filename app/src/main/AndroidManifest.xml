@@ -10,15 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".ContactsActivity" />
+        <activity android:name=".OpportunitiesActivity" />
+        <activity android:name=".RelationshipActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactsActivity" />
-        <activity android:name=".OpportunitiesActivity" />
-        <activity android:name=".RelationshipsActivity" />
+        <activity android:name=".ActiveDealsActivity">
+
+        </activity>
         <activity android:name=".EditContactActivity" />
         <activity android:name=".ViewDetailsActivity" />
         <activity android:name=".NewContactActivity"></activity>

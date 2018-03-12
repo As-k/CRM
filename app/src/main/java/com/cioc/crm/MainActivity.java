@@ -23,9 +23,8 @@ public class MainActivity extends Activity {
         startActivity(new Intent(this,OpportunitiesActivity.class));
     }
 
-    public void buttonRelationships(View v)
-    {
-        startActivity(new Intent(this,RelationshipsActivity.class));
+    public void buttonRelationships(View v) {
+        startActivity(new Intent(this,RelationshipActivity.class));
     }
 
 
