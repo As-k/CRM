@@ -5,8 +5,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_vertical_marginTop">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="cardCornerRadius">4dp</dimen>
-    <dimen name="cardElevation">4dp</dimen>
+    <dimen name="cardCornerRadius">2dp</dimen>
+    <dimen name="cardElevation">2dp</dimen>
     <dimen name="cardview_horizontal_padding">6dp</dimen>
     <dimen name="cardview_vertical_padding">2dp</dimen>
     <dimen name="vertical_padding">2dp</dimen>

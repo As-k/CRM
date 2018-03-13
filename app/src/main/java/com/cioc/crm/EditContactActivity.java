@@ -44,7 +44,6 @@ public class EditContactActivity extends Activity {
         findAllIds();
         addCompany();
 
-
         arrowDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
