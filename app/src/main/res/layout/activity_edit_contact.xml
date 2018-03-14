@@ -92,7 +92,7 @@
                     android:textAllCaps="false"
                     android:drawableLeft="@drawable/ic_edit"
                     android:drawablePadding="@dimen/vertical_padding"
-                    android:onClick="editUpdateCompany"
+                    android:onClick="editUpdateNewCompany"
                     android:visibility="gone"/>
             </LinearLayout>
             <!--<android.support.design.widget.TextInputLayout-->

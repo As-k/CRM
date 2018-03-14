@@ -159,7 +159,7 @@ public class NewContactActivity extends Activity {
         });
     }
 
-    public void editUpdateCompany(View view){
+    public void updateNewCompany(View view){
 
         View v = getLayoutInflater().inflate(R.layout.dialog_edit_update_company, null, false);
         dialogTel = v.findViewById(R.id.dialog_new_telephone);

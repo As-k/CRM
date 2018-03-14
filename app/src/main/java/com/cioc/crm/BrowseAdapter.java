@@ -78,7 +78,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(context, EditContactActivity.class));
                 }
             });
@@ -89,6 +88,11 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
                     Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ViewDetailsActivity.class);
                     intent.putExtra("image", contact_images[getLayoutPosition()]);
+                    intent.putExtra("name", contact_names[getLayoutPosition()]);
+                    intent.putExtra("designation", contact_designations[getLayoutPosition()]);
+                    intent.putExtra("company", contact_companies[getLayoutPosition()]);
+                    intent.putExtra("cno", contact_cnos[getLayoutPosition()]);
+                    intent.putExtra("email", contact_emails[getLayoutPosition()]);
                     context.startActivity(intent);
                 }
             });

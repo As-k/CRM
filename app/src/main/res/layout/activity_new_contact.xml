@@ -22,11 +22,10 @@
 
             <!-- TODO: Update blank fragment layout -->
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/create_a_new_contact"
                 style="@style/text_view_style"
-                android:textSize="15dp"/>
+                android:textSize="15dp"
+                />
 
             <RelativeLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,7 +141,7 @@
                     android:textAllCaps="false"
                     android:drawableLeft="@drawable/ic_edit"
                     android:drawablePadding="@dimen/vertical_padding"
-                    android:onClick="editUpdateCompany"
+                    android:onClick="updateNewCompany"
                     android:visibility="gone"/>
             </LinearLayout>
             <LinearLayout
