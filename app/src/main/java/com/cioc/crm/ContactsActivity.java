@@ -84,10 +84,10 @@ public class ContactsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(ContactsActivity.this, "Ok", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                Uri data = Uri.parse("content://contacts/people/");
-                intent.setData(data);
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                Uri data = Uri.parse("content://contacts/people/");
+//                intent.setData(data);
+                startActivity(new Intent(ContactsActivity.this,ContactsListActivity.class));
             }
         });
 
@@ -103,7 +103,6 @@ public class ContactsActivity extends FragmentActivity {
     private void closeSubMenusFab(){
         layoutFabImport.setVisibility(View.INVISIBLE);
         layoutFabNew.setVisibility(View.INVISIBLE);
-//        layoutFabPhoto.setVisibility(View.INVISIBLE);
 //        fab.setImageResource(R.drawable.ic_add);
         fabImport.startAnimation(fab_close);
         fabNew.setAnimation(fab_close);
@@ -116,7 +115,6 @@ public class ContactsActivity extends FragmentActivity {
     private void openSubMenusFab(){
         layoutFabImport.setVisibility(View.VISIBLE);
         layoutFabNew.setVisibility(View.VISIBLE);
-//        layoutFabPhoto.setVisibility(View.VISIBLE);
         //Change settings icon to 'X' icon
 //        fab.setImageResource(R.drawable.ic_close);
         fabImport.startAnimation(fab_open);
