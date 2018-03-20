@@ -44,11 +44,17 @@ public class NewContactActivity extends Activity {
     Button saveDialogDetails;
     TextView dialog_arrowUp, dialog_arrowDown;
     LinearLayout dialog_showAdvanceDetails;
-
+    String name, cno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
+
+        Bundle b = getIntent().getExtras();
+        if (b != null){
+            name = b.getString("name");
+            cno = b.getString("cno");
+        }
 
         findAllIds();
 
@@ -83,8 +89,6 @@ public class NewContactActivity extends Activity {
                 showAdvanceDetails.setVisibility(View.GONE);
             }
         });
-
-
 
 
 
@@ -124,6 +128,9 @@ public class NewContactActivity extends Activity {
         newDp = findViewById(R.id.contact_profile_photo);
         newDpAttach = findViewById(R.id.dp_attached);
         saveNewContact = findViewById(R.id.save_newContacts);
+
+        newFullName.setText(name);
+        newMobNo.setText(cno);
     }
 
     public void addCompany(){

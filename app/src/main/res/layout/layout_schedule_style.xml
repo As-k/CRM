@@ -29,6 +29,7 @@
                 android:ems="10"
                 android:hint="Date"
                 android:inputType="date"
+                android:keyboardNavigationCluster="true"
                 android:drawableRight="@drawable/ic_date"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -43,6 +44,7 @@
                 android:ems="10"
                 android:hint="Time"
                 android:inputType="time"
+                android:keyboardNavigationCluster="false"
                 android:drawableRight="@drawable/ic_time"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

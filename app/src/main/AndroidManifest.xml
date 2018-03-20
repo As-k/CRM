@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cioc.crm">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -10,9 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-        <activity android:name=".MainActivity"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,19 +21,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactsActivity"
+        <activity
+            android:name=".ContactsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".OpportunitiesActivity"
+        <activity
+            android:name=".OpportunitiesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".RelationshipsActivity"
+        <activity
+            android:name=".RelationshipsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".EditContactActivity"
+        <activity
+            android:name=".EditContactActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ViewDetailsActivity"
+        <activity
+            android:name=".ViewDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".NewContactActivity"
+        <activity
+            android:name=".NewContactActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ContactsListActivity"
+        <activity
+            android:name=".ContactsListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MeetingActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

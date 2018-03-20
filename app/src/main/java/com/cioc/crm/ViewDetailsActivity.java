@@ -1,17 +1,28 @@
 package com.cioc.crm;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -21,8 +32,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.github.irshulx.Editor;
+import com.github.irshulx.EditorListener;
+import com.github.irshulx.models.EditorTextStyle;
+
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.Inflater;
 
 public class ViewDetailsActivity extends FragmentActivity {
@@ -40,6 +59,8 @@ public class ViewDetailsActivity extends FragmentActivity {
 
     int c_yr, c_month, c_day, c_hr, c_min;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +68,7 @@ public class ViewDetailsActivity extends FragmentActivity {
 
         Bundle b = getIntent().getExtras();
         int image = b.getInt("image");
-        String name = b.getString("name");
+        final String name = b.getString("name");
         String company = b.getString("company");
         String designation = b.getString("designation");
         String cno = b.getString("cno");
@@ -153,6 +174,8 @@ public class ViewDetailsActivity extends FragmentActivity {
                 scheduleCancel = v.findViewById(R.id.schedule_cancel);
                 scheduleSave = v.findViewById(R.id.schedule_save);
 
+                scheduleDate.setFocusableInTouchMode(false);
+                scheduleTime.setFocusableInTouchMode(false);
                 scheduleDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -213,6 +236,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                 taskCancel= v.findViewById(R.id.task_cancel);
                 scheduleSave = v.findViewById(R.id.task_save);
 
+                taskDate.setFocusableInTouchMode(false);
                 taskDate.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -246,80 +270,98 @@ public class ViewDetailsActivity extends FragmentActivity {
         fabMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final EditText meetingDate, meetingTime, meetingInternalPeople, meetingCRM, meetingDuration, meetingPlace;
-                Button meetingAddIP, meetingAddCRM, meetingCancel, meetingSave;
-                View v = getLayoutInflater().inflate(R.layout.layout_meeting_style, null, false);
-
-                meetingDate = v.findViewById(R.id.meeting_date);
-                meetingTime = v.findViewById(R.id.meeting_time);
-                meetingInternalPeople = v.findViewById(R.id.meeting_internal_people);
-                meetingCRM = v.findViewById(R.id.meeting_within_crm);
-                meetingDuration = v.findViewById(R.id.meeting_duration);
-                meetingPlace = v.findViewById(R.id.meeting_place);
-
-                meetingAddIP = v.findViewById(R.id.add_meeting_internal_people);
-                meetingAddCRM = v.findViewById(R.id.add_meeting_within_crm);
-                meetingCancel = v.findViewById(R.id.meeting_cancel);
-                meetingSave = v.findViewById(R.id.meeting_save);
-
-                meetingDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                meetingDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                            }
-                        },c_yr,c_month,c_day);
-                        DatePicker dp = dpd.getDatePicker();
-//                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
-//                dp.setMaxDate(System.currentTimeMillis());
-                        dpd.show();
-                    }
-                });
-
-                meetingTime.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       TimePickerDialog tpd = new TimePickerDialog(ViewDetailsActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new TimePickerDialog.OnTimeSetListener() {
-                           @Override
-                           public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                               if (hourOfDay > 12) {
-                                   meetingTime.setText((hourOfDay-12) + ":" + minute+" PM");
-                               } else {
-                                   meetingTime.setText(hourOfDay + ":" + minute+" AM");
-                               }
-                           }
-                       }, c_hr, c_min,false);
-                       tpd.show();
-                   }
-                });
-
-
-
-                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
-                adb.setView(v);
-                adb.setCancelable(false);
-                final AlertDialog ad = adb.create();
-                meetingCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ad.dismiss();
-                    }
-                });
-                ad.show();
+//                final EditText meetingDate, meetingTime, meetingInternalPeople, meetingCRM, meetingDuration, meetingPlace;
+//                Button meetingAddIP, meetingAddCRM, meetingCancel, meetingSave;
+//                View v = getLayoutInflater().inflate(R.layout.layout_meeting_style, null, false);
+//                getWindow().setSoftInputMode(
+//
+//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+//
+//                );
+//                editor = (Editor) v.findViewById(R.id.editor);
+////                setUpEditor();
+//                meetingDate = v.findViewById(R.id.meeting_date);
+//                meetingTime = v.findViewById(R.id.meeting_time);
+//                meetingInternalPeople = v.findViewById(R.id.meeting_internal_people);
+//                meetingCRM = v.findViewById(R.id.meeting_within_crm);
+//                meetingDuration = v.findViewById(R.id.meeting_duration);
+//                meetingPlace = v.findViewById(R.id.meeting_place);
+//
+//                meetingAddIP = v.findViewById(R.id.add_meeting_internal_people);
+//                meetingAddCRM = v.findViewById(R.id.add_meeting_within_crm);
+//                meetingCancel = v.findViewById(R.id.meeting_cancel);
+//                meetingSave = v.findViewById(R.id.meeting_save);
+//
+//                meetingDate.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+//                            @Override
+//                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                                meetingDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+//                            }
+//                        },c_yr,c_month,c_day);
+//                        DatePicker dp = dpd.getDatePicker();
+////                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
+////                dp.setMaxDate(System.currentTimeMillis());
+//                        dpd.show();
+//                    }
+//                });
+//
+//                meetingTime.setOnClickListener(new View.OnClickListener() {
+//                   @Override
+//                   public void onClick(View v) {
+//                       TimePickerDialog tpd = new TimePickerDialog(ViewDetailsActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new TimePickerDialog.OnTimeSetListener() {
+//                           @Override
+//                           public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                               if (hourOfDay > 12) {
+//                                   meetingTime.setText((hourOfDay-12) + ":" + minute+" PM");
+//                               } else {
+//                                   meetingTime.setText(hourOfDay + ":" + minute+" AM");
+//                               }
+//                           }
+//                       }, c_hr, c_min,false);
+//                       tpd.show();
+//                   }
+//                });
+//
+//
+//
+//                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
+//                adb.setView(v);
+//                adb.setCancelable(false);
+//                final AlertDialog ad = adb.create();
+//                meetingCancel.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        ad.dismiss();
+//                    }
+//                });
+//                ad.show();
+                startActivity(new Intent(ViewDetailsActivity.this, MeetingActivity.class));
             }
         });
 
         fabNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ImageView attachFile;
                 final EditText noteDetails;
                 Button noteCancel, noteSend;
                 View v = getLayoutInflater().inflate(R.layout.layout_note_style, null, false);
+                attachFile = v.findViewById(R.id.note_attach_file);
                 noteDetails = v.findViewById(R.id.note_details);
                 noteCancel = v.findViewById(R.id.note_cancel);
                 noteSend = v.findViewById(R.id.note_send);
+
+                attachFile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        startActivityForResult(intent, 101);
+                    }
+                });
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
                 adb.setView(v);
@@ -367,5 +409,7 @@ public class ViewDetailsActivity extends FragmentActivity {
         fabView.startAnimation(rotate_forward);
         fabExpanded = true;
     }
+
+
 }
 

@@ -5,17 +5,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:id="@+id/note_details"
-            android:hint="Write a note"
-            android:inputType="text"
+            android:text="Write a note"
             />
-    </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/note_attach_file"
+            android:src="@drawable/ic_attach_file"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_weight="1"
+        android:id="@+id/note_details"
+        android:hint="text"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
