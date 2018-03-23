@@ -63,7 +63,7 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
         setContentView(R.layout.activity_meeting);
 
         editor = (Editor) findViewById(R.id.meeting_editor);
-//        setUpEditor();
+        setUpEditor();
 
         meetingDate = findViewById(R.id.meeting_date);
         meetingTime = findViewById(R.id.meeting_time);
@@ -269,12 +269,12 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
             }
         });
 
-        findViewById(R.id.action_map).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.insertMap();
-            }
-        });
+//        findViewById(R.id.action_map).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.insertMap();
+//            }
+//        });
 
         findViewById(R.id.action_erase).setOnClickListener(new View.OnClickListener() {
             @Override

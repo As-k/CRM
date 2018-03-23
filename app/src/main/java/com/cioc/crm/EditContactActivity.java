@@ -41,6 +41,14 @@ public class EditContactActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
 
+        Bundle b = getIntent().getExtras();
+        int image = b.getInt("image");
+        final String name = b.getString("name");
+        String company = b.getString("company");
+        String designation = b.getString("designation");
+        String cno = b.getString("cno");
+        String email = b.getString("email");
+
         findAllIds();
         addCompany();
 
@@ -71,6 +79,12 @@ public class EditContactActivity extends Activity {
                 startActivityForResult(Intent.createChooser(i, "Select Picture"), 112);
             }
         });
+
+        editFullName.setText(name);
+        editCompany.setText(company);
+        editDesignation.setText(designation);
+        editMobNo.setText(cno);
+        editEmail.setText(email);
     }
 
     public void findAllIds(){

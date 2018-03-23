@@ -84,23 +84,25 @@ public class ContactsListActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(ContactsListActivity.this, "call" + cno, Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(Intent.ACTION_CALL);
+                        Intent i = new Intent(Intent.ACTION_DIAL);
                         i.setData(Uri.parse("tel:" + cno));
 //                        if (ActivityCompat.checkSelfPermission(ContactsListActivity.this,
 //                                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 //                            return;
 //                        }
-                        if (ActivityCompat.checkSelfPermission(ContactsListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-                        startActivity(i);
+//                        if (ActivityCompat.checkSelfPermission(ContactsListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                            // TODO: Consider calling
+//                            //    ActivityCompat#requestPermissions
+//                            // here to request the missing permissions, and then overriding
+//                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                            //                                          int[] grantResults)
+//                            // to handle the case where the user grants the permission. See the documentation
+//                            // for ActivityCompat#requestPermissions for more details.
+//                            return;
+//                        }
+//                        if (i.resolveActivity(getPackageManager()) != null) {
+                            startActivity(i);
+//                        }
                     }
                 });
 
@@ -108,9 +110,10 @@ public class ContactsListActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(ContactsListActivity.this, "SMS"+cno, Toast.LENGTH_SHORT).show();
-//                        Intent i = new Intent(Intent.ACTION_SEND);
-//                        i.setData(Uri.parse("tel:"+cno));
-//                        startActivity(i);
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType("text/plain");
+                        i.putExtra(Intent.EXTRA_TEXT,"Hii whats happened");
+                        startActivity(i);
                     }
                 });
                 AlertDialog.Builder adb = new AlertDialog.Builder(ContactsListActivity.this);
@@ -125,7 +128,8 @@ public class ContactsListActivity extends Activity {
         });
 
     }
-
+    int digits = 10;
+    int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
 //        String[] PROJECTION = new String[] {
 //                ContactsContract.Contacts._ID,
@@ -139,15 +143,22 @@ public class ContactsListActivity extends Activity {
 //        String company_Name = getCompanyName(rawContactId);
         String order = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, order);
-
+        String temp_name="";
         while (cursor.moveToNext()) {
             name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
+            if (name.equals(temp_name))
+                continue;
+            temp_name = name;
 //            companyName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
 //            String rawContactId = getRawContactId(contactId);
 //            String company_Name = getCompanyName(rawContactId);
             phonenumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
 //            email = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
-
+            if (hasCountryCode(phonenumber)) {
+                // +52 for MEX +526441122345, 13-10 = 3, so we need to remove 3 characters
+                String country_digits = phonenumber.replace("+91","");
+                phonenumber = country_digits;
+            }
 
             HashMap hm = new HashMap();
             hm.put(keys[0],name);
@@ -160,6 +171,10 @@ public class ContactsListActivity extends Activity {
 
         cursor.close();
 
+    }
+
+    private boolean hasCountryCode(String number) {
+        return number.charAt(plus_sign_pos) == '+'; // Didn't String had contains() method?...
     }
 
     private String getRawContactId(String contactId) {

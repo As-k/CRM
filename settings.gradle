@@ -1,1 +1,1 @@
-include ':app', ':library'
+include ':app', ':greendao-generator', ':laser-native-editor'

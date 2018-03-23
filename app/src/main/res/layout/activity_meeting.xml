@@ -4,184 +4,228 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/project_color"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <LinearLayout android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:layout_alignParentTop="true"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
         >
-        <TextView
-            style="@style/text_view_style"
-            android:layout_gravity="left"
-            android:text="When"
-            android:textSize="15dp"
-            android:textColor="#000000"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="2dp">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/meeting_date"
-                    android:ems="10"
-                    android:hint="Date"
-                    android:inputType="date"
-                    android:drawableRight="@drawable/ic_date"/>
-            </android.support.design.widget.TextInputLayout>
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                style="@style/text_view_style"
+                android:layout_gravity="left"
+                android:text="When"
+                android:textSize="15dp"
+                android:textColor="@color/text_color"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/meeting_time"
-                    android:ems="10"
-                    android:hint="Time"
-                    android:inputType="time"
-                    android:drawableRight="@drawable/ic_time"/>
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="2dp">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/meeting_internal_people"
-                    android:ems="10"
-                    android:hint="Internal People"
-                    android:inputType="text"/>
-            </android.support.design.widget.TextInputLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:id="@+id/add_meeting_internal_people"
-                android:drawableRight="@drawable/ic_add_company"
-                style="?android:attr/borderlessButtonStyle"/>
-        </LinearLayout>
-
-        <me.originqiu.library.EditTag
-            android:id="@+id/edit_tag_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tag_layout="@layout/view_sample_tag"
-            app:delete_mode_bg="@color/colorPrimary"
-            app:input_layout="@layout/view_sample_input_tag"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="2dp">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/meeting_within_crm"
-                    android:ems="10"
-                    android:hint="Within CRM"
-                    android:inputType="text"/>
-            </android.support.design.widget.TextInputLayout>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:id="@+id/add_meeting_within_crm"
-                android:drawableRight="@drawable/ic_add_company"
-                style="?android:attr/borderlessButtonStyle"/>
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp">
-
-            <ImageView
-                android:id="@+id/decrease_duration"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_arrow_drop_down" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_meeting_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/decrease_duration">
-
-                <EditText
-                    android:id="@+id/meeting_duration"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:ems="4"
-                    android:hint="Duration"
-                    android:inputType="numberDecimal" />
-            </android.support.design.widget.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/increase_duration"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="10dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/til_meeting_duration"
-                android:src="@drawable/ic_arrow_drop_up" />
-
-        </RelativeLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/meeting_place"
-                android:ems="10"
-                android:hint="Place"
-                android:inputType="text"
-                />
-        </android.support.design.widget.TextInputLayout>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="2dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/meeting_date"
+                        android:ems="10"
+                        android:hint="Date"
+                        android:inputType="date"
+                        android:drawableRight="@drawable/ic_date"/>
+                </android.support.design.widget.TextInputLayout>
 
-        <com.github.irshulx.Editor
-            android:layout_width="match_parent"
-            android:id="@+id/meeting_editor"
-            app:render_type="Editor"
-            app:placeholder="Start writing here..."
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_height="wrap_content"
-            android:paddingBottom="100dp"
-            />
-    </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/meeting_time"
+                        android:ems="10"
+                        android:hint="Time"
+                        android:inputType="time"
+                        android:drawableRight="@drawable/ic_time"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="2dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/meeting_internal_people"
+                        android:ems="10"
+                        android:hint="Internal People"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:id="@+id/add_meeting_internal_people"
+                    android:drawableRight="@drawable/ic_add_company"
+                    style="?android:attr/borderlessButtonStyle"/>
+            </LinearLayout>
+
+            <me.originqiu.library.EditTag
+                android:id="@+id/edit_tag_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tag_layout="@layout/view_sample_tag"
+                app:delete_mode_bg="@color/colorPrimary"
+                app:input_layout="@layout/view_sample_input_tag"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="2dp">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/meeting_within_crm"
+                        android:ems="10"
+                        android:hint="Within CRM"
+                        android:inputType="text"/>
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:id="@+id/add_meeting_within_crm"
+                    android:drawableRight="@drawable/ic_add_company"
+                    style="?android:attr/borderlessButtonStyle"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp">
+
+                <ImageView
+                    android:id="@+id/decrease_duration"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_drop_down" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_meeting_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:textColorHint="@color/text_color"
+                    android:layout_toEndOf="@+id/decrease_duration">
+
+                    <EditText
+                        android:id="@+id/meeting_duration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:ems="4"
+                        android:text="0"
+                        android:hint="Duration"
+                        android:inputType="numberDecimal" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/increase_duration"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/til_meeting_duration"
+                    android:src="@drawable/ic_arrow_drop_up" />
+
+            </RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/text_color">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/meeting_place"
+                    android:ems="10"
+                    android:hint="Place"
+                    android:inputType="text"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_height="match_parent">
+
+
+                <!-- Begin Editor toolbar -->
+
+                <HorizontalScrollView android:id="@+id/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#e6e6e6"
+                    android:layout_alignParentBottom="true"
+                    android:scrollbars="none">
+
+                    <include layout="@layout/editor_toolbar_linearlayout_horizontal" />
+
+
+                </HorizontalScrollView>
+                <!--End of Editor toolbar -->
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:scrollbars="vertical"
+                    android:layout_marginBottom="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_height="match_parent"
+                    >
+                    <com.github.irshulx.Editor
+                        android:layout_width="match_parent"
+                        android:id="@+id/meeting_editor"
+                        app:render_type="Editor"
+                        app:placeholder="Start writing here..."
+                        android:paddingTop="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="100dp" />
+                </ScrollView>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
