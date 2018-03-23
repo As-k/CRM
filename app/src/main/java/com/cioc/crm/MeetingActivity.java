@@ -40,7 +40,8 @@ import java.util.Map;
 
 import me.originqiu.library.EditTag;
 
-public class MeetingActivity extends AppCompatActivity implements SwitchCompat.OnCheckedChangeListener{
+
+public class MeetingActivity extends AppCompatActivity {
 
     EditText meetingDate, meetingTime, meetingInternalPeople, meetingCRM, meetingDuration, meetingPlace;
     Button meetingAddIP, meetingAddCRM, meetingCancel, meetingSave;
@@ -48,7 +49,7 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
 
     int c_yr, c_month, c_day, c_hr, c_min;
 
-    private EditTag editTagView;
+    EditTag editTagView;
 
     private SwitchCompat statusSwitchView;
 
@@ -83,34 +84,39 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
         meetingDuration.setText("0");
         clickMethods();
 
-//        editTagView = (EditTag) findViewById(R.id.edit_tag_view);
-//        statusSwitchView = (SwitchCompat) findViewById(R.id.status_switch);
-//        statusSwitchView.setOnCheckedChangeListener(this);
-//
-//        for (int i = 0; i < 10; i++) {
-//            tagStrings.add("test" + i);
-//        }
-//        //Set tag add callback before set tag list
-//        editTagView.setTagAddCallBack(new EditTag.TagAddCallback() {
-//            @Override
-//            public boolean onTagAdd(String tagValue) {
-//                if ("test1".equals(tagValue)) {
-//                    return false;
-//                } else {
-//                    return true;
-//                }
-//            }
-//        });
-//        editTagView.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
-//            @Override
-//            public void onTagDelete(String deletedTagValue) {
-//                Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        editTagView.setTagList(tagStrings);
-//
-//        editTagView.addTag("hello world!");
-//        editTagView.removeTag("test3");
+        editTagView = (EditTag) findViewById(R.id.edit_tag_view);
+        statusSwitchView = (SwitchCompat) findViewById(R.id.status_switch);
+        statusSwitchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editTagView.setEditable(isChecked);
+            }
+        });
+
+        for (int i = 0; i < 10; i++) {
+            tagStrings.add("test" + i);
+        }
+        //Set tag add callback before set tag list
+        editTagView.setTagAddCallBack(new EditTag.TagAddCallback() {
+            @Override
+            public boolean onTagAdd(String tagValue) {
+                if ("test1".equals(tagValue)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
+        editTagView.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
+            @Override
+            public void onTagDelete(String deletedTagValue) {
+                Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
+            }
+        });
+        editTagView.setTagList(tagStrings);
+
+        editTagView.addTag("hello world!");
+        editTagView.removeTag("test3");
 
     }
 
@@ -390,8 +396,8 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Exit Editor?")
-                .setMessage("Are you sure you want to exit the editor?")
+                .setTitle("Exit Meeting?")
+                .setMessage("Are you sure you want to exit the meeting?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -427,8 +433,4 @@ public class MeetingActivity extends AppCompatActivity implements SwitchCompat.O
         return typefaceMap;
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-    }
 }
