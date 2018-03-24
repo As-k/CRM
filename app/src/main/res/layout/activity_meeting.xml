@@ -61,131 +61,63 @@
                         android:drawableRight="@drawable/ic_time"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="2dp">
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/text_color">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/meeting_internal_people"
-                        android:ems="10"
-                        android:hint="Internal People"
-                        android:inputType="text"/>
-                </android.support.design.widget.TextInputLayout>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add"
-                    android:id="@+id/add_meeting_internal_people"
-                    android:drawableRight="@drawable/ic_add_company"
-                    style="?android:attr/borderlessButtonStyle"/>
-            </LinearLayout>
+            <TextView
+                style="@style/text_view_style"
+                android:layout_gravity="left"
+                android:text="Internal People"
+                android:textSize="15dp"
+                android:textColor="@color/text_color"/>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
                 >
 
                 <com.pchmn.materialchips.ChipsInput
-                    android:id="@+id/chips_input1"
+                    android:id="@+id/chips_input_ip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hint="Enter a name"
+                    app:hint="Internal People"
                     app:maxRows="3" />
 
-                <!--<Button-->
-                <!--android:id="@+id/validate"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="16dp"-->
-                <!--android:text="Validate"/>-->
-
                 <TextView
-                    android:id="@+id/chip_list1"
+                    android:id="@+id/chip_list_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"/>
 
             </LinearLayout>
-            <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                <!--xmlns:tools="http://schemas.android.com/tools"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:paddingBottom="@dimen/activity_vertical_margin"-->
-                <!--android:paddingLeft="@dimen/activity_horizontal_margin"-->
-                <!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-                <!--android:paddingTop="@dimen/activity_vertical_margin"-->
-                <!--tools:context="me.originqiu.edittag.MainActivity">-->
-
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical">-->
-
-                    <!--<me.originqiu.library.EditTag-->
-                        <!--android:id="@+id/edit_tag_view"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--app:input_layout="@layout/view_sample_input_tag"-->
-                        <!--app:tag_layout="@layout/view_sample_tag" />-->
-
-                    <!--<View-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="2dp"-->
-                        <!--android:layout_marginTop="4dp"-->
-                        <!--android:background="@color/colorAccent" />-->
-                <!--</LinearLayout>-->
-
-                <!--<android.support.v7.widget.SwitchCompat-->
-                    <!--android:id="@+id/status_switch"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:checked="true"-->
-                    <!--android:padding="16dp"-->
-                    <!--android:text="open editable status" />-->
-
-            <!--</LinearLayout>-->
-
-            <LinearLayout
+            <TextView
+                style="@style/text_view_style"
+                android:layout_gravity="left"
+                android:text="Within CRM"
+                android:textSize="15dp"
+                android:textColor="@color/text_color"/>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginBottom="2dp">
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                android:padding="10dp"
+                >
+
+                <com.pchmn.materialchips.ChipsInput
+                    android:id="@+id/chips_input_crm"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/text_color">
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/meeting_within_crm"
-                        android:ems="10"
-                        android:hint="Within CRM"
-                        android:inputType="text"/>
-                </android.support.design.widget.TextInputLayout>
-                <Button
+                    app:hint="Within CRM"
+                    app:maxRows="3" />
+
+                <TextView
+                    android:id="@+id/chip_list_crm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add"
-                    android:id="@+id/add_meeting_within_crm"
-                    android:drawableRight="@drawable/ic_add_company"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:layout_marginTop="16dp"/>
+
             </LinearLayout>
 
             <RelativeLayout
@@ -246,6 +178,13 @@
                     />
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                style="@style/text_view_style"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Comments"
+                android:textColor="@color/text_color"
+                android:textSize="15dp" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:background="@color/white"
@@ -270,7 +209,6 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:scrollbars="vertical"
-                    android:layout_marginBottom="40dp"
                     android:layout_alignParentTop="true"
                     android:layout_height="match_parent"
                     >
@@ -279,9 +217,9 @@
                         android:id="@+id/meeting_editor"
                         app:render_type="Editor"
                         app:placeholder="Start writing here..."
-                        android:paddingTop="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
+
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
                         android:layout_height="match_parent"
                         android:paddingBottom="100dp" />
                 </ScrollView>
@@ -300,20 +238,11 @@
             android:gravity="center"
             >
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Cancel"
-                android:id="@+id/meeting_cancel"
-                style="@style/button_style"
-                android:layout_margin="2dp"
-                android:onClick="meetingTheCancel"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:text="Save"
                 android:id="@+id/meeting_save"
                 style="@style/button_style"
-                android:layout_margin="2dp"/>
+                />
         </LinearLayout>
     </RelativeLayout>
 

@@ -56,8 +56,8 @@ import butterknife.ButterKnife;
 
 public class MeetingActivity extends AppCompatActivity {
 
-    EditText meetingDate, meetingTime, meetingInternalPeople, meetingCRM, meetingDuration, meetingPlace;
-    Button meetingAddIP, meetingAddCRM, meetingCancel, meetingSave;
+    EditText meetingDate, meetingTime, meetingDuration, meetingPlace;
+    Button meetingSave;
     ImageView decrease,increase;
 
     int c_yr, c_month, c_day, c_hr, c_min;
@@ -71,11 +71,15 @@ public class MeetingActivity extends AppCompatActivity {
     Editor editor;
 
     private static final String TAG = MeetingActivity.class.toString();
-    @BindView(R.id.chips_input1)
-    ChipsInput mChipsInput;
+    @BindView(R.id.chips_input_ip)
+    ChipsInput mChipsInputIP;
+    @BindView(R.id.chips_input_crm)
+    ChipsInput mChipsInputCRM;
     //    @BindView(R.id.validate) Button mValidateButton;
-    @BindView(R.id.chip_list1)
-    TextView mChipListText;
+    @BindView(R.id.chip_list_ip)
+    TextView mChipListTextIP;
+    @BindView(R.id.chip_list_crm)
+    TextView mChipListTextCRM;
     private List<ContactChip> mContactList;
 
     @Override
@@ -83,22 +87,24 @@ public class MeetingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meeting);
 
+        getSupportActionBar().hide();
+
         editor = (Editor) findViewById(R.id.meeting_editor);
         setUpEditor();
 
         meetingDate = findViewById(R.id.meeting_date);
         meetingTime = findViewById(R.id.meeting_time);
-        meetingInternalPeople = findViewById(R.id.meeting_internal_people);
-        meetingCRM = findViewById(R.id.meeting_within_crm);
+//        meetingInternalPeople = findViewById(R.id.meeting_internal_people);
+//        meetingCRM = findViewById(R.id.meeting_within_crm);
         meetingDuration = findViewById(R.id.meeting_duration);
         decrease = findViewById(R.id.decrease_duration);
         increase = findViewById(R.id.increase_duration);
 
         meetingPlace = findViewById(R.id.meeting_place);
 
-        meetingAddIP = findViewById(R.id.add_meeting_internal_people);
-        meetingAddCRM = findViewById(R.id.add_meeting_within_crm);
-        meetingCancel = findViewById(R.id.meeting_cancel);
+//        meetingAddIP = findViewById(R.id.add_meeting_internal_people);
+//        meetingAddCRM = findViewById(R.id.add_meeting_within_crm);
+//        meetingCancel = findViewById(R.id.meeting_cancel);
         meetingSave = findViewById(R.id.meeting_save);
 
         meetingDuration.setText("0");
@@ -153,7 +159,24 @@ public class MeetingActivity extends AppCompatActivity {
 //                });
 
         // chips listener
-        mChipsInput.addChipsListener(new ChipsInput.ChipsListener() {
+        mChipsInputIP.addChipsListener(new ChipsInput.ChipsListener() {
+            @Override
+            public void onChipAdded(ChipInterface chip, int newSize) {
+                Log.e(TAG, "chip added, " + newSize);
+            }
+
+            @Override
+            public void onChipRemoved(ChipInterface chip, int newSize) {
+                Log.e(TAG, "chip removed, " + newSize);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text) {
+                Log.e(TAG, "text changed: " + text.toString());
+            }
+        });
+        // chips listener
+        mChipsInputCRM.addChipsListener(new ChipsInput.ChipsListener() {
             @Override
             public void onChipAdded(ChipInterface chip, int newSize) {
                 Log.e(TAG, "chip added, " + newSize);
@@ -275,11 +298,8 @@ public class MeetingActivity extends AppCompatActivity {
         }
 
         // pass contact list to chips input
-        mChipsInput.setFilterableList(mContactList);
-    }
-
-    public void meetingTheCancel(View view){
-        finish();
+        mChipsInputIP.setFilterableList(mContactList);
+        mChipsInputCRM.setFilterableList(mContactList);
     }
 
     private void setUpEditor() {
