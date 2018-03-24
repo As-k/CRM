@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 26
@@ -32,5 +33,9 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.github.irshulx:laser-native-editor:2.1.0'
 //    compile 'com.github.qiugang:EditTag:v1.2.3'
-    compile project(path: ':library')
+//    compile project(path: ':library')
+    compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

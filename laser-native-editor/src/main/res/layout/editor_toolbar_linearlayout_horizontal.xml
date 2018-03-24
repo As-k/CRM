@@ -43,8 +43,8 @@
 
     <ImageButton
         android:id="@+id/action_bold"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@android:color/transparent"
         android:src="@drawable/icon_bold" />
 
