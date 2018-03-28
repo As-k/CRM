@@ -17,6 +17,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.cioc.crm.edittag.ContactChip;
+
+import java.util.List;
+
 public class ContactsActivity extends FragmentActivity {
 
     FloatingActionButton fab, fabImport, fabNew;
@@ -83,10 +87,6 @@ public class ContactsActivity extends FragmentActivity {
         fabImport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ContactsActivity.this, "Ok", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                Uri data = Uri.parse("content://contacts/people/");
-//                intent.setData(data);
                 startActivity(new Intent(ContactsActivity.this,ContactsListActivity.class));
             }
         });
