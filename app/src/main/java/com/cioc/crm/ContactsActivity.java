@@ -26,10 +26,9 @@ public class ContactsActivity extends FragmentActivity {
     FloatingActionButton fab, fabImport, fabNew;
     RecyclerView browse_rv;
     private boolean fabExpanded = false;
-//    private FloatingActionButton fabSettings;
     private LinearLayout layoutFabImport;
     private LinearLayout layoutFabNew;
-//    private LinearLayout layoutFabPhoto;
+    BrowseAdapter browseAdapter;
 
     Animation rotate_forward, rotate_Backward, fab_open, fab_close;
 
@@ -44,7 +43,6 @@ public class ContactsActivity extends FragmentActivity {
 
         layoutFabImport = (LinearLayout) this.findViewById(R.id.layoutFabImport);
         layoutFabNew = (LinearLayout) this.findViewById(R.id.layoutFabNew);
-//        layoutFabPhoto = (LinearLayout) this.findViewById(R.id.layoutFabPhoto);
 
         rotate_forward = AnimationUtils.loadAnimation(this, R.anim.rotate_forward);
         rotate_Backward = AnimationUtils.loadAnimation(this, R.anim.rotate_backward);
@@ -54,26 +52,12 @@ public class ContactsActivity extends FragmentActivity {
         browse_rv = findViewById(R.id.browse_recyclerView);
         browse_rv.setLayoutManager(new LinearLayoutManager(this));
 
-        BrowseAdapter browseAdapter = new BrowseAdapter(this);
+        browseAdapter = new BrowseAdapter(this);
         browse_rv.setAdapter(browseAdapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (importFab.getVisibility() == View.VISIBLE && newFab.getVisibility() == View.VISIBLE) {
-//                    importFab.setVisibility(View.GONE);
-//                    newFab.setVisibility(View.GONE);
-//                    importFab.startAnimation(fab_close);
-//                    newFab.setAnimation(fab_close);
-//                    fab.startAnimation(rotate_Backward);
-//                    fab.startAnimation(fab_open);
-//                } else {
-//                    importFab.setVisibility(View.VISIBLE);
-//                    newFab.setVisibility(View.VISIBLE);
-//                    importFab.startAnimation(fab_open);
-//                    newFab.setAnimation(fab_open);
-//                    fab.startAnimation(rotate_forward);
-//                }
                 if (fabExpanded == true){
                     closeSubMenusFab();
                 } else {
@@ -103,7 +87,6 @@ public class ContactsActivity extends FragmentActivity {
     private void closeSubMenusFab(){
         layoutFabImport.setVisibility(View.INVISIBLE);
         layoutFabNew.setVisibility(View.INVISIBLE);
-//        fab.setImageResource(R.drawable.ic_add);
         fabImport.startAnimation(fab_close);
         fabNew.setAnimation(fab_close);
         fab.startAnimation(rotate_Backward);
@@ -115,8 +98,6 @@ public class ContactsActivity extends FragmentActivity {
     private void openSubMenusFab(){
         layoutFabImport.setVisibility(View.VISIBLE);
         layoutFabNew.setVisibility(View.VISIBLE);
-        //Change settings icon to 'X' icon
-//        fab.setImageResource(R.drawable.ic_close);
         fabImport.startAnimation(fab_open);
         fabNew.setAnimation(fab_open);
         fab.startAnimation(rotate_forward);

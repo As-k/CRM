@@ -2,6 +2,7 @@ package com.cioc.crm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.browse_contacts_style, parent, false);
+        View v = layoutInflater.inflate(R.layout.layout_browse_adapter, parent, false);
         BrowseAdapter.MyHolder myHolder = new BrowseAdapter.MyHolder(v);
         return myHolder;
     }
@@ -71,9 +72,28 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.MyHolder> 
             browseDesignation = itemView.findViewById(R.id.contacts_designation_browse);
             browseCompany = itemView.findViewById(R.id.contacts_company_browse);
             browseMob = itemView.findViewById(R.id.contacts_no_browse);
-            editProfile = itemView.findViewById(R.id.edit_profile);
             browseEmail = itemView.findViewById(R.id.contacts_email_browse);
+            editProfile = itemView.findViewById(R.id.edit_profile);
             viewDetails = itemView.findViewById(R.id.view_details);
+
+
+            browseMob.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_DIAL);
+                    i.setData(Uri.parse("tel:" + contact_cnos[getLayoutPosition()]));
+                    context.startActivity(i);
+                }
+            });
+
+            browseEmail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    emailIntent.setData(Uri.parse("mailto:"+contact_emails[getLayoutPosition()]));
+                    context.startActivity(emailIntent);
+                }
+            });
 
             editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override

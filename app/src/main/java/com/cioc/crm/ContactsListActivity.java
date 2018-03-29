@@ -30,8 +30,8 @@ import java.util.HashMap;
 public class ContactsListActivity extends Activity {
 
     ListView listView;
-    String keys[] = {"k1", "k2", "k3", "k4"};
-    int ids[] = {R.id.contact_name, R.id.contact_company_name, R.id.contact_number, R.id.contact_email};
+    String keys[] = {"k1", "k2"};
+    int ids[] = {R.id.contact_name, R.id.contact_number};
     ArrayList storeContacts;
     SimpleAdapter simpleAdapter;
     Cursor cursor;
@@ -63,55 +63,10 @@ public class ContactsListActivity extends Activity {
                 HashMap hm = (HashMap) storeContacts.get(position);
                 String name = (String) hm.get(keys[0]);
                 final String cno = (String) hm.get(keys[2]);
-
-                ImageView phoneCall, textMessage;
-                View v = getLayoutInflater().inflate(R.layout.layout_meeting_style, null, false);
-                phoneCall = v.findViewById(R.id.phone_call);
-                textMessage = v.findViewById(R.id.text_message);
-                phoneCall.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(ContactsListActivity.this, "call" + cno, Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(Intent.ACTION_DIAL);
-                        i.setData(Uri.parse("tel:" + cno));
-//                        if (ActivityCompat.checkSelfPermission(ContactsListActivity.this,
-//                                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                            return;
-//                        }
-//                        if (ActivityCompat.checkSelfPermission(ContactsListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                            // TODO: Consider calling
-//                            //    ActivityCompat#requestPermissions
-//                            // here to request the missing permissions, and then overriding
-//                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                            //                                          int[] grantResults)
-//                            // to handle the case where the user grants the permission. See the documentation
-//                            // for ActivityCompat#requestPermissions for more details.
-//                            return;
-//                        }
-//                        if (i.resolveActivity(getPackageManager()) != null) {
-                            startActivity(i);
-//                        }
-                    }
-                });
-
-                textMessage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(ContactsListActivity.this, "SMS" + cno, Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(Intent.ACTION_SEND);
-                        i.setType("text/plain");
-                        i.putExtra(Intent.EXTRA_TEXT,"Hii whats happened");
-                        startActivity(i);
-                    }
-                });
-                AlertDialog.Builder adb = new AlertDialog.Builder(ContactsListActivity.this);
-                adb.setView(v);
-                adb.create().show();
-
-//                Intent i = new Intent(ContactsListActivity.this, NewContactActivity.class);
-//                i.putExtra("name", name);
-//                i.putExtra("cno", cno);
-//                startActivity(i);
+                Intent i = new Intent(ContactsListActivity.this, NewContactActivity.class);
+                i.putExtra("name", name);
+                i.putExtra("cno", cno);
+                startActivity(i);
             }
         });
 
@@ -119,16 +74,6 @@ public class ContactsListActivity extends Activity {
     int digits = 10;
     int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
-//        String[] PROJECTION = new String[] {
-//                ContactsContract.Contacts._ID,
-//                ContactsContract.Contacts.DISPLAY_NAME,
-//                ContactsContract.Contacts.HAS_PHONE_NUMBER,
-//        };
-//        String SELECTION = ContactsContract.Contacts.HAS_PHONE_NUMBER + "='1'";
-//        Cursor contacts = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, PROJECTION, SELECTION, null, null);
-//        String contactId = contacts.getString(contacts.getColumnIndex(ContactsContract.Contacts._ID));
-//        String rawContactId = getRawContactId(contactId);
-//        String company_Name = getCompanyName(rawContactId);
         String order = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, order);
         String temp_name="";
@@ -138,8 +83,6 @@ public class ContactsListActivity extends Activity {
                 continue;
             temp_name = name;
 //            companyName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
-//            String rawContactId = getRawContactId(contactId);
-//            String company_Name = getCompanyName(rawContactId);
             phonenumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
 //            email = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
             if (hasCountryCode(phonenumber)) {
@@ -150,7 +93,7 @@ public class ContactsListActivity extends Activity {
             HashMap hm = new HashMap();
             hm.put(keys[0],name);
 //            hm.put(keys[1],company_Name);
-            hm.put(keys[2],phonenumber);
+            hm.put(keys[1],phonenumber);
 //            hm.put(keys[3],email);
 
             storeContacts.add(hm);
@@ -164,44 +107,6 @@ public class ContactsListActivity extends Activity {
         return number.charAt(plus_sign_pos) == '+'; // Didn't String had contains() method?...
     }
 
-//    private String getRawContactId(String contactId) {
-//
-//
-//        String[] projection = new String[]{ContactsContract.RawContacts._ID};
-//        String selection = ContactsContract.RawContacts.CONTACT_ID + "=?";
-//        String[] selectionArgs = new String[]{contactId};
-//        Cursor c = getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI, projection, selection, selectionArgs, null);
-//        if (c == null) return null;
-//        int rawContactId = -1;
-//        if (c.moveToFirst()) {
-//            rawContactId = c.getInt(c.getColumnIndex(ContactsContract.RawContacts._ID));
-//        }
-//        c.close();
-//        return String.valueOf(rawContactId);
-//
-//    }
-//
-//    private String getCompanyName(String rawContactId) {
-//        try {
-//            String orgWhere = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-//            String[] orgWhereParams = new String[]{rawContactId, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
-//            Cursor cursor = getContentResolver().query(ContactsContract.Data.CONTENT_URI, null, orgWhere, orgWhereParams, null);
-//            if (cursor == null) return null;
-//            String name = null;
-//            if (cursor.moveToFirst()) {
-//                name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
-//                HashMap hm = new HashMap();
-//                hm.put(keys[1],name);
-//                storeContacts.add(hm);
-//            }
-//            cursor.close();
-//            return name;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//
-//    }
 
     public void EnableRuntimePermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(

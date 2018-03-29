@@ -73,6 +73,8 @@ public class ViewDetailsActivity extends FragmentActivity {
     private List<ContactChip> mContactList;
     ChipsInput scheduleInternalPeople, scheduleOS, taskOtherStake;
 
+    ArrayList noteList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class ViewDetailsActivity extends FragmentActivity {
         String company = b.getString("company");
         String designation = b.getString("designation");
         String cno = b.getString("cno");
-        String email = b.getString("email");
+        final String email = b.getString("email");
 
         nameTv = findViewById(R.id.view_d_name);
         companyTv = findViewById(R.id.view_d_comapany);
@@ -113,7 +115,10 @@ public class ViewDetailsActivity extends FragmentActivity {
         designationTv.setText(designation);
         cnoTv.setText(cno);
         emailTv.setText(email);
+
         mContactList = new ArrayList<>();
+        noteList = new ArrayList<>();
+
         tl = findViewById(R.id.tl_view);
         tl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -337,7 +342,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                     }
                 });
                 ad.show();
-                taskOtherStake.setFilterableList(mContactList);
+//                taskOtherStake.setFilterableList(mContactList);
             }
         });
 
@@ -351,6 +356,7 @@ public class ViewDetailsActivity extends FragmentActivity {
         fabNotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ImageView attachFile;
                 final EditText noteDetails;
                 Button noteCancel, noteSend;
@@ -376,6 +382,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                 noteCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String details = noteDetails.getText().toString().trim();
                         ad.dismiss();
                     }
                 });
@@ -453,13 +460,29 @@ public class ViewDetailsActivity extends FragmentActivity {
         }
 
         // pass contact list to chips input
+
+        if (fabTask.isClickable())
+            taskOtherStake.setFilterableList(mContactList);
         if (fabSchedule.isClickable()) {
             scheduleOS.setFilterableList(mContactList);
             scheduleInternalPeople.setFilterableList(mContactList);
-//        } else if (fabTask.isClickable()) {
-//            taskOtherStake.setFilterableList(mContactList);
+//        } else
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101){
+            if (resultCode == RESULT_OK){
+                Uri uri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
 
