@@ -62,7 +62,7 @@ public class ContactsListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap hm = (HashMap) storeContacts.get(position);
                 String name = (String) hm.get(keys[0]);
-                final String cno = (String) hm.get(keys[2]);
+                final String cno = (String) hm.get(keys[1]);
                 Intent i = new Intent(ContactsListActivity.this, NewContactActivity.class);
                 i.putExtra("name", name);
                 i.putExtra("cno", cno);
