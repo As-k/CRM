@@ -424,10 +424,10 @@ public class ViewDetailsActivity extends FragmentActivity {
     }
 
     private void getContactList() {
-        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 
         // loop over all contacts
-        if(phones != null) {
+        if (phones != null) {
             while (phones.moveToNext()) {
                 // get contact info
                 String phoneNumber = null;
@@ -435,14 +435,14 @@ public class ViewDetailsActivity extends FragmentActivity {
                 String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
                 Uri avatarUri = null;
-                if(avatarUriString != null)
+                if (avatarUriString != null)
                     avatarUri = Uri.parse(avatarUriString);
 
                 // get phone number
                 if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                     Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
 
                     while (pCur != null && pCur.moveToNext()) {
                         phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
@@ -461,12 +461,12 @@ public class ViewDetailsActivity extends FragmentActivity {
 
         // pass contact list to chips input
 
-        if (fabTask.isClickable())
-            taskOtherStake.setFilterableList(mContactList);
+
         if (fabSchedule.isClickable()) {
             scheduleOS.setFilterableList(mContactList);
             scheduleInternalPeople.setFilterableList(mContactList);
-//        } else
+        } else if (fabTask.isClickable()){
+            taskOtherStake.setFilterableList(mContactList);
         }
     }
 
