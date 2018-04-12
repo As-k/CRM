@@ -1,17 +1,12 @@
 package com.cioc.crm;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -19,14 +14,9 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -36,12 +26,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.cioc.crm.app.AppController;
 import com.cioc.crm.edittag.ContactChip;
-import com.github.irshulx.Editor;
-import com.github.irshulx.EditorListener;
-import com.github.irshulx.models.EditorTextStyle;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -49,13 +38,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.zip.Inflater;
 
 public class ViewDetailsActivity extends FragmentActivity {
-    ImageView contactImage;
+    NetworkImageView contactImage;
     TextView nameTv, companyTv, designationTv, cnoTv, emailTv;
 
     TabLayout tl;
@@ -74,6 +60,8 @@ public class ViewDetailsActivity extends FragmentActivity {
     ChipsInput scheduleInternalPeople, scheduleOS, taskOtherStake;
 
     ArrayList noteList;
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    public static String name,street,city,state,pincode,country,email,mobile,designation,company,telephone, cMobile, cin, tin, about, web;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +69,26 @@ public class ViewDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_view_details);
 
         Bundle b = getIntent().getExtras();
-        int image = b.getInt("image");
-        final String name = b.getString("name");
-        String company = b.getString("company");
-        String designation = b.getString("designation");
-        String cno = b.getString("cno");
-        final String email = b.getString("email");
+        String dp = b.getString("image");
+        name = b.getString("name");
+        company = b.getString("company");
+        designation = b.getString("designation");
+        mobile = b.getString("cno");
+        email = b.getString("email");
+        final boolean gender = b.getBoolean("gender");
+        street = b.getString("street");
+        city = b.getString("city");
+        pincode = b.getString("pincode");
+        state = b.getString("state");
+        country = b.getString("country");
+        telephone = b.getString("tel");
+        cMobile = b.getString("mob");
+        cin = b.getString("cin");
+        tin = b.getString("tin");
+        about = b.getString("about");
+        web = b.getString("web");
 
+        contactImage = findViewById(R.id.view_image);
         nameTv = findViewById(R.id.view_d_name);
         companyTv = findViewById(R.id.view_d_comapany);
         designationTv = findViewById(R.id.view_d_designation);
@@ -110,11 +111,37 @@ public class ViewDetailsActivity extends FragmentActivity {
         fab_open = AnimationUtils.loadAnimation(this, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(this, R.anim.fab_close);
 
+        if (dp.equals("null")) {
+            if (gender)
+                contactImage.setImageResource(R.drawable.male);
+            else
+                contactImage.setImageResource(R.drawable.female);
+        }else {
+            contactImage.setImageUrl(dp,imageLoader);
+        }
         nameTv.setText(name);
         companyTv.setText(company);
         designationTv.setText(designation);
-        cnoTv.setText(cno);
+        cnoTv.setText(mobile);
         emailTv.setText(email);
+
+        cnoTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                i.setData(Uri.parse("tel:" + mobile));
+                startActivity(i);
+            }
+        });
+
+        emailTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:"+email));
+                startActivity(emailIntent);
+            }
+        });
 
         mContactList = new ArrayList<>();
         noteList = new ArrayList<>();
@@ -424,10 +451,10 @@ public class ViewDetailsActivity extends FragmentActivity {
     }
 
     private void getContactList() {
-        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
 
         // loop over all contacts
-        if (phones != null) {
+        if(phones != null) {
             while (phones.moveToNext()) {
                 // get contact info
                 String phoneNumber = null;
@@ -435,14 +462,14 @@ public class ViewDetailsActivity extends FragmentActivity {
                 String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
                 Uri avatarUri = null;
-                if (avatarUriString != null)
+                if(avatarUriString != null)
                     avatarUri = Uri.parse(avatarUriString);
 
                 // get phone number
                 if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                     Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                             null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
 
                     while (pCur != null && pCur.moveToNext()) {
                         phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));

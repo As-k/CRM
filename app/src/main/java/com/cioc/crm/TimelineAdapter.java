@@ -28,7 +28,7 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.MyHold
     Context context;
     private LayoutInflater inflater;
     private List<FeedItem> feedItems;
-//    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public TimelineAdapter(Context context, List<FeedItem> feedItems){
         this.context = context;
@@ -44,8 +44,8 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.MyHold
 //
         View v = inflater.inflate(R.layout.layout_timeline_adapter, parent, false);
 
-//        if (imageLoader == null)
-//            imageLoader = AppController.getInstance().getImageLoader();
+        if (imageLoader == null)
+            imageLoader = AppController.getInstance().getImageLoader();
         TimelineAdapter.MyHolder myHolder = new TimelineAdapter.MyHolder(v);
 
         return myHolder;
@@ -88,11 +88,11 @@ public class TimelineAdapter extends RecyclerView.Adapter<TimelineAdapter.MyHold
         }
 
         // user profile pic
-//        holder.profilePic.setImageUrl(item.getProfilePic(), imageLoader);
+        holder.profilePic.setImageUrl(item.getProfilePic(), imageLoader);
 
         // Feed image
         if (item.getImge() != null) {
-//            holder.feedImageView.setImageUrl(item.getImge(), imageLoader);
+            holder.feedImageView.setImageUrl(item.getImge(), imageLoader);
             holder.feedImageView.setVisibility(View.VISIBLE);
             holder.feedImageView
                     .setResponseObserver(new FeedImageView.ResponseObserver() {

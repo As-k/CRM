@@ -93,7 +93,7 @@
                     android:drawableLeft="@drawable/ic_edit"
                     android:drawablePadding="@dimen/vertical_padding"
                     android:onClick="editUpdateNewCompany"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
             </LinearLayout>
             <!--<android.support.design.widget.TextInputLayout-->
                 <!--android:layout_width="match_parent"-->

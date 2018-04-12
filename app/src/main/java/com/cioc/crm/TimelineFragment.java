@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cioc.crm.app.AppController;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 
 /**
@@ -35,7 +41,8 @@ public class TimelineFragment extends Fragment {
 
     private List<FeedItem> feedItems;
     private String URL_FEED = "https://api.androidhive.info/feed/feed.json";
-
+    ArrayList<String> companiesList;
+    public AsyncHttpClient client;
 
     public TimelineFragment() {
         // Required empty public constructor
@@ -48,56 +55,93 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_timeline, container, false);
 
+//        getContentValue();
+
+        feedItems = new ArrayList<FeedItem>();
         recyclerViewTimeline = v.findViewById(R.id.timeline_rv);
         recyclerViewTimeline.setLayoutManager(new LinearLayoutManager(getActivity()));
         timelineAdapter = new TimelineAdapter(getActivity(), feedItems);
         recyclerViewTimeline.setAdapter(timelineAdapter);
 
         // We first check for cached request
-//        Cache cache = AppController.getInstance().getRequestQueue().getCache();
-//        Cache.Entry entry = cache.get(URL_FEED);
-//        if (entry != null) {
-//            // fetch the data from cache
-//            try {
-//                String data = new String(entry.data, "UTF-8");
-//                try {
-//                    parseJsonFeed(new JSONObject(data));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//
-//        } else {
-//            // making fresh volley request and getting json
-//            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
-//                    URL_FEED, null, new Response.Listener<JSONObject>() {
-//
-//                @Override
-//                public void onResponse(JSONObject response) {
-//                    VolleyLog.d(TAG, "Response: " + response.toString());
-//                    if (response != null) {
-//                        parseJsonFeed(response);
-//                    }
-//                }
-//            }, new Response.ErrorListener() {
-//
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-//                }
-//            });
-//
-//            // Adding request to volley request queue
-//            AppController.getInstance().addToRequestQueue(jsonReq);
-//        }
+        Cache cache = AppController.getInstance().getRequestQueue().getCache();
+        Cache.Entry entry = cache.get(URL_FEED);
+        if (entry != null) {
+            // fetch the data from cache
+            try {
+                String data = new String(entry.data, "UTF-8");
+                try {
+                    parseJsonFeed(new JSONObject(data));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // making fresh volley request and getting json
+            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
+                    URL_FEED, null, new Response.Listener<JSONObject>() {
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    VolleyLog.d(TAG, "Response: " + response.toString());
+                    if (response != null) {
+                        parseJsonFeed(response);
+                    }
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                }
+            });
+
+            // Adding request to volley request queue
+            AppController.getInstance().addToRequestQueue(jsonReq);
+        }
 
         return v;
     }
 
+    void getContentValue(){
+        String serverURL = "http://192.168.43.87:8000/api/clientRelationships/activity/?format=json";
+        client.get(serverURL, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+//                super.onSuccess(statusCode, headers, response);
+                for(int i=0; i<response.length(); i++){
+                    try {
+                        JSONObject json = response.getJSONObject(i);
+                        String time = json.getString("created");
+                        String status = json.getString("data");
+                        String doc = json.getString("doc");
+//                        String time = json.getString("created");
+
+//                        companiesList.add(companyName);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                System.out.println("finished EditContact");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                System.out.println("finished failed EditContact");
+            }
+        });
+    }
+
     /**
-     * Parsing json reponse and passing the data to feed view list adapter
+     * Parsing json response and passing the data to feed view list adapter
      * */
     private void parseJsonFeed(JSONObject response) {
         try {
@@ -124,6 +168,7 @@ public class TimelineFragment extends Fragment {
                 item.setUrl(feedUrl);
 
                 feedItems.add(item);
+                Log.e("feedItems", ""+feedItems.size());
             }
 
             // notify data changes to list adapater

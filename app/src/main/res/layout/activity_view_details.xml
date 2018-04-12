@@ -2,15 +2,34 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="3dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!--<ImageView-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:src="@drawable/male"-->
+            <!--android:id="@+id/view_image"/>-->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/view_image"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:scaleType="fitCenter" >
+        </com.android.volley.toolbox.NetworkImageView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            >
 
             <!--<ImageView-->
                 <!--android:id="@+id/view_image"-->
@@ -26,24 +45,24 @@
                 android:textSize="15dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="3dp"/>
+
+            <TextView
+                android:id="@+id/view_d_designation"
+                style="@style/text_view_style"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/view_d_name"
+                android:text="System Engineer"
                 android:layout_marginStart="5dp"/>
 
             <TextView
                 android:id="@+id/view_d_comapany"
                 style="@style/text_view_style"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/view_d_name"
+                android:layout_below="@+id/view_d_designation"
+                android:layout_marginStart="5dp"
                 android:text="ABC Pvt Ltd"
-                android:layout_margin="5dp"/>
-
-            <TextView
-                android:id="@+id/view_d_designation"
-                style="@style/text_view_style"
-                android:layout_toEndOf="@id/view_d_comapany"
-                android:layout_below="@+id/view_d_name"
-                android:layout_marginStart="15dp"
-                android:text="System Engineer"
-                android:layout_margin="5dp"/>
+                android:layout_marginBottom="2dp"/>
 
             <RelativeLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,19 +80,23 @@
                     android:id="@+id/view_mob_no"
                     style="@style/text_view_style"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="3dp"
                     android:layout_toEndOf="@+id/imageView"
                     android:text="9781342197"
-                    android:textColor="#3c4650"
-                    />
+                    android:textColor="#3c4650" />
+            </RelativeLayout>
+
+            <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/rl_view_mob_no"
+                android:id="@+id/rl_view_company">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_email"
                     android:id="@+id/email_icon"
-                    android:layout_toEndOf="@id/view_mob_no"
-                    android:layout_marginStart="5dp"/>
+                    />
 
                 <TextView
                     style="@style/text_view_style"
@@ -88,6 +111,7 @@
 
 
         </RelativeLayout>
+    </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -95,12 +119,11 @@
             android:background="@color/text_color"
             android:layout_marginTop="2dp"/>
 
-
-
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tl_view">
+            android:id="@+id/tl_view"
+            android:layout_marginBottom="2dp">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
@@ -115,8 +138,6 @@
                 android:text="Info"/>
 
         </android.support.design.widget.TabLayout>
-
-
 
         <fragment
             android:layout_width="match_parent"

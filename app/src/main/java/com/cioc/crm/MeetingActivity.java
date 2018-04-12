@@ -10,30 +10,23 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cioc.crm.edittag.ContactChip;
-import com.cioc.crm.edittag.ContactListActivity;
 import com.github.irshulx.Editor;
 import com.github.irshulx.EditorListener;
 import com.github.irshulx.models.EditorTextStyle;
@@ -41,12 +34,11 @@ import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -177,7 +169,7 @@ public class MeetingActivity extends AppCompatActivity {
                             meetingTime.setText(hourOfDay + ":" + minute+" AM");
                         }
                     }
-                }, c_hr, c_min,false);
+                }, c_hr, c_min,true);
                 tpd.show();
             }
         });
@@ -440,5 +432,4 @@ public class MeetingActivity extends AppCompatActivity {
                 .setNegativeButton("No", null)
                 .show();
     }
-
 }

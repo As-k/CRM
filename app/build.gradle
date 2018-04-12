@@ -39,4 +39,5 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile files('libs/volley.jar')
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
