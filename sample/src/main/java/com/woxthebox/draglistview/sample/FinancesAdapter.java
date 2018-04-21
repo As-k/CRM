@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -31,6 +32,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
     public static String fid, fitem, fvalue, fupdated, fcreated, fstatus;
 
     Context context;
+    List<Contract> financeList;
 //    String dealId[] = {"1", "1", "1"};
 //    String dealitem[] = {"1", "2", "3"};
 //    String values[] = {"2000", "5000", "3000"};
@@ -58,12 +60,12 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
     public void onBindViewHolder(@NonNull final FinancesAdapter.MyHolder holder, int position) {
         if (holder instanceof MyHolder) {
             MyHolder myHolder = (MyHolder) holder;
-            HashMap hm = (HashMap) FinancesFragment.finance.get(position);
+            Contract r = financeList.get(position);
 
 
-            fid = (String) hm.get("pk");
-            fcreated = (String)hm.get("created");
-            String dtc = fcreated;
+//            fid = (String) hm.get("pk");
+//            fcreated = (String)hm.get("created");
+            String dtc = r.getCreated();
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
             SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMMM",Locale.ENGLISH);
             Date date = null;
@@ -82,11 +84,11 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 
             long diff = today - thatDay.getTimeInMillis();
             long days = diff/(24*60*60*1000);
-            fupdated = (String)hm.get("updated");
-            fvalue = (String)hm.get("value");
-            fstatus = (String)hm.get("status");
+//            fupdated = (String)hm.get("updated");
+//            fvalue = (String)hm.get("value");
+//            fstatus = (String)hm.get("status");
 
-            String dt = fupdated;
+            String dt = r.getUpdated();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM",Locale.ENGLISH);
             Date date1 = null;
@@ -111,10 +113,10 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 
             myHolder.idDeal.setText(fid);
 //            holder.items.setText(dealitem[position]);
-            myHolder.value.setText(fvalue);
+            myHolder.value.setText(r.getValue());
             myHolder.created.setText(days+ " Days");
             myHolder.update.setText(days1+ " Days");
-            myHolder.status.setText(fstatus);
+            myHolder.status.setText(r.getStatus());
 
             holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override

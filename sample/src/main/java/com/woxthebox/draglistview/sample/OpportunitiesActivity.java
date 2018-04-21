@@ -105,9 +105,9 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
                     }
                 } catch(JSONException e){
-                        e.printStackTrace();
-                    }
-                    HashMap hashMap = new HashMap();
+                    e.printStackTrace();
+                }
+                HashMap hashMap = new HashMap();
 
 //                        hashMap.put("name", name);
 //                        hashMap.put("logo", logo);
@@ -128,22 +128,21 @@ public class OpportunitiesActivity extends AppCompatActivity {
 //                        pk.put(state, "state");
 //                        pk.put(pincode, "pincode");
 //                        pk.put(country, "country");
-                    opportunities.add(hashMap);
+                opportunities.add(hashMap);
 
-                }
-             @Override
-             public void onFinish() {
-                 System.out.println("finished 001");
+            }
+            @Override
+            public void onFinish() {
+                System.out.println("finished 001");
 
-             }
+            }
 
-             @Override
-             public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
-                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                 System.out.println("finished failed 001");
-             }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                System.out.println("finished failed 001");
+            }
 
         });
     }
 }
-

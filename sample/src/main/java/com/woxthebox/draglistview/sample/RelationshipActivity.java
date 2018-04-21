@@ -3,6 +3,34 @@ package com.woxthebox.draglistview.sample;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+/**
+ * Created by amit on 9/3/18.
+ */
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,9 +56,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class RelationshipActivity extends Activity {
     RecyclerView rv;
-    public static ArrayList relationship;
+    public static List<Relationships> relationship;
     public AsyncHttpClient client;
     public static int pos;
+    private Relationships relationships;
     ServerUrl serverUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +69,11 @@ public class RelationshipActivity extends Activity {
         serverUrl = new ServerUrl();
 
         client = new AsyncHttpClient();
-        relationship = new ArrayList();
+        relationship = new ArrayList<>();
         getData();
 
         rv = findViewById(R.id.realtionship_recyclerView);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setLayoutManager(new LinearLayoutManager(RelationshipActivity.this));
 
 
         rv.addOnItemTouchListener(
@@ -52,17 +81,16 @@ public class RelationshipActivity extends Activity {
                     @Override
                     public void onItemClick(View view, int position) {
                         // TODO Handle item click
-                        Toast.makeText(RelationshipActivity.this, "" + position, Toast.LENGTH_SHORT).show();
-//                        String itemPosition = (String) arrayList.get(position);
+//                        Toast.makeText(RelationshipActivity.this, "" + position, Toast.LENGTH_SHORT).show();
                         pos = position;
-                        HashMap hm = (HashMap) relationship.get(position);
-                        String companyName = (String) hm.get("name");
-                        String companyPk = (String) hm.get("pk");
-                        String web = (String) hm.get("web");
+                        Relationships rel = relationship.get(position);
+//                        d.getPk();
+//                        d.getName();
+//                        d.getContactName();
                         Intent intent = new Intent(RelationshipActivity.this,ActiveDealsActivity.class);
-                        intent.putExtra("company_name",companyName);
-                        intent.putExtra("pk",companyPk);
-                        intent.putExtra("web",web);
+                        intent.putExtra("company_name",rel.getCompanyName());
+                        intent.putExtra("pk",rel.getPk());
+                        intent.putExtra("web",rel.getWeb());
                         startActivity(intent);
                     }
                 })
@@ -78,42 +106,14 @@ public class RelationshipActivity extends Activity {
                     JSONObject Obj = null;
                     try {
                         Obj = response.getJSONObject(i);
-                        String company_pk = Obj.getString("pk");
-                        String name = Obj.getString("name");
-                        String logo = Obj.getString("logo");
-                        String mobile = Obj.getString("mobile");
-                        String web = Obj.getString("web");
-
-                        JSONObject address = Obj.getJSONObject("address");
-
-                        String add_pk = address.getString("pk");
-                        String street = address.getString("street");
-                        String city = address.getString("city");
-                        String state = address.getString("state");
-                        String pincode = address.getString("pincode");
-                        String lat = address.getString("lat");
-                        String lon = address.getString("lon");
-                        String country = address.getString("country");
-
-                        HashMap hashMap = new HashMap();
-
-                        hashMap.put("pk", company_pk);
-                        hashMap.put("name", name);
-                        hashMap.put("logo", logo);
-                        hashMap.put("mobile", mobile);
-                        hashMap.put("web", web);
-                        hashMap.put("street", street);
-                        hashMap.put("city", city);
-                        hashMap.put("state", state);
-                        hashMap.put("pincode", pincode);
-                        hashMap.put("country", country);
-                        relationship.add(hashMap);
-
+                        Relationships relationships = new Relationships(Obj);
+                        relationship.add(relationships);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                RelationshipsAdapter relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this);
+
+                RelationshipsAdapter relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this,relationship);
                 rv.setAdapter(relationshipsAdapter);
             }
 
@@ -132,4 +132,3 @@ public class RelationshipActivity extends Activity {
         });
     }
 }
-

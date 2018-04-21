@@ -18,6 +18,7 @@ import android.widget.Toast;
  * A simple {@link Fragment} subclass.
  */
 public class RequirementFragment extends Fragment {
+    private Deal d;
 
 //    TextView requirements;
 
@@ -32,10 +33,9 @@ public class RequirementFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_requirement, container, false);
 
 
-        String requirements = ActiveDealsActivity.requirements;
 
 //        String htmlAsString = getString(R.string.hello_world);
-        Spanned htmlAsSpanned = Html.fromHtml(String.valueOf(requirements));
+        Spanned htmlAsSpanned = Html.fromHtml(d.getRequirements());
 //
         TextView textView = (TextView) v.findViewById(R.id.requirements_tv);
         textView.setText(htmlAsSpanned);

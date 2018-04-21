@@ -29,8 +29,8 @@ import cz.msebera.android.httpclient.Header;
  */
 public class FinancesFragment extends Fragment {
     RecyclerView rv;
-
-    public static ArrayList finance;
+    private Contract r;
+    public static ArrayList<Contract> finance;
     public AsyncHttpClient client;
     ServerUrl serverUrl;
     public FinancesFragment() {
@@ -46,7 +46,7 @@ public class FinancesFragment extends Fragment {
         rv = v.findViewById(R.id.finances_rv);
         serverUrl = new ServerUrl();
         client = new AsyncHttpClient();
-        finance = new ArrayList();
+        finance = new ArrayList<>();
         getFinances();
 
 
@@ -61,27 +61,28 @@ public class FinancesFragment extends Fragment {
                     JSONObject Obj = null;
                 try {
                     Obj = response.getJSONObject(0);
-                    String contract_pk = Obj.getString("pk");
-                    String user = Obj.getString("user");
-                    String created = Obj.getString("created");
-                    String updated = Obj.getString("updated");
-                    String value = Obj.getString("value");
-                    String status = Obj.getString("status");
-                    String details = Obj.getString("details");
-//                        JSONObject data = Obj.getJSONObject("data");
-//                        String data1 = data.getString("data");
-                    String dueDate = Obj.getString("dueDate");
-
-
-                    HashMap hashMap = new HashMap();
-
-                    hashMap.put("pk", contract_pk);
-                    hashMap.put("created", created);
-                    hashMap.put("updated", updated);
-                    hashMap.put("value", value);
-                    hashMap.put("status", status);
-                    hashMap.put("details", details);
-                    hashMap.put("dueDate", dueDate);
+                    Contract r = new Contract(Obj);
+//                      String contract_pk = Obj.getString("pk");
+//                      String user = Obj.getString("user");
+//                      String created = Obj.getString("created");
+//                      String updated = Obj.getString("updated");
+//                      String value = Obj.getString("value");
+//                      String status = Obj.getString("status");
+//
+//                      JSONObject data = Obj.getJSONObject("data");
+//                       String data1 = data.getString("data");
+//                       String dueDate = Obj.getString("dueDate");
+//
+//
+//                    HashMap hashMap = new HashMap();
+//
+//                    hashMap.put("pk", contract_pk);
+//                    hashMap.put("created", created);
+//                    hashMap.put("updated", updated);
+//                    hashMap.put("value", value);
+//                    hashMap.put("status", status);
+//                    hashMap.put("details", details);
+//                    hashMap.put("dueDate", dueDate);
 //                        hashMap.put("telephone", telephone);
 //                        hashMap.put("about", about);
 //                        hashMap.put("doc", doc);
@@ -92,7 +93,7 @@ public class FinancesFragment extends Fragment {
 //                        hashMap.put("state", state);
 //                        hashMap.put("pincode", pincode);
 //                        hashMap.put("country", country);
-                    finance.add(hashMap);
+                    finance.add(r);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -195,7 +195,7 @@ public class BoardFragment extends Fragment {
             colom_item.setText(items[mColumns]);
             columnImage.setImageResource(img[mColumns]);
             color_item.setBackgroundColor(color1[mColumns]);
-         }
+        }
 //        ((TextView) header.findViewById(R.id.item_count)).setText("" + addItems);
 //        header.setOnClickListener(new View.OnClickListener() {
 //            @Override

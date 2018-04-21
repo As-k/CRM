@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdapter.MyHolder> {
+
 
     public static String name, street, city, state, pincode, country, logo, mobile, web, address;
 
@@ -21,9 +23,11 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 //    public static String company_names[] = {"CIOC FMCG Pvt Ltd", "ABC pvt Ltd", "XYZ solution", "Apple Corp.", "Google"};
 
     Context context;
+    List<Relationships> relationshipsList;
 
-    public RelationshipsAdapter(Context context) {
+    public RelationshipsAdapter(Context context, List<Relationships> relationshipList) {
         this.context = context;
+        this.relationshipsList = relationshipList;
     }
 
     @NonNull
@@ -39,22 +43,13 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
     public void onBindViewHolder(@NonNull RelationshipsAdapter.MyHolder holder, int position) {
         if (holder instanceof MyHolder) {
             MyHolder myHolder =(MyHolder) holder;
-            HashMap hm = (HashMap) RelationshipActivity.relationship.get(position);
-//        holder.accountimage.setImageResource(account_images[position]);
-            name  = (String) hm.get("name");
-            logo  = (String) hm.get("logo");
-            mobile  = (String) hm.get("mobile");
-            web  = (String) hm.get("web");
-//            address  = (String) hm.get("name");
-            street  = (String) hm.get("street");
-//            state  = (String) hm.get("state");
-//            pincode  = (String) hm.get("pincode");
-//            country  = (String) hm.get("country");
-            myHolder.companyname.setText(name);
+            Relationships d = relationshipsList.get(position);
+
+            myHolder.companyname.setText(d.getCompanyName());
             myHolder.accountdeal.setText("Active Deals \n"+1);
 
+        }
     }
-}
     @Override
     public int getItemCount() {
         return RelationshipActivity.relationship.size();

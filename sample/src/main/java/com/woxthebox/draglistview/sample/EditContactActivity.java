@@ -36,7 +36,7 @@ public class EditContactActivity extends Activity {
     AutoCompleteTextView editCompany;
     Button addNewCompany, updateCompany;
 //    String items[] = {"CIOC FMCG Pvt Ltd","First Choice Yard Help","Muscle Factory","ABC Pvt Ltd","DXC Technology"};
-    ArrayList<String> companiesList;
+    ArrayList<Contact> companiesList;
     public AsyncHttpClient client;
     TextView editDp, editDpAttach;
     Button saveEditContact;
@@ -49,6 +49,7 @@ public class EditContactActivity extends Activity {
 
     public static String name,street,city,state,pincode,country,email,mobile,designation,company,telephone, cMobile, cin, tin, about, web;
 
+    private Contact c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,31 +58,33 @@ public class EditContactActivity extends Activity {
 
         serverUrl = new ServerUrl();
 
-        companiesList = new ArrayList<String>();
+//        c = getIntent().getSerializableExtra("contact");
+
+        companiesList = new ArrayList<Contact>();
         client = new AsyncHttpClient();
 
-        Bundle b = getIntent().getExtras();
-        int image = b.getInt("image");
-        name = b.getString("name");
-        company = b.getString("company");
-        designation = b.getString("designation");
-        mobile = b.getString("cno");
-        email = b.getString("email");
-        final boolean gender = b.getBoolean("gender");
-        street = b.getString("street");
-        city = b.getString("city");
-        pincode = b.getString("pincode");
-        state = b.getString("state");
-        country = b.getString("country");
-        telephone = b.getString("tel");
-        cMobile = b.getString("mob");
-        cin = b.getString("cin");
-        tin = b.getString("tin");
-        about = b.getString("about");
-        web = b.getString("web");
+//        Bundle b = getIntent().getExtras();
+//        int image = b.getInt("image");
+//        name = b.getString("name");
+//        company = b.getString("company");
+//        designation = b.getString("designation");
+//        mobile = b.getString("cno");
+//        email = b.getString("email");
+//        final boolean gender = b.getBoolean("gender");
+//        street = b.getString("street");
+//        city = b.getString("city");
+//        pincode = b.getString("pincode");
+//        state = b.getString("state");
+//        country = b.getString("country");
+//        telephone = b.getString("tel");
+//        cMobile = b.getString("mob");
+//        cin = b.getString("cin");
+//        tin = b.getString("tin");
+//        about = b.getString("about");
+//        web = b.getString("web");
 
         findAllIds();
-        addCompany();
+
 
         arrowDown.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,38 +144,7 @@ public class EditContactActivity extends Activity {
         saveEditContact = findViewById(R.id.edit_save_newContacts);
     }
 
-    public void addCompany(){
-        String serverURL = serverUrl.url;
-        client.get(serverURL+"/api/ERP/service/?format=json", new JsonHttpResponseHandler(){
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                super.onSuccess(statusCode, headers, response);
-                for(int i=0; i<response.length(); i++){
-                    try {
-                        JSONObject json = response.getJSONObject(i);
-                        String companyName = json.getString("name");
 
-                        companiesList.add(companyName);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                changeText();
-            }
-
-            @Override
-            public void onFinish() {
-                System.out.println("finished EditContact");
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                System.out.println("finished failed EditContact");
-            }
-        });
-
-    }
 
     public void changeText(){
         ArrayAdapter arrayAdapter = new ArrayAdapter(EditContactActivity.this, android.R.layout.simple_dropdown_item_1line, companiesList);
@@ -238,17 +210,17 @@ public class EditContactActivity extends Activity {
         dialogWeb = v.findViewById(R.id.dialog_new_web);
         saveDialogDetails = v.findViewById(R.id.dialog_new_save);
 
-        dialogTel.setText(telephone);
-        dialogAbout.setText(about);
-        dialogMob.setText(cMobile);
-        dialogStreet.setText(street);
-        dialogCity.setText(city);
-        dialogState.setText(state);
-        dialogPincode.setText(pincode);
-        dialogCountry.setText(country);
-        dialogCIN.setText(cin);
-        dialogTIN.setText(tin);
-        dialogWeb.setText(web);
+        dialogTel.setText(c.getTelephone());
+        dialogAbout.setText(c.getAbout());
+        dialogMob.setText(c.getCompanyMobile());
+        dialogStreet.setText(c.getStreet());
+        dialogCity.setText(c.getCity());
+        dialogState.setText(c.getState());
+        dialogPincode.setText(c.getPincode());
+        dialogCountry.setText(c.getCountry());
+        dialogCIN.setText(c.getCin());
+        dialogTIN.setText(c.getTin());
+        dialogWeb.setText(c.getWeb());
 
         dialog_arrowDown.setOnClickListener(new View.OnClickListener() {
             @Override

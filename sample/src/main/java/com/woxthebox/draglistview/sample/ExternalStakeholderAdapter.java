@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalStakeholderAdapter.MyHolder> {
  public  static String cName,cDesignation;
+  private  Deal d;
     Context context;
 
 //  String uName[] = {"Samuel D. Pollock ", "Samuel D. Pollock", "Samuel D. Pollock "};
@@ -50,8 +51,8 @@ public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalSta
             String designation = ActiveDealsActivity.designation;
 
 
-            myHolder.holderName.setText(name);
-            myHolder.holderDesgnation.setText(designation);
+            myHolder.holderName.setText(d.getContactName());
+            myHolder.holderDesgnation.setText(d.getContactDesignation());
 //            holder.imageView.setImageResource(uImage[position]);
         }
     }
