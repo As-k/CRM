@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="com.woxthebox.draglistview.sample.DealInfoFragment">
-<LinearLayout
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -122,7 +125,7 @@
     <TextView
         android:id="@+id/tin"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
+    android:layout_height="wrap_content"
     android:text="0123"
     android:textSize="15dp"
     android:layout_marginStart="12dp"/>
@@ -143,7 +146,7 @@
     <TextView
         android:id="@+id/info_mobile"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
+    android:layout_height="wrap_content"
     android:text="9876543210"
     android:textSize="15dp"
     android:layout_marginStart="12dp"/>
@@ -164,7 +167,7 @@
     <TextView
         android:id="@+id/info_tele"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
+    android:layout_height="wrap_content"
     android:text="014-241587"
     android:textSize="15dp"
     android:layout_marginStart="12dp"/>
@@ -185,12 +188,14 @@
     <TextView
         android:id="@+id/about"
     android:layout_width="wrap_content"
-    android:layout_height="20dp"
-    android:text="9876543210"
+    android:layout_height="wrap_content"
+    android:text="Hello"
+        android:paddingEnd="4dp"
     android:textSize="15dp"
     android:layout_marginStart="12dp"/>
 
     </LinearLayout>
+
     <!--<view-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="1dp"-->
@@ -251,5 +256,6 @@
 
     <!--</LinearLayout>-->
 </LinearLayout>
+</ScrollView>
 
 </FrameLayout>

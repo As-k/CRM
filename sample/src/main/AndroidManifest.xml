@@ -70,6 +70,8 @@
         <activity android:name=".ActiveDealsDetailsActivity"
             android:screenOrientation="portrait"/>
 
+  
+
     </application>
 
 </manifest>

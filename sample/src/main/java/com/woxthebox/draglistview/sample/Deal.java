@@ -29,6 +29,7 @@ public class Deal {
     public String duePenalty;
     public String duePeriod;
     public String mobile;
+    public ArrayList<String> contracts;
     public String contactPk,contactName,contactEmail,contactMobile,contactDesignation,contactDp;
     boolean contactMale;
     public JSONObject jsonObject;
@@ -44,7 +45,7 @@ public class Deal {
                 String requirements, String probability, String closeDate, String active, String result, String doc,
                 String duePenalty, String duePeriod, String mobile, ArrayList<String> contacts, String contactPk,
                 String contactName, String contactEmail, String contactMobile, String contactDesignation,
-                String contactDp, boolean contactMale,ArrayList<String>contracts) {
+                String contactDp, boolean contactMale, ArrayList<String> contracts) {
         this.pk = pk;
         this.user = user;
         this.name = name;
@@ -79,6 +80,8 @@ public class Deal {
         this.contactDesignation = contactDesignation;
         this.contactDp = contactDp;
         this.contactMale = contactMale;
+        this.contracts = contracts;
+
     }
 
 
@@ -96,6 +99,8 @@ public class Deal {
             this.result = jsonObject.getString("result");
             this.doc = jsonObject.getString("doc");
             this.state = jsonObject.getString("state");
+            this.internalUsers = jsonObject.getString("internalUsers");
+            this.requirements = jsonObject.getString("requirements");
             this.duePeriod = jsonObject.getString("duePeriod");
             this.duePenalty = jsonObject.getString("duePenalty");
 
@@ -122,11 +127,14 @@ public class Deal {
                 this.contactDp = contacts.getString("dp");
                 this.contactMale = contacts.getBoolean("male");
 
+
                 JSONArray jsonArray1 = jsonObject.getJSONArray("contracts");
                 for (int j = 0; j < jsonArray1.length(); j++) {
-                    JSONObject contracts = jsonArray1.getJSONObject(j);
-
-
+////                    JSONObject contracts = jsonArray1.getJSONObject(j);
+//                    this.contracts = jsonArray1.getString(j);
+//
+//
+//
                 }
             }
 
@@ -176,6 +184,7 @@ public class Deal {
         this.street = street;
     }
 
+
     public String getCity() {
         return city;
     }
@@ -214,6 +223,14 @@ public class Deal {
 
     public void setLon(String lon) {
         this.lon = lon;
+    }
+
+    public ArrayList<String> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(ArrayList<String> contracts) {
+        this.contracts = contracts;
     }
 
     public String getCountry() {

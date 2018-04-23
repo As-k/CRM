@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by amit on 4/4/18.
@@ -18,7 +20,9 @@ import java.util.HashMap;
 public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalStakeholderAdapter.MyHolder> {
  public  static String cName,cDesignation;
   private  Deal d;
+
     Context context;
+
 
 //  String uName[] = {"Samuel D. Pollock ", "Samuel D. Pollock", "Samuel D. Pollock "};
 //  String uDesg[] = {"Information systems manager","Information systems manager","Information systems manager"};
@@ -28,6 +32,8 @@ public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalSta
 
     public ExternalStakeholderAdapter(Context context){
         this.context = context;
+
+
     }
     @NonNull
     @Override
@@ -46,13 +52,13 @@ public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalSta
     public void onBindViewHolder(@NonNull ExternalStakeholderAdapter.MyHolder holder, int position) {
         if (holder instanceof MyHolder) {
             MyHolder myHolder = (MyHolder) holder;
-
+//            Deal d = dealList.get(position);
             String name = ActiveDealsActivity.namec;
             String designation = ActiveDealsActivity.designation;
 
 
-            myHolder.holderName.setText(d.getContactName());
-            myHolder.holderDesgnation.setText(d.getContactDesignation());
+            myHolder.holderName.setText(name);
+            myHolder.holderDesgnation.setText(designation);
 //            holder.imageView.setImageResource(uImage[position]);
         }
     }

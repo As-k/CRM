@@ -63,25 +63,25 @@ public class EditContactActivity extends Activity {
         companiesList = new ArrayList<Contact>();
         client = new AsyncHttpClient();
 
-//        Bundle b = getIntent().getExtras();
-//        int image = b.getInt("image");
-//        name = b.getString("name");
-//        company = b.getString("company");
-//        designation = b.getString("designation");
-//        mobile = b.getString("cno");
-//        email = b.getString("email");
-//        final boolean gender = b.getBoolean("gender");
-//        street = b.getString("street");
-//        city = b.getString("city");
-//        pincode = b.getString("pincode");
-//        state = b.getString("state");
-//        country = b.getString("country");
-//        telephone = b.getString("tel");
-//        cMobile = b.getString("mob");
-//        cin = b.getString("cin");
-//        tin = b.getString("tin");
-//        about = b.getString("about");
-//        web = b.getString("web");
+        Bundle b = getIntent().getExtras();
+        int image = b.getInt("image");
+        name = b.getString("name");
+        company = b.getString("company");
+        designation = b.getString("designation");
+        mobile = b.getString("cno");
+        email = b.getString("email");
+        final boolean gender = b.getBoolean("gender");
+        street = b.getString("street");
+        city = b.getString("city");
+        pincode = b.getString("pincode");
+        state = b.getString("state");
+        country = b.getString("country");
+        telephone = b.getString("tel");
+        cMobile = b.getString("mob");
+        cin = b.getString("cin");
+        tin = b.getString("tin");
+        about = b.getString("about");
+        web = b.getString("web");
 
         findAllIds();
 

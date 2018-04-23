@@ -36,14 +36,14 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
     TextView Dealname, Valuation, ClosingDate;
     ImageView imageView;
     Deal d;
-    private String pk;
+    private String pk,contractsPk;
     private ActiveDealsViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
 
 
     private static final String TAG = ActiveDealsDetailsActivity.class.toString();
 
-    public static String name, value, closedate, web,cin,tin,about,telephone,mobile;
+    public static String name, nameC, designation,value, closedate, web,cin,tin,about,telephone,mobile;
 
 
     @Override
@@ -68,6 +68,8 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
             d = new Deal();
             d.name = name;
             d.value = value;
+            d.contactName = nameC;
+            d.contactDesignation = designation;
             d.closeDate = closedate;
         }
 
@@ -89,62 +91,11 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
 
         createTabs();
 
-        /*tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-
-
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tab.setIcon(tabicon[tab.getPosition()]);
-                int pos = tab.getPosition();
-
-
-                switch (pos) {
-                    case 0: {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                        Bundle bundle = new Bundle();
-                        bundle.putString("pk", pk);
-                        DealInfoFragment dealInfoFragment = new DealInfoFragment();
-                        dealInfoFragment.setArguments(bundle);
-                        ft.add(R.id.dealinfo_fragment, dealInfoFragment, "DealInfoFragment");
-                        ft.commit();
-                        break;
-                    }
-                    case 1: {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.dealinfo_fragment, new ExternalStakeholderFragment(), "ExternalStackHolderFragment");
-                        ft.commit();
-                        break;
-                    }
-                    case 2: {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.dealinfo_fragment, new FinancesFragment(), "FinancesFrangment");
-                        ft.commit();
-                        break;
-                    }
-                    case 3 : {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.dealinfo_fragment, new RequirementFragment(), "RequirementFrangment");
-                        ft.commit();
-                        break;
-                    }
-
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });*/
-
+        Bundle bundle = new Bundle();
+        bundle.putString("requirements",d.getRequirements());
+        RequirementFragment requirementFragment = new RequirementFragment();
+        requirementFragment.setArguments(bundle);
     }
 
 

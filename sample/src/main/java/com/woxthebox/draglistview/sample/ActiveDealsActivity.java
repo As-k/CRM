@@ -36,7 +36,6 @@ public class ActiveDealsActivity extends Activity {
 //    public static JSONObject contracts;
     public static int pos;
     private Deal d;
-    private Contact c;
     String company_pk;
 
     ServerUrl serverUrl;
@@ -44,6 +43,7 @@ public class ActiveDealsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_deals);
+
 
         companyname = findViewById(R.id.comapny_name);
         web = findViewById(R.id.web_text);
@@ -61,7 +61,10 @@ public class ActiveDealsActivity extends Activity {
             companyname.setText(company_name);
             web.setText(web1);
 
+
         }
+
+
 
         rv1.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
@@ -81,7 +84,9 @@ public class ActiveDealsActivity extends Activity {
                     }
                 })
         );
+
     }
+
 
     protected void getDeal() {
         String serverURL = serverUrl.url;
@@ -94,6 +99,7 @@ public class ActiveDealsActivity extends Activity {
                         Obj = response.getJSONObject(i);
                         Deal d = new Deal(Obj);
                         if (d.companyPk.equals(company_pk)) {
+                            d.contactPk = company_pk;
 
                             deal.add(d);
                             Log.d("deal", deal.size() + "");

@@ -1,10 +1,13 @@
 package com.woxthebox.draglistview.sample;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -27,6 +31,12 @@ import cz.msebera.android.httpclient.Header;
  */
 public class ExternalStakeholderFragment extends Fragment {
     RecyclerView recyclerView;
+    Context context;
+    ServerUrl serverUrl;
+    private Deal d;
+    public static ArrayList externalHolder;
+    public AsyncHttpClient client;
+    public String contact_Pk;
 
 
     public ExternalStakeholderFragment() {
@@ -49,7 +59,9 @@ public class ExternalStakeholderFragment extends Fragment {
 
         return view;
     }
+
 }
+
 
 
 

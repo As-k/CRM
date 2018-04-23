@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +31,7 @@ import java.util.Locale;
 
 public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHolder> {
     public static String fid, fitem, fvalue, fupdated, fcreated, fstatus;
-
+    Deal d;
     Context context;
     List<Contract> financeList;
 //    String dealId[] = {"1", "1", "1"};
@@ -41,9 +42,13 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 //    String status[] = {"Received", "Approval", "Billed"};
 
 
-    public FinancesAdapter(Context context) {
+    public FinancesAdapter(Context context,List<Contract> financeList) {
         this.context = context;
+        this.financeList = financeList;
+
+
     }
+
 
     @NonNull
     @Override
@@ -55,13 +60,13 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
         return myHolder;
     }
 
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final FinancesAdapter.MyHolder holder, int position) {
         if (holder instanceof MyHolder) {
             MyHolder myHolder = (MyHolder) holder;
             Contract r = financeList.get(position);
-
 
 //            fid = (String) hm.get("pk");
 //            fcreated = (String)hm.get("created");
@@ -94,7 +99,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
             Date date1 = null;
             try{
                 date1 = simpleDateFormat.parse(dt);
-                String newDate1 = sdf.format(date);
+                String newDate1 = sdf.format(date1);
                 System.out.println(newDate1);
                 Log.e("Date",newDate1);
 
@@ -102,7 +107,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 e.printStackTrace();
             }
             Calendar thatDay1 = Calendar.getInstance();
-            thatDay.setTime(date1);
+            thatDay1.setTime(date1);
             long today1 = System.currentTimeMillis();
 
             long diff1 = today1 - thatDay1.getTimeInMillis();
@@ -111,7 +116,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 
 
 
-            myHolder.idDeal.setText(fid);
+            myHolder.idDeal.setText(r.getPk());
 //            holder.items.setText(dealitem[position]);
             myHolder.value.setText(r.getValue());
             myHolder.created.setText(days+ " Days");

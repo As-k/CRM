@@ -105,8 +105,6 @@ public class DealInfoFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
-                Log.d("DEALINFOFRAGMENT", response.toString());
-
                 JSONObject Obj = null;
 
                     Obj  = response;
@@ -116,23 +114,6 @@ public class DealInfoFragment extends Fragment {
                     setData();
 
             }
-
-           /* @Override
-            public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
-
-//                for (int i = 0; i < response.length(); i++) {
-                    JSONObject Obj = null;
-                    try {
-                        Obj = response.getJSONObject(0);
-                         s = new Service(Obj);
-
-                        info.add(s);
-                        setData();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                }
-            }*/
             @Override
             public void onFinish() {
                 System.out.println("finished 001");

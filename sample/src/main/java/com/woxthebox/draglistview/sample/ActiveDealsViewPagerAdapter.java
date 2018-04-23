@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ActiveDealsViewPagerAdapter extends FragmentPagerAdapter {
 
-    private String pk;
+    private String pk,contractsPk;
 
     public ActiveDealsViewPagerAdapter(FragmentManager fm, String pk) {
         super(fm);
@@ -31,18 +31,16 @@ public class ActiveDealsViewPagerAdapter extends FragmentPagerAdapter {
 
                 break;
             case 1:
-                //fragment = new ExternalStakeholderFragment();
-                fragment = new DealInfoFragment();
-
+                fragment = new ExternalStakeholderFragment();
+//              fragment = new DealInfoFragment();
                 break;
             case 2:
-                //fragment = new FinancesFragment();
-                fragment = new DealInfoFragment();
-
+                fragment = new FinancesFragment();
+//                fragment = new DealInfoFragment();
                 break;
             case 3:
-                //fragment = new RequirementFragment();
-                fragment = new DealInfoFragment();
+                fragment = new RequirementFragment();
+//                fragment = new DealInfoFragment();
 
                 break;
 
