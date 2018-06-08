@@ -172,8 +172,6 @@ public class RelationshipActivity extends AppCompatActivity {
                                     JSONObject Obj = null;
                                     try {
                                         Obj = response.getJSONObject(i);
-
-
                                         if (response == null) {
                                             Toast.makeText(getApplicationContext(), "Couldn't fetch the contacts! Pleas try again.", Toast.LENGTH_LONG).show();
                                             return;

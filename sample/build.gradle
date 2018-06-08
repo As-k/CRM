@@ -21,6 +21,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':library')
     compile project(':library2')
@@ -29,6 +30,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
     compile 'org.greenrobot:greendao:3.2.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile project(path: ':laser-native-editor')
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'

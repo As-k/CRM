@@ -55,7 +55,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="13dp"
-                android:src="@drawable/img_avatar_card" />
+                android:src="@drawable/male" />
             <TextView
                 android:id="@+id/opp_event_holder"
                 android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="13dp"
-                android:src="@drawable/img_avatar_card" />
+                android:src="@drawable/male" />
             <TextView
                 android:id="@+id/opp_holder_name"
                 android:layout_width="wrap_content"

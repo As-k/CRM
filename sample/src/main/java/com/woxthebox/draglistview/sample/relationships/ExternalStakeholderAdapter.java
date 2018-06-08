@@ -24,7 +24,7 @@ public class ExternalStakeholderAdapter extends RecyclerView.Adapter<ExternalSta
 
 //  String uName[] = {"Samuel D. Pollock ", "Samuel D. Pollock", "Samuel D. Pollock "};
 //  String uDesg[] = {"Information systems manager","Information systems manager","Information systems manager"};
-//    int uImage[] = {R.drawable.img_avatar_card,R.drawable.img_avatar_card,R.drawable.img_avatar_card};
+//    int uImage[] = {R.drawable.male,R.drawable.male,R.drawable.male};
 
 
 

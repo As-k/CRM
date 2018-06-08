@@ -18,8 +18,8 @@ import com.woxthebox.draglistview.sample.R;
 public class OppEventAdapter extends RecyclerView.Adapter<OppEventAdapter.MyHolder> {
 
     public static String  dealName,contactName,value,id,closingDate;
-    public static int holderImage[] = {R.drawable.img_avatar_card,R.drawable.img_avatar_card};
-    public static int holderimage1[] = {R.drawable.img_avatar_card,R.drawable.img_avatar_card};
+    public static int holderImage[] = {R.drawable.male,R.drawable.male};
+    public static int holderimage1[] = {R.drawable.male,R.drawable.male};
     String SName[] = {"Samuel D. Pollock ","Samuel D. Pollock"};
     String SName1[] = {"Joyce A.Neal", "Joyce A.Neal"};
     String venueName [] = {"Some Place","CDF Building"};

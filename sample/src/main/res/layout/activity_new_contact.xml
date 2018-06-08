@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -58,13 +59,23 @@
                     android:layout_toEndOf="@+id/gender_sw" />
 
 
-                <ImageView
+                <!--<ImageView-->
+                    <!--android:layout_width="50dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:id="@+id/switch_profile"-->
+                    <!--android:src="@drawable/male"-->
+                    <!--android:layout_gravity="left"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--/>-->
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:id="@+id/switch_profile"
                     android:src="@drawable/male"
                     android:layout_gravity="left"
                     android:layout_alignParentRight="true"
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="2dp"
                     />
 
             </RelativeLayout>
@@ -100,6 +111,7 @@
                     android:id="@+id/contacts_mobile"
                     android:hint="Mobile"
                     android:inputType="phone"
+                    android:maxLength="10"
                     style="@style/edit_text_style"
                     />
             </android.support.design.widget.TextInputLayout>
@@ -131,6 +143,7 @@
                     android:textAllCaps="false"
                     android:drawableLeft="@drawable/ic_add_company"
                     android:drawablePadding="@dimen/vertical_padding"
+                    android:onClick="addedNewCompany"
                     android:visibility="gone"/>
                 <Button
                     android:layout_width="wrap_content"
@@ -283,7 +296,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
+        android:layout_weight="0"
+        >
         <Button
             android:text="Save"
             android:layout_width="match_parent"
@@ -291,7 +305,6 @@
             style="@style/button_style"
             android:id="@+id/save_newContacts"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:onClick="saveDetails"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>

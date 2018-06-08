@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/project_color"
     tools:context="com.woxthebox.draglistview.sample.contacts.InfoFragment">
 
@@ -23,11 +24,15 @@
 
             <!-- TODO: Update blank fragment layout -->
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/male"
-                android:id="@+id/info_image"/>
+                android:id="@+id/info_image"
+                android:layout_alignParentRight="true"
+                app:civ_border_color="#ffffff"
+                app:civ_border_width="2dp"
+                />
+
 
             <TextView
                 style="@style/text_view_style"
@@ -100,16 +105,19 @@ US"
                 android:layout_margin="5dp"
                 >
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:id="@+id/info_frnd_img"
                     android:src="@drawable/male"
-                    android:id="@+id/info_frnd_img"/>
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="2dp"
+                    />
+
 
                 <TextView
                     style="@style/text_view_style"
                     android:id="@+id/info_frnd_name"
-                    android:text="Robert Y. Griffin"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="3dp"
                     android:layout_toEndOf="@+id/info_frnd_img"

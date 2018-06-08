@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2014 Magnus Woxblom
+<?xml version="1.0" encoding="utf-8"?><!--
+ Copyright 2014 Magnus Woxblom
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,45 +14,45 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.woxthebox.draglistview.sample" >
+    package="com.woxthebox.draglistview.sample">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
 
     <application
         android:name=".app.AppController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".contacts.ContactsActivity"
+            android:label="@string/contacts"
             android:screenOrientation="portrait" />
         <activity
             android:name=".opportunities.OpportunitiesActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".opportunities.StepView"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".opportunities.StepView"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".relationships.RelationshipActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/relationships"/>
         <activity
             android:name=".contacts.EditContactActivity"
             android:screenOrientation="portrait" />
@@ -65,17 +65,17 @@
         <activity
             android:name=".contacts.ContactsListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".contacts.MeetingActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+        <activity
+            android:name=".contacts.MeetingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".edittag.ContactListActivity" />
-        <activity android:name=".relationships.ActiveDealsActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".relationships.ActiveDealsDetailsActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".relationships.ActiveDealsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".relationships.ActiveDealsDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MainProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -22,14 +24,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.ResponseHandlerInterface;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
@@ -41,26 +50,37 @@ public class NewContactActivity extends Activity {
     AutoCompleteTextView newCompany;
     Button addNewCompany, updateCompany;
 //    String items[] = {"CIOC FMCG Pvt Ltd","First Choice Yard Help","Muscle Factory","ABC Pvt Ltd","DXC Technology"};
-    ArrayList<String> companiesList;
-    public AsyncHttpClient client;
+    ArrayList<Company> companiesList;
     TextView newDp, newDpAttach;
     Button saveNewContact;
     Switch genderSwitch;
     ImageView switchProfile;
     TextView arrowUp, arrowDown;
-
     EditText dialogTel, dialogAbout, dialogMob, dialogStreet, dialogCity, dialogState, dialogPincode, dialogCountry, dialogCIN, dialogTIN, dialogLogo, dialogWeb;
+
     Button saveDialogDetails;
     TextView dialog_arrowUp, dialog_arrowDown;
     LinearLayout dialog_showAdvanceDetails;
     String name, cno;
+    ArrayList companyName;
+    Company c;
+    int pos;
+//    JSONObject jsonCompany = new JSONObject();
+    Bitmap bitmap = null;
+    String pathHolder;
+
+    public AsyncHttpClient client;
+    ServerUrl serverUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
 
-        companiesList = new ArrayList<String>();
-        client = new AsyncHttpClient();
+        serverUrl = new ServerUrl();
+        client = serverUrl.getHTTPClient();
+        companiesList = new ArrayList<Company>();
+        companyName = new ArrayList();
 
         Bundle b = getIntent().getExtras();
         if (b != null){
@@ -146,17 +166,17 @@ public class NewContactActivity extends Activity {
     }
 
     public void addCompany(){
-        String serverURL = "http://192.168.1.105:8000/api/ERP/service/?format=json";
+        String serverURL = serverUrl.url+"api/ERP/service/?format=json";
         client.get(serverURL, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                super.onSuccess(statusCode, headers, response);
+                super.onSuccess(statusCode, headers, response);
                 for(int i=0; i<response.length(); i++){
                     try {
                         JSONObject json = response.getJSONObject(i);
-                        String companyName = json.getString("name");
-
-                        companiesList.add(companyName);
+                        Company company = new Company(json);
+                        companiesList.add(company);
+                        companyName.add(company.getCompanyName());
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,16 +187,19 @@ public class NewContactActivity extends Activity {
             @Override
             public void onFinish() {
                 System.out.println("finished EditContact");
+                Log.e("NewContactActivity","onFinish");
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
                 System.out.println("finished failed EditContact");
+                Log.e("NewContactActivity","onFailure");
             }
         });
 
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(NewContactActivity.this, android.R.layout.simple_dropdown_item_1line, companiesList);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(NewContactActivity.this, android.R.layout.simple_dropdown_item_1line, companyName);
         newCompany.setAdapter(arrayAdapter);
 
         newCompany.addTextChangedListener(new TextWatcher() {
@@ -194,10 +217,13 @@ public class NewContactActivity extends Activity {
             public void afterTextChanged(Editable s) {
                 addNewCompany.setVisibility(View.VISIBLE);
                 updateCompany.setVisibility(View.GONE);
-                for (int i=0; i<=companiesList.size(); i++){
-                    if (s.toString().equals(companiesList.get(i))){
+                for (int i=0; i<companiesList.size(); i++){
+                    Company c = (Company) companiesList.get(i);
+                    if (s.toString().equals(c.getCompanyName())){
+                        pos = i;
                         addNewCompany.setVisibility(View.GONE);
                         updateCompany.setVisibility(View.VISIBLE);
+//
                     }
                 }
                 if (s.toString().equals("")){
@@ -208,7 +234,38 @@ public class NewContactActivity extends Activity {
         });
     }
 
+    public void addedNewCompany(View view){
+        String companyName = newCompany.getText().toString().trim();
+        RequestParams params = new RequestParams();
+        params.put("name",companyName);
+        params.put("user",1);
+        client.post(ServerUrl.url+"/api/ERP/service/",params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                addNewCompany.setVisibility(View.GONE);
+                updateCompany.setVisibility(View.VISIBLE);
+                try {
+                    String pk = response.getString("pk");
+                    String name = response.getString("name");
+                    String created = response.getString("created");
+                    Company c = new Company();
+                    c.save(pk,name,created);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                Log.e("addedNewCompany","onFailure "+statusCode);
+            }
+        });
+    }
+
     public void updateNewCompany(View view){
+        final String companyName = newCompany.getText().toString().trim();
 
         View v = getLayoutInflater().inflate(R.layout.dialog_edit_update_company, null, false);
         dialogTel = v.findViewById(R.id.dialog_new_telephone);
@@ -229,6 +286,20 @@ public class NewContactActivity extends Activity {
         dialogWeb = v.findViewById(R.id.dialog_new_web);
         saveDialogDetails = v.findViewById(R.id.dialog_new_save);
 
+        final Company c = companiesList.get(pos);
+        final String pk = c.getCompanyPk();
+        dialogTel.setText(""+c.getTelephone());
+        dialogAbout.setText(""+c.getAbout());
+        dialogMob.setText(""+c.getCompanyMobile());
+        dialogStreet.setText(""+c.getStreet());
+        dialogCity.setText(""+c.getCity());
+        dialogState.setText(""+c.getState());
+        dialogPincode.setText(""+c.getPincode());
+        dialogCountry.setText(""+c.getCountry());
+        dialogCIN.setText(""+c.getCin());
+        dialogTIN.setText(""+c.getTin());
+        dialogWeb.setText(""+c.getWeb());
+
         dialog_arrowDown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -247,6 +318,7 @@ public class NewContactActivity extends Activity {
             }
         });
 
+
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setView(v);
         adb.setCancelable(false);
@@ -254,14 +326,203 @@ public class NewContactActivity extends Activity {
         saveDialogDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ad.dismiss();
+                final String tel = dialogTel.getText().toString().trim();
+                final String about = dialogAbout.getText().toString().trim();
+                final String mob = dialogMob.getText().toString().trim();
+                String street = dialogStreet.getText().toString().trim();
+                String city = dialogCity.getText().toString().trim();
+                String state = dialogState.getText().toString().trim();
+                String pincode = dialogPincode.getText().toString().trim();
+                String country = dialogCountry.getText().toString().trim();
+                final String cin = dialogCIN.getText().toString().trim();
+                final String tin = dialogTIN.getText().toString().trim();
+                final String web = dialogWeb.getText().toString().trim();
+                JSONObject jsonAddress = null;
+                try {
+                    jsonAddress = new JSONObject();
+                    jsonAddress.put("street", street);
+                    jsonAddress.put("city", city);
+                    jsonAddress.put("pincode", pincode);
+                    jsonAddress.put("country", country);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (c.getAddressPk()==null){
+                RequestParams paramsAdd = new RequestParams();
+                paramsAdd.put("street", street);
+//                paramsAdd.put("city", city);
+//                paramsAdd.put("pincode", pincode);
+//                paramsAdd.put("country", country);
+                client.post(ServerUrl.url+"/api/ERP/address/", paramsAdd, new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        try {
+                            String addPk = response.getString("pk");
+                            String street = response.getString("street");
+                            String city = response.getString("city");
+                            String state = response.getString("state");
+                            String pincode = response.getString("pincode");
+                            String lat = response.getString("lat");
+                            String lon = response.getString("lon");
+                            String country = response.getString("country");
+                            Company company = new Company();
+                            company.company_Address(addPk,street,city,state,pincode,lat,lon,country);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                        Log.e("updatedNewAddress","onFailure "+statusCode);
+                    }
+                });
+            } else {
+                RequestParams paramsAdd = new RequestParams();
+                paramsAdd.put("street", street);
+                paramsAdd.put("pk", c.getAddressPk());
+                paramsAdd.put("city", city);
+                paramsAdd.put("state", state);
+                paramsAdd.put("lat", "");
+                paramsAdd.put("lon", "");
+                paramsAdd.put("pincode", pincode);
+                paramsAdd.put("country", country);
+                client.patch(ServerUrl.url + "/api/ERP/address/"+c.getAddressPk()+"/", paramsAdd, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Toast.makeText(NewContactActivity.this, "Saved Address", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Log.e("updatedNewCompany","onFailure "+statusCode);
+                    }
+                });
+            }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        RequestParams params = new RequestParams();
+                        params.put("pk", pk);
+                        params.put("created", c.getCreated());
+                        params.put("name", c.getCompanyName());
+                        params.put("user",1);
+                        params.put("telephone", tel);
+                        params.put("about", about);
+                        params.put("address", c.getAddressPk());
+                        params.put("mobile", mob);
+                        params.put("cin", cin);
+                        params.put("doc", "");
+                        params.put("logo", "");
+                        params.put("tin", tin);
+                        params.put("web", web);
+                        client.patch(ServerUrl.url + "/api/ERP/service/"+pk+"/", params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                Toast.makeText(NewContactActivity.this, "Saved Company", Toast.LENGTH_SHORT).show();
+                                ad.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                Log.e("updatedNewCompany","onFailure "+statusCode);
+                            }
+                        });
+                    }
+                },1000);
+
             }
         });
         ad.show();
     }
 
     public void saveDetails(View v) {
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        String fullName = newFullName.getText().toString().trim();
+        String email = newEmail.getText().toString().trim();
+        String mobile = newMobNo.getText().toString().trim();
+        String company = newCompany.getText().toString().trim();
+        String emailDuplicate = newEmailDuplicate.getText().toString().trim();
+        String mobNoDuplicate = newMobNoDuplicate.getText().toString().trim();
+        String designation = newDesignation.getText().toString().trim();
+        String notes = newNotes.getText().toString().trim();
+        String linkedinLink = newLinkedin.getText().toString().trim();
+        String fbLink = newFb.getText().toString().trim();
+
+        if (fullName.isEmpty()) {
+            newFullName.setError("Enter full name.");
+            newFullName.requestFocus();
+        } else {
+            Company c = companiesList.get(pos);
+            JSONObject jsonAddress = null;
+            try {
+                jsonAddress = new JSONObject();
+                jsonAddress.put("street", c.getStreet());
+                jsonAddress.put("city", c.getCity());
+                jsonAddress.put("pincode", c.getPincode());
+                jsonAddress.put("country", c.getCountry());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JSONObject jsonCompany = null;
+            try {
+                jsonCompany = new JSONObject();
+                jsonCompany.put("pk", c.getCompanyPk());
+                jsonCompany.put("created", c.getCreated());
+                jsonCompany.put("name", c.getCompanyName());
+                jsonCompany.put("telephone", c.getTelephone());
+                jsonCompany.put("about", c.getAbout());
+                jsonCompany.put("address", jsonAddress);
+                jsonCompany.put("mobile", c.getCompanyMobile());
+                jsonCompany.put("cin", c.getCin());
+                jsonCompany.put("tin", c.getTin());
+                jsonCompany.put("web", c.getWeb());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+                        RequestParams params = new RequestParams();
+                        params.put("male",genderSwitch.isChecked());
+                        params.put("user",1);
+                        params.put("name", fullName);
+                        params.put("email", email);
+                        params.put("mobile", mobile);
+                        params.put("company", c.getCompanyPk());
+                        params.put("emailSecondary", emailDuplicate);
+                        params.put("mobileSecondary", mobNoDuplicate);
+                        params.put("designation", designation);
+                        params.put("notes", notes);
+                        params.put("linkedin", linkedinLink);
+                        params.put("facebook", fbLink);
+                        if (bitmap!=null){
+                            ByteArrayOutputStream output = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.JPEG,100, output);
+                            byte[] image = output.toByteArray();
+                            params.put("dp", new ByteArrayInputStream(image), pathHolder+".jpeg");
+                        } else {
+                            params.put("dp", "");
+                        }
+                        client.post(serverUrl.url+"/api/clientRelationships/contact/", params, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Toast.makeText(NewContactActivity.this, "saved", Toast.LENGTH_SHORT).show();
+                                new Contact(response);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                            }
+                        });
+            }
+
     }
 
     @Override
@@ -271,7 +532,8 @@ public class NewContactActivity extends Activity {
             if (resultCode == RESULT_OK){
                 Uri uri = data.getData();
                 try {
-                    Bitmap bit = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    pathHolder = data.getData().getPath();
                     newDpAttach.setVisibility(View.VISIBLE);
                     newDpAttach.setText("Attached");
                 } catch (IOException e) {

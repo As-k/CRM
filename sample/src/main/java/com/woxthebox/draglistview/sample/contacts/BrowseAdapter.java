@@ -2,6 +2,8 @@ package com.woxthebox.draglistview.sample.contacts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +17,17 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
 import com.woxthebox.draglistview.sample.app.AppController;
 
+import java.io.File;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Ashish on 3/7/2018.
@@ -34,6 +43,8 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int visibleThreshold = 5;
     private int pos ;
     private int lastVisibleItem, totalItemCount;
+    ServerUrl serverUrl;
+    AsyncHttpClient asyncHttpClient;
 
     Context context;
     List<Contact> contactList;
@@ -44,6 +55,8 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public BrowseAdapter(Context context, List<Contact> contactList){
         this.context = context;
         this.contactList = contactList;
+        serverUrl = new ServerUrl();
+        asyncHttpClient = serverUrl.getHTTPClient();
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) ContactsActivity.browse_rv.getLayoutManager();
         ContactsActivity.browse_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -89,20 +102,43 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyHolder) {
             String name,street,city,state,pincode,country,email,mobile,designation,company, dp, telephone, cMobile, cin, tin, about, web;
             boolean gender;
             MyHolder myHolder = (MyHolder) holder;
             final Contact c = contactList.get(position);
-            if (c.dp.equals("null")) {
-                if (c.male)
-                    myHolder.browseImage.setImageResource(R.drawable.male);
-                else
-                    myHolder.browseImage.setImageResource(R.drawable.female);
-            } else {
-                myHolder.browseImage.setImageUrl(c.dp, imageLoader);
-            }
+//            if (c.dp.equals("null")) {
+//                if (c.male)
+//                    myHolder.browseImage.setImageResource(R.drawable.male);
+//                else
+//                    myHolder.browseImage.setImageResource(R.drawable.female);
+//            } else {
+//                myHolder.browseImage.setImageUrl(c.dp, imageLoader);
+//            }
+            asyncHttpClient.get(c.dp, new FileAsyncHttpResponseHandler(context) {
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                    asyncHttpClient.get(ServerUrl.url+ "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(context) {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, File file) {
+                            Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                            ((MyHolder) holder).browseImage.setImageBitmap(pp);
+                        }
+                    });
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, File file) {
+                    Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    ((MyHolder) holder).browseImage.setImageBitmap(pp);
+                }
+            });
             myHolder.browseName.setText(c.getName());
             myHolder.browseDesignation.setText(c.getDesignation());
             myHolder.browseCompany.setText(c.getCompanyName());
@@ -134,16 +170,17 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //                    pos = getLayoutPosition();
 //                    hashmapMethod();
                     Intent intent = new Intent(context, EditContactActivity.class);
+                    intent.putExtra("pk",c.getPk());
                     intent.putExtra("image",c.getDp());
                     intent.putExtra("name", c.getName());
+                    intent.putExtra("email",c.getEmail());
+                    intent.putExtra("mob",c.getMobile());
                     intent.putExtra("designation",c.getDesignation());
                     intent.putExtra("company", c.getCompanyName());
-                    intent.putExtra("cno", c.getCompanyMobile());
-                    intent.putExtra("email",c.getEmail());
+                    intent.putExtra("companyNo", c.getCompanyMobile());
                     intent.putExtra("gender",c.getMale());
                     intent.putExtra("cin",c.getCin());
                     intent.putExtra("tin",c.getTin());
-                    intent.putExtra("mob",c.getMobile());
                     intent.putExtra("tel",c.getTelephone());
                     intent.putExtra("about",c.getAbout());
                     intent.putExtra("web",c.getWeb());
@@ -163,17 +200,18 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //                    hashmapMethod();
 //                    Toast.makeText(context, ""+getLayoutPosition(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ViewDetailsActivity.class);
+                    intent.putExtra("pk",c.getPk());
                     intent.putExtra("image",c.getDp());
                     intent.putExtra("name", c.getName());
-                    intent.putExtra("designation",c.getDesignation());
-                    intent.putExtra("pk",c.getCompanyPk());
-                    intent.putExtra("company", c.getCompanyName());
-                    intent.putExtra("cno", c.getCompanyMobile());
                     intent.putExtra("email",c.getEmail());
+                    intent.putExtra("mob",c.getMobile());
+                    intent.putExtra("designation",c.getDesignation());
+                    intent.putExtra("companyPk",c.getCompanyPk());
+                    intent.putExtra("company", c.getCompanyName());
                     intent.putExtra("gender",c.getMale());
                     intent.putExtra("cin",c.getCin());
                     intent.putExtra("tin",c.getTin());
-                    intent.putExtra("mob",c.getMobile());
+                    intent.putExtra("companyNo", c.getCompanyMobile());
                     intent.putExtra("tel",c.getTelephone());
                     intent.putExtra("about",c.getAbout());
                     intent.putExtra("web",c.getWeb());
@@ -201,7 +239,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class MyHolder extends RecyclerView.ViewHolder {
 
-        NetworkImageView browseImage;
+        ImageView browseImage;
         ImageView editProfile, viewDetails;
         TextView browseName,browseDesignation, browseCompany, browseMob, browseEmail;
 
@@ -231,6 +269,11 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setLoaded() {
         isLoading = false;
+    }
+
+    public void clearData() {
+        contactList.clear();
+        notifyDataSetChanged();
     }
 
 //    void hashmapMethod(){

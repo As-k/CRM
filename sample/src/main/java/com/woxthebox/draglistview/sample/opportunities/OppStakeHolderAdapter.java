@@ -31,7 +31,7 @@ public class OppStakeHolderAdapter extends RecyclerView.Adapter<OppStakeHolderAd
 
     String uName[] = {"Samuel D. Pollock ", "Joyce A.Neal", "Wanda J. Aguirre"};
   String uDesg[] = {"Information systems manager","Information systems manager","Information systems manager"};
-    int uImage[] = {R.drawable.img_avatar_card,R.drawable.img_avatar_card,R.drawable.img_avatar_card};
+    int uImage[] = {R.drawable.male,R.drawable.male,R.drawable.male};
 
 
     @NonNull

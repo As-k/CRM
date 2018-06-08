@@ -81,7 +81,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="14dp"
                 android:layout_toEndOf="@+id/owner"
-                android:src="@drawable/img_avatar_card" />
+                android:src="@drawable/male" />
             <TextView
                 android:id="@+id/owner_name"
                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="13dp"
                 android:layout_toEndOf="@+id/contact"
-                android:src="@drawable/img_avatar_card" />
+                android:src="@drawable/male" />
             <TextView
                 android:id="@+id/contact_name"
                 android:layout_width="wrap_content"

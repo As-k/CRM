@@ -59,7 +59,7 @@ public class ViewDetailsActivity extends FragmentActivity {
 
     ArrayList noteList;
 
-    public static String cpk,cname,street,city,state,pincode,country,eMail,mobile,designation,company,telephone, cMobile, cin, tin, about, web;
+    public static String cpk,cname,street,city,state,pincode,country,eMail,mobile,designation,company,companyPk,telephone, cMobile, cin, tin, about, web,dp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +67,11 @@ public class ViewDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_view_details);
 
         Bundle b = getIntent().getExtras();
-            int image = b.getInt("image");
+            dp = b.getString("image");
             cname = b.getString("name");
             cpk = b.getString("pk");
             company = b.getString("company");
+            companyPk = b.getString("companyPk");
             designation = b.getString("designation");
             mobile = b.getString("mob");
             eMail = b.getString("email");
@@ -81,7 +82,7 @@ public class ViewDetailsActivity extends FragmentActivity {
             state = b.getString("state");
             country = b.getString("country");
             telephone = b.getString("tel");
-            cMobile = b.getString("cno");
+            cMobile = b.getString("companyNo");
             cin = b.getString("cin");
             tin = b.getString("tin");
             about = b.getString("about");

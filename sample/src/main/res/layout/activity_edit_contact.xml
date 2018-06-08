@@ -1,5 +1,6 @@
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -19,6 +20,57 @@
             android:orientation="vertical"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             >
+            <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/mrs."
+                    style="@style/text_view_style"
+                    android:text="Mrs."
+                    android:textColor="#3c4650"
+                    android:layout_centerVertical="true"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gender_sw"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@+id/mrs."
+                    />
+
+                <TextView
+                    android:id="@+id/mr."
+                    style="@style/text_view_style"
+                    android:text="Mr."
+                    android:textColor="#3c4650"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="3dp"
+                    android:layout_toEndOf="@+id/gender_sw" />
+
+
+                <!--<ImageView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:id="@+id/switch_profile"-->
+                <!--android:src="@drawable/male"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--/>-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/switch_profile"
+                    android:src="@drawable/male"
+                    android:layout_gravity="left"
+                    android:layout_alignParentRight="true"
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="2dp"
+                    />
+
+            </RelativeLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -64,12 +116,11 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content">
-
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
                         android:id="@+id/edit_company"
                         android:hint="Company"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         style="@style/edit_text_style"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -80,6 +131,7 @@
                     android:text="@string/new_company"
                     style="?android:attr/borderlessButtonStyle"
                     android:textAllCaps="false"
+                    android:onClick="editAddNewCompany"
                     android:drawableLeft="@drawable/ic_add_company"
                     android:drawablePadding="@dimen/vertical_padding"
                     android:visibility="gone"/>
@@ -261,8 +313,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/button_style"
+            android:onClick="editSaveDetails"
             android:id="@+id/edit_save_newContacts"
-            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 

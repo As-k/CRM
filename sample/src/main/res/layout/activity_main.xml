@@ -11,8 +11,8 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/buttonContacts"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="3dp"
             android:onClick="buttonContacts"
             app:cardBackgroundColor="@color/project_color"
             app:cardUseCompatPadding="true"
@@ -21,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="200dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -58,7 +58,7 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/contacts_company"
+                        android:id="@+id/company_calls"
                         style="@style/text_view_style"
                         android:text="3 calls"
                         android:textColor="#3C4650"
@@ -69,7 +69,7 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="200dp"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/browse_cardView"
             android:onClick="buttonOpportunities"
@@ -87,7 +87,7 @@
                 <!--android:id="@+id/opportunities"/>-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="200dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -130,7 +130,7 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="200dp"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/buttonRelationships"
             android:onClick="buttonRelationships"
@@ -147,7 +147,7 @@
                 <!--android:id="@+id/relationships"/>-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="200dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 

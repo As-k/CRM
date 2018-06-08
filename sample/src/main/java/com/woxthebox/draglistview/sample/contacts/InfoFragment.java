@@ -2,6 +2,8 @@ package com.woxthebox.draglistview.sample.contacts;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.woxthebox.draglistview.sample.R;
 import com.woxthebox.draglistview.sample.ServerUrl;
@@ -20,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +34,10 @@ import cz.msebera.android.httpclient.Header;
  * A simple {@link Fragment} subclass.
  */
 public class InfoFragment extends Fragment {
-    ImageView searchLocImage;
+    ImageView profileDp,searchLocImage;
     TextView searchLocTv, infoCompany,infoNetwork;
     public static List<ContacLite> contactLiteList;
-    public AsyncHttpClient client;
+    public AsyncHttpClient asyncHttpClient;
     ServerUrl serverUrl;
 
 
@@ -48,13 +52,38 @@ public class InfoFragment extends Fragment {
         // Inflate the layout for this fragment
         serverUrl = new ServerUrl();
         contactLiteList = new ArrayList<>();
-        client = new AsyncHttpClient();
+        asyncHttpClient = serverUrl.getHTTPClient();
         View v = inflater.inflate(R.layout.fragment_info, container, false);
 
+        profileDp = v.findViewById(R.id.info_image);
         searchLocImage = v.findViewById(R.id.info_iv_address);
         infoCompany = v.findViewById(R.id.info_company);
         searchLocTv = v.findViewById(R.id.info_tv_address);
         infoNetwork = v.findViewById(R.id.info_frnd_name);
+
+        asyncHttpClient.get(ViewDetailsActivity.dp, new FileAsyncHttpResponseHandler(getContext()) {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                asyncHttpClient.get(ServerUrl.url+ "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(getContext()) {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, File file) {
+                        Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        profileDp.setImageBitmap(pp);
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File file) {
+                Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                profileDp.setImageBitmap(pp);
+            }
+        });
 
         infoCompany.setText(""+ ViewDetailsActivity.company);
 
@@ -93,7 +122,7 @@ public class InfoFragment extends Fragment {
     }
     protected void getUser(){
         String serverURL = serverUrl.url;
-        client.get(serverURL+"api/clientRelationships/contactLite/?company="+ViewDetailsActivity.cpk+"",new JsonHttpResponseHandler() {
+        asyncHttpClient.get(serverURL+"api/clientRelationships/contactLite/?company="+ViewDetailsActivity.cpk+"",new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {

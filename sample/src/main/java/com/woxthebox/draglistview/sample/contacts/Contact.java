@@ -1,5 +1,7 @@
 package com.woxthebox.draglistview.sample.contacts;
 
+import com.woxthebox.draglistview.sample.ServerUrl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,41 +76,145 @@ public class Contact implements Serializable {
 
         try{
             this.pk = jsonObject.getString("pk");
-            this.name = jsonObject.getString("name");
-            this.email = jsonObject.getString("email");
-            this.emailSecondary = jsonObject.getString("emailSecondary");
-            this.mobile = jsonObject.getString("mobile");
-            this.mobileSecondary = jsonObject.getString("mobileSecondary");
+            String name = jsonObject.getString("name");
+            if (name.equals("null")) {
+                this.name = "";
+            } else {
+                this.name = name;
+            }
+            String email = jsonObject.getString("email");
+            if (email.equals("null")) {
+                this.email = "";
+            } else {
+                this.email = email;
+            }
+            String emailSecondary = jsonObject.getString("emailSecondary");
+            if (emailSecondary.equals("null")) {
+                this.emailSecondary = "";
+            } else {
+                this.emailSecondary = emailSecondary;
+            }
+            String mobile = jsonObject.getString("mobile");
+            if (mobile.equals("null")) {
+                this.mobile = "";
+            } else {
+                this.mobile = mobile;
+            }
+            String mobileSecondary = jsonObject.getString("mobileSecondary");
+            if (mobileSecondary.equals("null")) {
+                this.mobileSecondary = "";
+            } else {
+                this.mobileSecondary = mobileSecondary;
+            }
 
-            this.designation = jsonObject.getString("designation");
-            this.notes = jsonObject.getString("notes");
-            this.linkedin = jsonObject.getString("linkedin");
-            this.facebook = jsonObject.getString("facebook");
-            this.dp = jsonObject.getString("dp");
+            String designation = jsonObject.getString("designation");
+            if (designation.equals("null")) {
+                this.designation = "";
+            } else {
+                this.designation = designation;
+            }
+            String  notes = jsonObject.getString("notes");
+            if (notes.equals("null")) {
+                this.notes = "";
+            } else {
+                this.notes = notes;
+            }
+            String  linkedin = jsonObject.getString("linkedin");
+            if (linkedin.equals("null")) {
+                this.linkedin = "";
+            } else {
+                this.linkedin = linkedin;
+            }
+            String facebook = jsonObject.getString("facebook");
+            if (facebook.equals("null")) {
+                this.facebook = "";
+            } else {
+                this.facebook = facebook;
+            }
             this.male = jsonObject.getBoolean("male");
+            String img  = jsonObject.getString("dp");
+            if (img.equals("null")){
+                if (this.male)
+                    this.dp = ServerUrl.url+"/static/images/img_avatar_card.png";
+                else
+                    this.dp = ServerUrl.url+"/static/images/img_avatar_card2.png";
+            } else {
+                this.dp = img;
+            }
 
             JSONObject company = jsonObject.getJSONObject("company");
             this.companyPk = company.getString("pk");
             this.companyName = company.getString("name");
-            this.cin = company.getString("cin");
-            this.tin = company.getString("tin");
-            this.telephone = company.getString("telephone");
-            this.companyMobile = company.getString("mobile");
-            this.about = company.getString("about");
-            this.web = company.getString("web");
+            String cin = company.getString("cin");
+            if (cin.equals("null")) {
+                this.cin = "";
+            } else {
+                this.cin = cin;
+            }
+            String tin = company.getString("tin");
+            if (tin.equals("null")) {
+                this.tin = "";
+            } else {
+                this.tin = tin;
+            }
+            String telephone = company.getString("telephone");
+            if (telephone.equals("null")) {
+                this.telephone = "";
+            } else {
+                this.telephone = telephone;
+            }
+
+            String companyMobile = company.getString("mobile");
+            if (companyMobile.equals("null")) {
+                this.companyMobile = "";
+            } else {
+                this.companyMobile = companyMobile;
+            }
+            String about = company.getString("about");
+            if (about.equals("null")) {
+                this.about = "";
+            } else {
+                this.about = about;
+            }
+            String web = company.getString("web");
+            if (web.equals("null")) {
+                this.web = "";
+            } else {
+                this.web = web;
+            }
 
             JSONObject address = company.getJSONObject("address");
             this.addressPk = address.getString("pk");
-            this.street = address.getString("street");
-            this.city = address.getString("city");
-            this.pincode = address.getString("pincode");
-            this.country = address.getString("country");
-
-
-
-
-
-
+            String street = address.getString("street");
+            if (street.equals("null")||street==null) {
+                this.street = "";
+            } else {
+                this.street = street;
+            }
+            String city = address.getString("city");
+            if (street.equals("null")||city==null) {
+                this.city = "";
+            } else {
+                this.city = city;
+            }
+            String state = address.getString("state");
+            if (state.equals("null")||state==null) {
+                this.state = "";
+            } else {
+                this.state = state;
+            }
+            String pincode = address.getString("pincode");
+            if (pincode.equals("null")||pincode==null) {
+                this.pincode = "";
+            } else {
+                this.pincode = pincode;
+            }
+            String country = address.getString("country");
+            if (country.equals("null")||country==null) {
+                this.country = "";
+            } else {
+                this.country = country;
+            }
 
         }catch (JSONException e){
 

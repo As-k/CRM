@@ -149,6 +149,7 @@
                             android:id="@+id/dialog_new_pincode"
                             android:hint="pincode"
                             android:inputType="number"
+                            android:maxLength="6"
                             style="@style/edit_text_style"/>
                     </android.support.design.widget.TextInputLayout>
 
