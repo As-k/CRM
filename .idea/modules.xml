@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CRM.iml" filepath="$PROJECT_DIR$/CRM.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/greendao-generator/greendao-generator.iml" filepath="$PROJECT_DIR$/greendao-generator/greendao-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/laser-native-editor/laser-native-editor.iml" filepath="$PROJECT_DIR$/laser-native-editor/laser-native-editor.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />

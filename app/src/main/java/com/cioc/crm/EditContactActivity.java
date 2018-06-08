@@ -140,7 +140,7 @@ public class EditContactActivity extends Activity {
     }
 
     public void addCompany(){
-        String serverURL = "http://192.168.1.105:8000/api/ERP/service/?format=json";
+        String serverURL = Backend.serverUrl+"/api/ERP/service/?format=json";
         client.get(serverURL, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

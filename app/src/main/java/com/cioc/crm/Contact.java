@@ -69,7 +69,7 @@ public class Contact implements Serializable {
         }catch (JSONException e){
 
         }
-
+        try{
         JSONObject company = jsonObject.getJSONObject("company");
         String companyName = company.getString("name");
         String cin = company.getString("cin");
@@ -80,6 +80,7 @@ public class Contact implements Serializable {
         String web = company.getString("web");
 //                            String doc = company.getString("doc");
 
+
         JSONObject a = company.getJSONObject("address");
 //
         String street = a.getString("street");
@@ -87,7 +88,9 @@ public class Contact implements Serializable {
         String state = a.getString("state");
         String pincode = a.getString("pincode");
         String country = a.getString("country");
+        }catch (JSONException e){
 
+        }
 
 
     }

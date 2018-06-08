@@ -217,7 +217,6 @@
                         android:id="@+id/meeting_editor"
                         app:render_type="Editor"
                         app:placeholder="Start writing here..."
-
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
                         android:layout_height="match_parent"
