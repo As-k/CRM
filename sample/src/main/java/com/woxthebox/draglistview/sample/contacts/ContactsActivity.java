@@ -1,8 +1,10 @@
 package com.woxthebox.draglistview.sample.contacts;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CallLog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +109,8 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(new Intent(ContactsActivity.this, NewContactActivity.class));
             }
         });
+
+        Toast.makeText(this, ""+ getCallDetails(), Toast.LENGTH_SHORT).show();
     }
 
     //closes FAB submenus
@@ -172,7 +178,6 @@ public class ContactsActivity extends AppCompatActivity {
                             }
                         }
                         browseAdapter.notifyDataSetChanged();
-
                     }
 
                     @Override
@@ -289,6 +294,44 @@ public class ContactsActivity extends AppCompatActivity {
                 System.out.println("finished failed 001");
             }
         });
+    }
+
+    private String getCallDetails() {
+            StringBuffer sb = new StringBuffer();
+            Cursor managedCursor = managedQuery( CallLog.Calls.CONTENT_URI,null, null,null, null);
+            int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER);
+            int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
+            int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
+            int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
+            sb.append( "Call Details :");
+            while ( managedCursor.moveToNext() ) {
+                String phNumber = managedCursor.getString( number );
+                String callType = managedCursor.getString( type );
+                String callDate = managedCursor.getString( date );
+                Date callDayTime = new Date(Long.valueOf(callDate));
+                String callDuration = managedCursor.getString( duration );
+                String dir = null;
+                int dircode = Integer.parseInt( callType );
+                switch( dircode ) {
+                    case CallLog.Calls.OUTGOING_TYPE:
+                        dir = "OUTGOING";
+                        break;
+
+                    case CallLog.Calls.INCOMING_TYPE:
+                        dir = "INCOMING";
+                        break;
+
+                    case CallLog.Calls.MISSED_TYPE:
+                        dir = "MISSED";
+                        break;
+                }
+                sb.append( "\nPhone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration );
+                sb.append("\n----------------------------------");
+            }
+            managedCursor.close();
+//
+        return String.valueOf(sb);
+
     }
 
 }

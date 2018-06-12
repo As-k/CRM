@@ -5,10 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/project_color"
     tools:context="com.woxthebox.draglistview.sample.contacts.InfoFragment">
-
-    <ScrollView android:id="@+id/contacts_form"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+    <ScrollView android:id="@+id/contacts_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay"
         android:paddingLeft="@dimen/cardCornerRadius"
@@ -16,7 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_marginBottom="3dp"
@@ -99,34 +103,18 @@ US"
                 android:layout_marginTop="20dp"
                 />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                >
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/info_frnd_img"
-                    android:src="@drawable/male"
-                    app:civ_border_color="#ffffff"
-                    app:civ_border_width="2dp"
-                    />
-
-
-                <TextView
-                    style="@style/text_view_style"
-                    android:id="@+id/info_frnd_name"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="3dp"
-                    android:layout_toEndOf="@+id/info_frnd_img"
-                    android:textColor="#3c4650"
-                    />
-
-            </RelativeLayout>
         </LinearLayout>
 
     </ScrollView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/network_list"
+        android:divider="@color/white"
+        android:dividerHeight="1dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="2dp">
 
+    </ListView>
+    </LinearLayout>
 </FrameLayout>

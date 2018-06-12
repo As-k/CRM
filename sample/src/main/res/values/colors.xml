@@ -14,7 +14,6 @@
      limitations under the License.
 -->
 <resources>
-    <color name="list_item_background">#AACCCCCC</color>
     <color name="app_color">#8EAE3C</color>
     <color name="colorPrimary">#213858</color>
     <color name="colorPrimaryDark">#162c48</color>
@@ -26,7 +25,6 @@
     <color name="pink">#f97bf5</color>
 
     <color name="white">#ffffff</color>
-    <color name="feed_bg">#d3d6db</color>
     <color name="feed_item_bg">#ffffff</color>
     <color name="feed_item_border">#c2c3c8</color>
     <color name="link">#0a80d1</color>

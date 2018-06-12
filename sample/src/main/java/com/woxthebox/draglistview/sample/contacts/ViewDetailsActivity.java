@@ -67,27 +67,58 @@ public class ViewDetailsActivity extends FragmentActivity {
         setContentView(R.layout.activity_view_details);
 
         Bundle b = getIntent().getExtras();
+        if (b!=null) {
             dp = b.getString("image");
             cname = b.getString("name");
             cpk = b.getString("pk");
-            company = b.getString("company");
+            String company1 = b.getString("company");
+            if (company1 == null) {
+                company = "";
+            } else {
+                company = company1;
+            }
             companyPk = b.getString("companyPk");
             designation = b.getString("designation");
             mobile = b.getString("mob");
             eMail = b.getString("email");
             final boolean gender = b.getBoolean("gender");
-            street = b.getString("street");
-            city = b.getString("city");
-            pincode = b.getString("pincode");
-            state = b.getString("state");
-            country = b.getString("country");
+            String street1 = b.getString("street");
+            if (street1 == null) {
+                street = "";
+            } else {
+                street = street1;
+            }
+            String city1 = b.getString("city");
+            if (city1==null) {
+                city = "";
+            } else {
+                city = street1;
+            }
+            String pincode1 = b.getString("pincode");
+            if (pincode1==null) {
+                pincode = "";
+            } else {
+                pincode = pincode1;
+            }
+            String state1 = b.getString("state");
+            if (state1==null) {
+                state = "";
+            } else {
+                state = state1;
+            }
+            String country1 = b.getString("country");
+            if (country1==null) {
+                country = "";
+            } else {
+                country = country1;
+            }
             telephone = b.getString("tel");
             cMobile = b.getString("companyNo");
             cin = b.getString("cin");
             tin = b.getString("tin");
             about = b.getString("about");
             web = b.getString("web");
-
+        }
 
 
         nameTv = findViewById(R.id.view_d_name);
@@ -187,6 +218,7 @@ public class ViewDetailsActivity extends FragmentActivity {
 //                mContactList = new ArrayList<>();
                 final EditText scheduleDate, scheduleTime, scheduleLocation, scheduleEventDetails;
                 Button scheduleCancel, scheduleSave;
+                final String[] format = new String[1];
                 View v = getLayoutInflater().inflate(R.layout.layout_schedule_style, null, false);
 
                 scheduleDate = v.findViewById(R.id.schedule_date);
@@ -220,17 +252,36 @@ public class ViewDetailsActivity extends FragmentActivity {
                 scheduleTime.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TimePickerDialog tpd = new TimePickerDialog(ViewDetailsActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                if (hourOfDay > 12) {
-                                    scheduleTime.setText((hourOfDay-12) + ":" + minute+" PM");
-                                } else {
-                                    scheduleTime.setText(hourOfDay + ":" + minute+" AM");
-                                }
-                            }
-                        }, c_hr, c_min,false);
-                        tpd.show();
+
+                        TimePickerDialog timepickerdialog = new TimePickerDialog(ViewDetailsActivity.this,
+                                new TimePickerDialog.OnTimeSetListener() {
+
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+                                        if (hourOfDay == 0) {
+                                            hourOfDay += 12;
+                                            format[0] = "AM";
+                                        } else if (hourOfDay == 12) {
+                                            format[0] = "PM";
+                                        } else if (hourOfDay > 12) {
+                                            hourOfDay -= 12;
+                                            format[0] = "PM";
+                                        } else {
+                                            format[0] = "AM";
+                                        }
+                                        if (String.valueOf(hourOfDay).length()==1 && String.valueOf(minute).length()==1)
+                                            scheduleTime.setText("0"+hourOfDay + ": 0"+ minute + format[0]);
+                                        else  if (String.valueOf(hourOfDay).length()==1||String.valueOf(minute).length()==1)
+                                            if (String.valueOf(hourOfDay).length()==1)
+                                                scheduleTime.setText("0"+hourOfDay + ":" + minute + format[0]);
+                                        if (String.valueOf(minute).length()==1)
+                                            scheduleTime.setText(hourOfDay + ": 0" + minute + format[0]);
+                                        else
+                                            scheduleTime.setText(hourOfDay + ":" + minute + format[0]);
+                                    }
+                                }, c_hr, c_min, false);
+                        timepickerdialog.show();
                     }
                 });
 

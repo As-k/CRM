@@ -6,11 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -34,11 +39,12 @@ import cz.msebera.android.httpclient.Header;
  * A simple {@link Fragment} subclass.
  */
 public class InfoFragment extends Fragment {
-    ImageView profileDp,searchLocImage;
-    TextView searchLocTv, infoCompany,infoNetwork;
-    public static List<ContacLite> contactLiteList;
+    ImageView profileDp,searchLocImage, networkImg;
+    TextView searchLocTv, infoCompany,infoNetworkName, infoNetworkDesg;
+    public static List<ContactLite> contactLiteList;
     public AsyncHttpClient asyncHttpClient;
     ServerUrl serverUrl;
+    ListView networkList;
 
 
     public InfoFragment() {
@@ -59,7 +65,10 @@ public class InfoFragment extends Fragment {
         searchLocImage = v.findViewById(R.id.info_iv_address);
         infoCompany = v.findViewById(R.id.info_company);
         searchLocTv = v.findViewById(R.id.info_tv_address);
-        infoNetwork = v.findViewById(R.id.info_frnd_name);
+        networkList = v.findViewById(R.id.network_list);
+
+//        networkImg = v.findViewById(R.id.info_network_img);
+//        infoNetwork = v.findViewById(R.id.info_network_name);
 
         asyncHttpClient.get(ViewDetailsActivity.dp, new FileAsyncHttpResponseHandler(getContext()) {
             @Override
@@ -84,14 +93,73 @@ public class InfoFragment extends Fragment {
                 profileDp.setImageBitmap(pp);
             }
         });
-
-        infoCompany.setText(""+ ViewDetailsActivity.company);
-
-        String address = ViewDetailsActivity.street+" "+ ViewDetailsActivity.city+" "+ ViewDetailsActivity.state+" "+ ViewDetailsActivity.pincode+" "+ ViewDetailsActivity.country;
-        searchLocTv.setText(address);
-
+        if (ViewDetailsActivity.company.equals("")) {
+            searchLocImage.setVisibility(View.GONE);
+            infoCompany.setVisibility(View.GONE);
+            searchLocTv.setVisibility(View.GONE);
+        } else {
+            searchLocImage.setVisibility(View.VISIBLE);
+            infoCompany.setVisibility(View.VISIBLE);
+            searchLocTv.setVisibility(View.VISIBLE);
+            infoCompany.setText("" + ViewDetailsActivity.company);
+            String address = ViewDetailsActivity.street + " " + ViewDetailsActivity.city + " " + ViewDetailsActivity.state + " " + ViewDetailsActivity.pincode + " " + ViewDetailsActivity.country;
+            searchLocTv.setText(address);
+        }
         clickMethods();
-        getUser();
+        if (ViewDetailsActivity.companyPk != null) {getNetworkUser();
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                NetWorkListAdapter workListAdapter = new NetWorkListAdapter();
+                networkList.setAdapter(workListAdapter);
+            }
+        },1000);
+
+        networkList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ContactLite c = contactLiteList.get(position);
+                String matchPk = c.getPk();
+                asyncHttpClient.get(ServerUrl.url+"/api/clientRelationships/contact/"+matchPk+"/", new JsonHttpResponseHandler(){
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        super.onSuccess(statusCode, headers, response);
+                        Contact c  = new Contact(response);
+                        Intent intent = new Intent(getContext(), ViewDetailsActivity.class);
+                        intent.putExtra("pk",c.getPk());
+                        intent.putExtra("image",c.getDp());
+                        intent.putExtra("name", c.getName());
+                        intent.putExtra("email",c.getEmail());
+                        intent.putExtra("mob",c.getMobile());
+                        intent.putExtra("designation",c.getDesignation());
+                        intent.putExtra("companyPk",c.getCompanyPk());
+                        intent.putExtra("company", c.getCompanyName());
+                        intent.putExtra("gender",c.getMale());
+                        intent.putExtra("cin",c.getCin());
+                        intent.putExtra("tin",c.getTin());
+                        intent.putExtra("companyNo", c.getCompanyMobile());
+                        intent.putExtra("tel",c.getTelephone());
+                        intent.putExtra("about",c.getAbout());
+                        intent.putExtra("web",c.getWeb());
+                        intent.putExtra("street",c.getStreet());
+                        intent.putExtra("city",c.getCity());
+                        intent.putExtra("state",c.getState());
+                        intent.putExtra("pincode",c.getPincode());
+                        intent.putExtra("country",c.getCountry());
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    }
+                });
+
+
+            }
+        });
 
         return v;
     }
@@ -120,33 +188,24 @@ public class InfoFragment extends Fragment {
             }
         });
     }
-    protected void getUser(){
+    protected void getNetworkUser(){
         String serverURL = serverUrl.url;
-        asyncHttpClient.get(serverURL+"api/clientRelationships/contactLite/?company="+ViewDetailsActivity.cpk+"",new JsonHttpResponseHandler() {
+        asyncHttpClient.get(serverURL+"api/clientRelationships/contactLite/?company="+ViewDetailsActivity.companyPk, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
-                    JSONObject Obj = null;
+                    JSONObject obj = null;
                     try {
-                        Obj = response.getJSONObject(i);
-
-                        ContacLite contacLite = new ContacLite(Obj);
-
-                        contactLiteList.add(contacLite);
-//                        }
+                        obj = response.getJSONObject(i);
+                        String removePk = obj.getString("pk");
+                        if (!removePk.equals(ViewDetailsActivity.cpk)) {
+                            ContactLite contactLite = new ContactLite(obj);
+                            contactLiteList.add(contactLite);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                if(contactLiteList.size()>0) {
-                    ContacLite con = contactLiteList.get(1);
-                    infoNetwork.setText(con.getName());
-                } else if
-                    (contactLiteList.size()==0){
-                    infoNetwork.setText("");
-
-                }
-
             }
                 @Override
                 public void onFinish() {
@@ -159,7 +218,63 @@ public class InfoFragment extends Fragment {
                     System.out.println("finished failed 001");
                 }
             });
+    }
 
+    public class NetWorkListAdapter extends BaseAdapter {
 
+        @Override
+        public int getCount() {
+            return contactLiteList.size();
         }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = getLayoutInflater().inflate(R.layout.company_network_layout, parent, false);
+            networkImg = v.findViewById(R.id.info_network_img);
+            infoNetworkName = v.findViewById(R.id.info_network_name);
+            infoNetworkDesg = v.findViewById(R.id.info_network_designation);
+
+            if (contactLiteList.size()!=0) {
+                ContactLite con = contactLiteList.get(position);
+                asyncHttpClient.get(con.getDp(), new FileAsyncHttpResponseHandler(getContext()) {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                        asyncHttpClient.get(ServerUrl.url + "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(getContext()) {
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, File file) {
+                                Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                networkImg.setImageBitmap(pp);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, File file) {
+                        Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+                        networkImg.setImageBitmap(pp);
+                    }
+                });
+                infoNetworkName.setText(con.getName());
+                infoNetworkDesg.setText(con.getDesignation());
+            }
+            return v;
+        }
+    }
+
+
 }

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +39,9 @@ import com.woxthebox.draglistview.sample.edittag.ContactChip;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +56,7 @@ public class MeetingActivity extends AppCompatActivity {
     ImageView decrease,increase;
 
     int c_yr, c_month, c_day, c_hr, c_min;
+    String format;
 
 
     Editor editor;
@@ -144,7 +148,7 @@ public class MeetingActivity extends AppCompatActivity {
         meetingDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(MeetingActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog dpd = new DatePickerDialog(MeetingActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         meetingDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
@@ -160,17 +164,46 @@ public class MeetingActivity extends AppCompatActivity {
         meetingTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog tpd = new TimePickerDialog(MeetingActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        if (hourOfDay > 12) {
-                            meetingTime.setText((hourOfDay-12) + ":" + minute+" PM");
-                        } else {
-                            meetingTime.setText(hourOfDay + ":" + minute+" AM");
-                        }
-                    }
-                }, c_hr, c_min,true);
-                tpd.show();
+//                TimePickerDialog tpd = new TimePickerDialog(MeetingActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                        if (hourOfDay > 12) {
+//                            meetingTime.setText((hourOfDay-12) + ":" + minute+" PM");
+//                        } else {
+//                            meetingTime.setText(hourOfDay + ":" + minute+" AM");
+//                        }
+//                    }
+//                }, c_hr, c_min,true);
+//                tpd.show();
+                TimePickerDialog timepickerdialog = new TimePickerDialog(MeetingActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                if (hourOfDay == 0) {
+                                    hourOfDay += 12;
+                                    format = "AM";
+                                } else if (hourOfDay == 12) {
+                                    format = "PM";
+                                } else if (hourOfDay > 12) {
+                                    hourOfDay -= 12;
+                                    format = "PM";
+                                } else {
+                                    format = "AM";
+                                }
+                                if (String.valueOf(hourOfDay).length()==1 && String.valueOf(minute).length()==1)
+                                    meetingTime.setText("0"+hourOfDay + ": 0"+ minute + format);
+                                else  if (String.valueOf(hourOfDay).length()==1||String.valueOf(minute).length()==1)
+                                    if (String.valueOf(hourOfDay).length()==1)
+                                        meetingTime.setText("0"+hourOfDay + ":" + minute + format);
+                                    if (String.valueOf(minute).length()==1)
+                                        meetingTime.setText(hourOfDay + ": 0" + minute + format);
+                                else
+                                    meetingTime.setText(hourOfDay + ":" + minute + format);
+                            }
+                        }, c_hr, c_min, false);
+                timepickerdialog.show();
             }
         });
 
@@ -196,48 +229,9 @@ public class MeetingActivity extends AppCompatActivity {
 
     }
 
-    private void getContactList() {
-        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
 
-        // loop over all contacts
-        if(phones != null) {
-            while (phones.moveToNext()) {
-                // get contact info
-                String phoneNumber = null;
-                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-                Uri avatarUri = null;
-                if(avatarUriString != null)
-                    avatarUri = Uri.parse(avatarUriString);
 
-                // get phone number
-                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
-
-                    while (pCur != null && pCur.moveToNext()) {
-                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    }
-
-                    pCur.close();
-
-                }
-
-                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
-                // add contact to the list
-                mContactList.add(contactChip);
-            }
-            phones.close();
-        }
-
-        // pass contact list to chips input
-        mChipsInputIP.setFilterableList(mContactList);
-        mChipsInputCRM.setFilterableList(mContactList);
-    }
-
-    private void setUpEditor() {
+    public void setUpEditor() {
         findViewById(R.id.action_h1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,32 +316,55 @@ public class MeetingActivity extends AppCompatActivity {
             }
         });
 
+//        findViewById(R.id.action_map).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.insertMap();
+//            }
+//        });
+
         findViewById(R.id.action_erase).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.clearAllContents();
             }
         });
-
-        editor.setDividerLayout(R.layout.tmpl_divider_layout);
-        editor.setEditorImageLayout(R.layout.tmpl_image_view);
-        editor.setListItemLayout(R.layout.tmpl_list_item);
-        //editor.StartEditor();
-        editor.setEditorListener(new EditorListener() {
-            @Override
-            public void onTextChanged(EditText editText, Editable text) {
-                // Toast.makeText(EditorTestActivity.this, text, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onUpload(Bitmap image, String uuid) {
-                Toast.makeText(MeetingActivity.this, uuid, Toast.LENGTH_LONG).show();
-                editor.onImageUploadComplete("http://www.videogamesblogger.com/wp-content/uploads/2015/08/metal-gear-solid-5-the-phantom-pain-cheats-640x325.jpg", uuid);
-                // editor.onImageUploadFailed(uuid);
-            }
-        });
+        //editor.dividerBackground=R.drawable.divider_background_dark;
+        //editor.setFontFace(R.string.fontFamily__serif);
+//        Map<Integer, String> headingTypeface = getHeadingTypeface();
+//        Map<Integer, String> contentTypeface = getContentface();
+//        editor.setHeadingTypeface(headingTypeface);
+//        editor.setContentTypeface(contentTypeface);
+//        editor.setDividerLayout(R.layout.tmpl_divider_layout);
+//        editor.setEditorImageLayout(R.layout.tmpl_image_view);
+//        editor.setListItemLayout(R.layout.tmpl_list_item);
+//        //editor.StartEditor();
+//        editor.setEditorListener(new EditorListener() {
+//            @Override
+//            public void onTextChanged(EditText editText, Editable text) {
+//                // Toast.makeText(EditorTestActivity.this, text, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onUpload(Bitmap image, String uuid) {
+//                Toast.makeText(MeetingActivity.this, uuid, Toast.LENGTH_LONG).show();
+//                editor.onImageUploadComplete("http://www.videogamesblogger.com/wp-content/uploads/2015/08/metal-gear-solid-5-the-phantom-pain-cheats-640x325.jpg", uuid);
+//                // editor.onImageUploadFailed(uuid);
+//            }
+//        });
         editor.render();  // this method must be called to start the editor
-
+//        findViewById(R.id.btnRender).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                /*
+//                Retrieve the content as serialized, you could also say getContentAsHTML();
+//                */
+//                String text = editor.getContentAsSerialized();
+//                Intent intent = new Intent(getApplicationContext(), RenderTestActivity.class);
+//                intent.putExtra("content", text);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     public static void setGhost(Button button) {
@@ -391,13 +408,6 @@ public class MeetingActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 101) {
-            if(resultCode == RESULT_OK){
-                String PathHolder = data.getData().getPath();
-                Toast.makeText(this, PathHolder , Toast.LENGTH_LONG).show();
-            }
-        }
-
         if (requestCode == editor.PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             try {
@@ -432,4 +442,70 @@ public class MeetingActivity extends AppCompatActivity {
                 .setNegativeButton("No", null)
                 .show();
     }
+
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        setGhost((Button) findViewById(R.id.btnRender));
+//    }
+
+//    public Map<Integer, String> getHeadingTypeface() {
+//        Map<Integer, String> typefaceMap = new HashMap<>();
+//        typefaceMap.put(Typeface.NORMAL, "fonts/GreycliffCF-Bold.ttf");
+//        typefaceMap.put(Typeface.BOLD, "fonts/GreycliffCF-Heavy.ttf");
+//        typefaceMap.put(Typeface.ITALIC, "fonts/GreycliffCF-Heavy.ttf");
+//        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/GreycliffCF-Bold.ttf");
+//        return typefaceMap;
+//    }
+//
+//    public Map<Integer, String> getContentface() {
+//        Map<Integer, String> typefaceMap = new HashMap<>();
+//        typefaceMap.put(Typeface.NORMAL, "fonts/Lato-Medium.ttf");
+//        typefaceMap.put(Typeface.BOLD, "fonts/Lato-Bold.ttf");
+//        typefaceMap.put(Typeface.ITALIC, "fonts/Lato-MediumItalic.ttf");
+//        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/Lato-BoldItalic.ttf");
+//        return typefaceMap;
+//    }
+
+    private void getContactList() {
+        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+
+        // loop over all contacts
+        if(phones != null) {
+            while (phones.moveToNext()) {
+                // get contact info
+                String phoneNumber = null;
+                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                Uri avatarUri = null;
+                if(avatarUriString != null)
+                    avatarUri = Uri.parse(avatarUriString);
+
+                // get phone number
+                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+
+                    while (pCur != null && pCur.moveToNext()) {
+                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    }
+
+                    pCur.close();
+
+                }
+
+                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
+                // add contact to the list
+                mContactList.add(contactChip);
+            }
+            phones.close();
+        }
+
+        // pass contact list to chips input
+        mChipsInputIP.setFilterableList(mContactList);
+        mChipsInputCRM.setFilterableList(mContactList);
+    }
+
 }

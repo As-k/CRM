@@ -192,7 +192,7 @@ public class Contact implements Serializable {
                 this.street = street;
             }
             String city = address.getString("city");
-            if (street.equals("null")||city==null) {
+            if (city.equals("null")||city==null) {
                 this.city = "";
             } else {
                 this.city = city;

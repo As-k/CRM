@@ -1,5 +1,7 @@
 package com.woxthebox.draglistview.sample.contacts;
 
+import com.woxthebox.draglistview.sample.ServerUrl;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,7 +11,7 @@ import java.io.Serializable;
  * Created by amit on 3/5/18.
  */
 
-public class ContacLite implements Serializable {
+public class ContactLite implements Serializable {
         public String pk;
         public String user;
         public String name;
@@ -23,7 +25,7 @@ public class ContacLite implements Serializable {
 
 
 
-    public ContacLite(String pk, String user, String name, String companyPk, String email, String mobile, String designation, String dp, boolean male) {
+    public ContactLite(String pk, String user, String name, String companyPk, String email, String mobile, String designation, String dp, boolean male) {
         this.pk = pk;
         this.user = user;
         this.name = name;
@@ -36,7 +38,7 @@ public class ContacLite implements Serializable {
     }
 
 
-    public ContacLite(JSONObject jsonObject) {
+    public ContactLite(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
 
         try {
@@ -47,8 +49,18 @@ public class ContacLite implements Serializable {
             this.mobile = jsonObject.getString("mobile");
             this.companyPk = jsonObject.getString("company");
             this.designation =jsonObject.getString("designation");
-            this.dp = jsonObject.getString("dp");
             this.male = jsonObject.getBoolean("male");
+            String img  = jsonObject.getString("dp");
+            if (img.equals("null")){
+                if (this.male) {
+                    this.dp = ServerUrl.url+"/static/images/img_avatar_card.png";
+                }
+                else {
+                    this.dp = ServerUrl.url+"/static/images/img_avatar_card2.png";
+                }
+            } else {
+                this.dp = img;
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

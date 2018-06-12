@@ -176,6 +176,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     intent.putExtra("email",c.getEmail());
                     intent.putExtra("mob",c.getMobile());
                     intent.putExtra("designation",c.getDesignation());
+                    intent.putExtra("companyPk",c.getCompanyPk());
                     intent.putExtra("company", c.getCompanyName());
                     intent.putExtra("companyNo", c.getCompanyMobile());
                     intent.putExtra("gender",c.getMale());
