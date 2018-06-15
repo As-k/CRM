@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
         sessionManager = new SessionManager(this);
-        isStoragePermissionGranted();
+        isPermissionGranted();
 
         file = new File(Environment.getExternalStorageDirectory() + "/CIOC/libre.txt");
         if (file.exists()) {
@@ -100,15 +100,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,RelationshipActivity.class));
     }
 
-    public  boolean isStoragePermissionGranted() {
+    public  boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.WRITE_CALL_LOG) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG,"Permission is granted");
                 return true;
             } else {
                 Log.v(TAG,"Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.WRITE_CALL_LOG, Manifest.permission.READ_CALL_LOG}, 1);
                 return false;
             }
         }
@@ -135,6 +138,22 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     Log.v(TAG, "Permission: " + permissions[1] + "was " + grantResults[1]);
+                    //resume tasks needing this permission
+                }
+                return;
+            }
+            case 3: {
+                if (grantResults.length > 0
+                        && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                    Log.v(TAG, "Permission: " + permissions[2] + "was " + grantResults[2]);
+                    //resume tasks needing this permission
+                }
+                return;
+            }
+            case 4: {
+                if (grantResults.length > 0
+                        && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
+                    Log.v(TAG, "Permission: " + permissions[3] + "was " + grantResults[3]);
                     //resume tasks needing this permission
                 }
                 return;

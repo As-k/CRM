@@ -24,7 +24,8 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/contacts_image_browse" />
+                android:id="@+id/contacts_image_browse"
+                android:src="@drawable/male"/>
             <!--<com.android.volley.toolbox.NetworkImageView-->
                 <!--android:id="@+id/contacts_image_browse"-->
                 <!--android:layout_width="100dp"-->

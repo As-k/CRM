@@ -1,11 +1,17 @@
 package com.woxthebox.draglistview.sample.contacts;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CallLog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +29,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.woxthebox.draglistview.sample.CallBarring;
 import com.woxthebox.draglistview.sample.R;
 import com.woxthebox.draglistview.sample.ServerUrl;
 
@@ -66,6 +73,7 @@ public class ContactsActivity extends AppCompatActivity {
         contactList = new ArrayList<>();
         client = new AsyncHttpClient();
         browse_rv = findViewById(R.id.browse_recyclerView);
+//        isCallLogPermissionGranted();
 
         getUser();
 
@@ -110,7 +118,8 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(this, ""+ getCallDetails(), Toast.LENGTH_SHORT).show();
+//        String data = getCallDetails();
+//        Toast.makeText(this, ""+ data, Toast.LENGTH_SHORT).show();
     }
 
     //closes FAB submenus
@@ -178,6 +187,7 @@ public class ContactsActivity extends AppCompatActivity {
                             }
                         }
                         browseAdapter.notifyDataSetChanged();
+                        browseAdapter.setLoaded();
                     }
 
                     @Override
@@ -297,41 +307,99 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private String getCallDetails() {
-            StringBuffer sb = new StringBuffer();
-            Cursor managedCursor = managedQuery( CallLog.Calls.CONTENT_URI,null, null,null, null);
-            int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER);
-            int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
-            int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
-            int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
-            sb.append( "Call Details :");
-            while ( managedCursor.moveToNext() ) {
-                String phNumber = managedCursor.getString( number );
-                String callType = managedCursor.getString( type );
-                String callDate = managedCursor.getString( date );
-                Date callDayTime = new Date(Long.valueOf(callDate));
-                String callDuration = managedCursor.getString( duration );
-                String dir = null;
-                int dircode = Integer.parseInt( callType );
-                switch( dircode ) {
-                    case CallLog.Calls.OUTGOING_TYPE:
-                        dir = "OUTGOING";
-                        break;
+        StringBuffer sb = new StringBuffer();
 
-                    case CallLog.Calls.INCOMING_TYPE:
-                        dir = "INCOMING";
-                        break;
+        Cursor managedCursor = managedQuery( CallLog.Calls.CONTENT_URI,null, null,null, null);
+        int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER);
+        int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
+        int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
+        int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
+        sb.append( "Call Details :");
+        String data = "";
+        while ( managedCursor.moveToLast() ) {
+            String phNumber = managedCursor.getString( number );
+            String callType = managedCursor.getString( type );
+            String callDate = managedCursor.getString( date );
+            Date callDayTime = new Date(Long.valueOf(callDate));
+            String callDuration = managedCursor.getString( duration );
+            String dir = "";
+            int dircode = Integer.parseInt( callType );
+            switch( dircode ) {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
 
-                    case CallLog.Calls.MISSED_TYPE:
-                        dir = "MISSED";
-                        break;
-                }
-                sb.append( "\nPhone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration );
-                sb.append("\n----------------------------------");
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
             }
-            managedCursor.close();
+            data = "Phone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration;
+//            sb.append( "\nPhone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration );
+//            sb.append("\n----------------------------------");
+        }
+        managedCursor.close();
 //
-        return String.valueOf(sb);
+        return data;
 
     }
+
+
+
+//    public static CallDetails getLastCallDetails(Context context) {
+//
+//        CallDetails callDetails = new CallDetails();
+//
+//        Uri contacts = CallLog.Calls.CONTENT_URI;
+//        try {
+//
+//            Cursor managedCursor = context.getContentResolver().query(contacts, null, null, null, android.provider.CallLog.Calls.DATE + " DESC limit 1;");
+//
+//            int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+//            int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+//            int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+//            int incomingtype = managedCursor.getColumnIndex(String.valueOf(CallLog.Calls.INCOMING_TYPE));
+//
+//            if(managedCursor.moveToFirst()){ // added line
+//
+//                while (managedCursor.moveToNext()) {
+//                    String callType;
+//                    String phNumber = managedCursor.getString(number);
+////                    String callerName = getContactName(context, phNumber);
+//                    if(incomingtype == -1){
+//                        callType = "incoming";
+//                    }
+//                    else {
+//                        callType = "outgoing";
+//                    }
+//                    String callDate = managedCursor.getString(date);
+//                    String callDayTime = new      Date(Long.valueOf(callDate)).toString();
+//
+//                    String callDuration = managedCursor.getString(duration);
+//
+////                    callDetails.setCallerName(callerName);
+//                    callDetails.setCallerNumber(phNumber);
+//                    callDetails.setCallDuration(callDuration);
+//                    callDetails.setCallType(callType);
+//                    callDetails.setCallTimeStamp(callDayTime);
+//
+//                }
+//            }
+//            managedCursor.close();
+//
+//        } catch (SecurityException e) {
+//            Log.e("Security Exception", "User denied call log permission");
+//
+//        }
+//
+//        return callDetails;
+//
+//    }
+//
+//    private static String getContactName(Context context, String phNumber) {
+//    }
 
 }

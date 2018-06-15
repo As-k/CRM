@@ -154,6 +154,7 @@ public class ContactsListActivity extends Activity {
 
     int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
+
         String order = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, order);
         String temp_name="";
