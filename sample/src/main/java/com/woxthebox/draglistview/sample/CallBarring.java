@@ -1,23 +1,32 @@
 package com.woxthebox.draglistview.sample;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.provider.CallLog;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +34,8 @@ import com.woxthebox.draglistview.sample.contacts.CallLogDetailsActivity;
 
 import java.lang.reflect.Method;
 import java.sql.Date;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by admin on 13/06/18.
@@ -37,6 +48,10 @@ public class CallBarring extends BroadcastReceiver {
     TelephonyManager telephonyManager;
     PhoneStateListener listener;
     Context context;
+    private WindowManager wm;
+    private static LinearLayout ly1;
+    private WindowManager.LayoutParams params1;
+    View v1;
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -46,8 +61,7 @@ public class CallBarring extends BroadcastReceiver {
         if (!intent.getAction().equals("android.intent.action.PHONE_STATE")) {
             return;
         }
-
-            // Else, try to do some action
+        // Else, try to do some action
         else {
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -56,125 +70,127 @@ public class CallBarring extends BroadcastReceiver {
                 String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                 String incomingNo = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
 
-                if(state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-//                    try {
-//                        Thread.sleep(3000);
+                if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)||state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                     Toast.makeText(context, "Incoming Call State", Toast.LENGTH_SHORT).show();
                     Toast.makeText(context, "Ringing State Number is -" + incomingNo, Toast.LENGTH_SHORT).show();
-                    i.putExtra("cno",incomingNo);
+                    i.putExtra("cno", incomingNo);
+//                    i.putExtras(intent);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//                    params1 = new WindowManager.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT |
+//                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+//                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+//                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+//                            PixelFormat.TRANSPARENT);
+//
+//                    params1.height = 75;
+//                    params1.width = 512;
+//                    params1.x = 265;
+//                    params1.y = 400;
+//                    params1.format = PixelFormat.TRANSLUCENT;
+//
+//                    ly1 = new LinearLayout(context);
+//                    ly1.setOrientation(LinearLayout.HORIZONTAL);
+//
+//                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+//
+//                    View hiddenInfo = inflater.inflate(R.layout.calllog_dialog_layout, ly1, false);
+//                    ly1.addView(hiddenInfo);
+//
+//                    wm.addView(ly1, params1);
                     context.startActivity(i);
 
-//                } catch (Exception e) {
-//                    e.getLocalizedMessage();
-//                }
                 }
-                if ((state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK))){
-                    Toast.makeText(context,"Call Received State",Toast.LENGTH_SHORT).show();
+                if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                    Toast.makeText(context, "Call Received State", Toast.LENGTH_SHORT).show();
+//                    wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//                    params1 = new WindowManager.LayoutParams(
+//                            WindowManager.LayoutParams.MATCH_PARENT,
+//                            WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT |
+//                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+//                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+//                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+//                            PixelFormat.TRANSPARENT);
+//
+//                    params1.height = 75;
+//                    params1.width = 512;
+//                    params1.x = 265;
+//                    params1.y = 400;
+//                    params1.format = PixelFormat.TRANSLUCENT;
+//
+//                    ly1 = new LinearLayout(context);
+//                    ly1.setBackgroundColor(Color.GREEN);
+//                    ly1.setOrientation(LinearLayout.VERTICAL);
+//
+//                    wm.addView(ly1, params1);
+//                }
+//
+//                // To remove the view once the dialer app is closed.
+//                if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
+//                    String state1 = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+//                    if (state1.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+//                        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//                        if (ly1 != null) {
+//                            wm.removeView(ly1);
+//                            ly1 = null;
+//                        }
+//                    }
                 }
                 if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
                     String number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
                     Toast.makeText(context,"Call Idle State - "+number,Toast.LENGTH_SHORT).show();
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(context.getApplicationContext());
-//                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View dialogView = inflater.inflate(R.layout.calllog_dialog_layout, null);
-//                    ImageView button = dialogView.findViewById(R.id.close_dialog);
-//                    builder.setView(dialogView);
-//                    final AlertDialog alert = builder.create();
-//                    alert.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-//                    alert.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
-//                    alert.setCanceledOnTouchOutside(true);
-//                    alert.show();
-//                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-//                    Window window = alert.getWindow();
-//                    window.addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-//                    window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//                    window.setGravity(Gravity.TOP);
-//                    lp.copyFrom(window.getAttributes());
-//                    //This makes the dialog take up the full width
-//                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-//                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//                    window.setAttributes(lp);
-//                    button.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            //close the service and remove the from from the window
-//                            alert.dismiss();
-//                        }
-//                    });
-
-//                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                    View v = inflater.inflate(R.layout.calllog_dialog_layout,null,false);
-//                    TextView tv = v.findViewById(R.id.last_contact_no);
-//                    ImageView iv = v.findViewById(R.id.close_dialog);
-//                    tv.setText(incomingNumber+"");
-//                    AlertDialog.Builder abd = new AlertDialog.Builder(context.getApplicationContext());
-//                    abd.setTitle("Call Details: ");
-//                    abd.setMessage(incomingNumber);
-//                    abd.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    final AlertDialog ad = abd.create();
-//                    ad.show();
-//                    iv.setOnClickListener(new View.OnClickListener() {
+//                    LayoutInflater layoutInflater =
+//                            (LayoutInflater) context
+//                                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+//                    View popupView = layoutInflater.inflate(R.layout.calllog_dialog_layout, null);
+//                    final PopupWindow popupWindow = new PopupWindow(
+//                            popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//                    Button btnDismiss = (Button)popupView.findViewById(R.id.call_log_no);
+//
+//                    btnDismiss.setOnClickListener(new Button.OnClickListener(){
+//
 //                        @Override
 //                        public void onClick(View v) {
-//                            ad.dismiss();
-//                        }
-//                    });
-                    i.putExtra("cno",number);
-                    context.startActivity(i);
+//                            popupWindow.dismiss();
+//                        }});
+//
+//                    popupWindow.showAsDropDown(, 50, -30);
+//
+//                    popupView.setOnTouchListener(new View.OnTouchListener() {
+//                        int orgX, orgY;
+//                        int offsetX, offsetY;
+//
+//                        @Override
+//                        public boolean onTouch(View v, MotionEvent event) {
+//                            switch (event.getAction()) {
+//                                case MotionEvent.ACTION_DOWN:
+//                                    orgX = (int) event.getX();
+//                                    orgY = (int) event.getY();
+//                                    break;
+//                                case MotionEvent.ACTION_MOVE:
+//                                    offsetX = (int)event.getRawX() - orgX;
+//                                    offsetY = (int)event.getRawY() - orgY;
+//                                    popupWindow.update(offsetX, offsetY, -1, -1, true);
+//                                    break;
+//                            }
+//                            return true;
+//                        }});
+//                    i.putExtra("cno",number);
+//                    context.startActivity(i);
                 }
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-//            this.context = context;
-//            if(dialog == null){
-//                dialog = new CustomDialog(context);
-//                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-//                dialog.show();
-//            }
-//            // Fetch the number of incoming call
-//            number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-//            telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//            listener = new PhoneStateListener() {
-//                @Override
-//                public void onCallStateChanged(int state, String incomingNumber) {
-//                    String stateString = "N/A";
-//                    switch (state) {
-//                        case TelephonyManager.CALL_STATE_IDLE:
-//                            stateString = "Idle";
-//                            dialog.dismiss();
-//                            break;
-//                        case TelephonyManager.CALL_STATE_OFFHOOK:
-//                            stateString = "Off Hook";
-//                            dialog.dismiss();
-//                            break;
-//                        case TelephonyManager.CALL_STATE_RINGING:
-//                            stateString = "Ringing";
-//                            dialog.show();
-//                            break;
-//                    }
-//                    Toast.makeText(context, stateString,Toast.LENGTH_LONG).show();
-//                }
-//            };
-//
-//            // Register the listener with the telephony manager
-//            telephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
 
-            // Check, whether this is a member of "Black listed" phone numbers
-            // stored in the database
-			/*if (MainActivity.blockList.contains(new Blacklist(number))) {
-				// If yes, invoke the method
-				disconnectPhoneItelephony(context);
-				return;
-			}*/
+//        }
         }
     }
-
     // Method to disconnect phone automatically and programmatically
     // Keep this method as it is
 //    @SuppressWarnings({ "rawtypes", "unchecked" })

@@ -20,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,13 +32,24 @@ import android.widget.Toast;
 import com.github.irshulx.Editor;
 import com.github.irshulx.EditorListener;
 import com.github.irshulx.models.EditorTextStyle;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
+import com.woxthebox.draglistview.sample.UserSearch;
 import com.woxthebox.draglistview.sample.edittag.ContactChip;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -45,6 +58,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cz.msebera.android.httpclient.Header;
+import me.originqiu.library.EditTag;
+import me.originqiu.library.MEditText;
 
 //import me.originqiu.library.EditTag;
 
@@ -54,19 +70,26 @@ public class MeetingActivity extends AppCompatActivity {
     EditText meetingDate, meetingTime, meetingDuration, meetingPlace;
     Button meetingSave;
     ImageView decrease,increase;
-
     int c_yr, c_month, c_day, c_hr, c_min;
     String format;
-
-
     Editor editor;
+    EditTag editTagViewIP, editTagViewCRM;
+    AutoCompleteTextView editTagIP, editTagCRM;
 
+    public AsyncHttpClient client;
+    ServerUrl serverUrl;
     private static final String TAG = MeetingActivity.class.toString();
-    @BindView(R.id.chips_input_ip)
-    ChipsInput mChipsInputIP;
-    @BindView(R.id.chips_input_crm)
-    ChipsInput mChipsInputCRM;
-    private List<ContactChip> mContactList;
+//    @BindView(R.id.chips_input_ip)
+//    ChipsInput mChipsInputIP;
+//    @BindView(R.id.chips_input_crm)
+//    ChipsInput mChipsInputCRM;
+//    private List<ContactChip> mContactList;
+    private List<String> ipContact = new ArrayList<>();
+    private List<String> crmContact = new ArrayList<>();
+    private List<ContactLite> contactLites;
+    private List<UserSearch> userSearchList;
+    int posIp, posCrm, countIp, countCrm;
+    String pk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +97,21 @@ public class MeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_meeting);
 
         getSupportActionBar().hide();
+        pk = getIntent().getExtras().getString("contactPk");
+
+        serverUrl = new ServerUrl();
+        client = serverUrl.getHTTPClient();
+        contactLites = new ArrayList<>();
+        userSearchList = new ArrayList<>();
+
+        editTagViewIP = (EditTag) findViewById(R.id.edit_tag_view_ip);
+        editTagViewIP.setEditable(true);
+        editTagViewCRM = (EditTag) findViewById(R.id.edit_tag_view_crm);
+        editTagViewCRM.setEditable(true);
+//        mEditText = (MEditText) findViewById(R.id.medit_tag);
+        editTagIP = (AutoCompleteTextView) findViewById(R.id.medit_tag_ip);
+        editTagCRM = (AutoCompleteTextView) findViewById(R.id.medit_tag_crm);
+
 
         editor = (Editor) findViewById(R.id.meeting_editor);
         setUpEditor();
@@ -91,46 +129,98 @@ public class MeetingActivity extends AppCompatActivity {
         clickMethods();
 
         ButterKnife.bind(this);
-        mContactList = new ArrayList<>();
+//        mContactList = new ArrayList<>();
 
         // get contact list
-        new RxPermissions(this).request(Manifest.permission.READ_CONTACTS).subscribe();
+//        new RxPermissions(this).request(Manifest.permission.READ_CONTACTS).subscribe();
         getContactList();
 
-        // chips listener
-        mChipsInputIP.addChipsListener(new ChipsInput.ChipsListener() {
+        //Set tag add callback before set tag list
+        editTagViewIP.setTagAddCallBack(new EditTag.TagAddCallback() {
             @Override
-            public void onChipAdded(ChipInterface chip, int newSize) {
-                Log.e(TAG, "chip added, " + newSize);
-            }
-
-            @Override
-            public void onChipRemoved(ChipInterface chip, int newSize) {
-                Log.e(TAG, "chip removed, " + newSize);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence text) {
-                Log.e(TAG, "text changed: " + text.toString());
+            public boolean onTagAdd(String tagValue) {
+                countIp=0;
+                for (int i=0; i<ipContact.size();i++) {
+                    if (ipContact.get(i).equals(tagValue)) {
+                        posIp = i;
+                        countIp++;
+                        return true;
+                    }
+                }
+                return false;
             }
         });
-        // chips listener
-        mChipsInputCRM.addChipsListener(new ChipsInput.ChipsListener() {
+        editTagViewIP.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
             @Override
-            public void onChipAdded(ChipInterface chip, int newSize) {
-                Log.e(TAG, "chip added, " + newSize);
-            }
-
-            @Override
-            public void onChipRemoved(ChipInterface chip, int newSize) {
-                Log.e(TAG, "chip removed, " + newSize);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence text) {
-                Log.e(TAG, "text changed: " + text.toString());
+            public void onTagDelete(String deletedTagValue) {
+                Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
             }
         });
+
+        editTagViewIP.setTagList(ipContact);
+
+        //Set tag add callback before set tag list
+        editTagViewCRM.setTagAddCallBack(new EditTag.TagAddCallback() {
+            @Override
+            public boolean onTagAdd(String tagValue) {
+                countCrm=0;
+                for (int i=0; i<crmContact.size();i++) {
+                    if (crmContact.get(i).equals(tagValue)) {
+                        posCrm = i;
+                        countCrm++;
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        editTagViewCRM.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
+            @Override
+            public void onTagDelete(String deletedTagValue) {
+                Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        editTagViewCRM.setTagList(crmContact);
+
+        // chips listener
+//        mChipsInputIP.addChipsListener(new ChipsInput.ChipsListener() {
+//            @Override
+//            public void onChipAdded(ChipInterface chip, int newSize) {
+//                Log.e(TAG, "chip added, " + newSize);
+//            }
+//
+//            @Override
+//            public void onChipRemoved(ChipInterface chip, int newSize) {
+//                Log.e(TAG, "chip removed, " + newSize);
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence text) {
+//                Log.e(TAG, "text changed: " + text.toString());
+//            }
+//        });
+
+
+
+
+        // chips listener
+//        mChipsInputCRM.addChipsListener(new ChipsInput.ChipsListener() {
+//            @Override
+//            public void onChipAdded(ChipInterface chip, int newSize) {
+//                Log.e(TAG, "chip added, " + newSize);
+//            }
+//
+//            @Override
+//            public void onChipRemoved(ChipInterface chip, int newSize) {
+//                Log.e(TAG, "chip removed, " + newSize);
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence text) {
+//                Log.e(TAG, "text changed: " + text.toString());
+//            }
+//        });
 
     }
 
@@ -164,23 +254,10 @@ public class MeetingActivity extends AppCompatActivity {
         meetingTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TimePickerDialog tpd = new TimePickerDialog(MeetingActivity.this, android.R.style.Theme_DeviceDefault_Dialog, new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                        if (hourOfDay > 12) {
-//                            meetingTime.setText((hourOfDay-12) + ":" + minute+" PM");
-//                        } else {
-//                            meetingTime.setText(hourOfDay + ":" + minute+" AM");
-//                        }
-//                    }
-//                }, c_hr, c_min,true);
-//                tpd.show();
                 TimePickerDialog timepickerdialog = new TimePickerDialog(MeetingActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
-
                             @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 if (hourOfDay == 0) {
                                     hourOfDay += 12;
                                     format = "AM";
@@ -228,8 +305,6 @@ public class MeetingActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     public void setUpEditor() {
         findViewById(R.id.action_h1).setOnClickListener(new View.OnClickListener() {
@@ -367,42 +442,74 @@ public class MeetingActivity extends AppCompatActivity {
 //        });
     }
 
-    public static void setGhost(Button button) {
-        int radius = 4;
-        GradientDrawable background = new GradientDrawable();
-        background.setShape(GradientDrawable.RECTANGLE);
-        background.setStroke(4, Color.WHITE);
-        background.setCornerRadius(radius);
-        button.setBackgroundDrawable(background);
-    }
+    public void saveMeeting(View v){
+        String date = meetingDate.getText().toString();
+        String time = meetingTime.getText().toString();
+        String duration = meetingDuration.getText().toString();
+        String place = meetingPlace.getText().toString();
+//        if (date.isEmpty()||time.isEmpty()){
+//            return;
+//        }
+        String inputRaw = date+" "+time;
+        String input = inputRaw.replace( "/", "-" ).replace( " ", "T" );
+        SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//        String date_time = sdf_datetime.format(new Date(Long.parseLong(date+" "+time)));
+        JSONObject object = new JSONObject();
+        try {
+            object.put("duration", duration);
+            object.put("location", place);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray array = new JSONArray();
+        try {
+            for (int j=1; j<countIp; j++) {
+                String userPk = contactLites.get(posIp).getPk();
+                array.put(Integer.parseInt(userPk));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    private void render() {
-        String x = "<h2 id=\"installation\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;color:#c00; margin-top: -80px !important;\">Installation</h2>" +
-                "<h3 id=\"requires-html5-doctype\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Requires HTML5 doctype</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">Bootstrap uses certain HTML elements and CSS properties which require HTML5 doctype. Include&nbsp;<code style=\"font-size: 12.6px;\">&lt;!DOCTYPE html&gt;</code>&nbsp;in the beginning of all your projects.</p>" +
-                "<img src=\"http://www.scifibloggers.com/wp-content/uploads/TOR_2.jpg\" />" +
-                "<h2 id=\"integration\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-top: -80px !important;\">Integration</h2>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">3rd parties available in django, rails, angular and so on.</p>" +
-                "<h3 id=\"django\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Django</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">Handy update for your django admin page.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/summernote/django-summernote\" target=\"_blank\">django-summernote</a></li><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://pypi.python.org/pypi/django-summernote\" target=\"_blank\">summernote plugin for Django</a></li></ul>" +
-                "<h3 id=\"ruby-on-rails\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Ruby On Rails</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">This gem was built to gemify the assets used in Summernote.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/summernote/summernote-rails\" target=\"_blank\">summernote-rails</a></li></ul>" +
-                "<h3 id=\"angularjs\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">AngularJS</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">AngularJS directive to Summernote.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/summernote/angular-summernote\">angular-summernote</a></li></ul>" +
-                "<h3 id=\"apache-wicket\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Apache Wicket</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">Summernote widget for Wicket Bootstrap.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"http://wb-mgrigorov.rhcloud.com/summernote\" target=\"_blank\">demo</a></li><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/l0rdn1kk0n/wicket-bootstrap/tree/4f97ca783f7279ca43f9e2ee790703161f59fa40/bootstrap-extensions/src/main/java/de/agilecoders/wicket/extensions/markup/html/bootstrap/editor\" target=\"_blank\">source code</a></li></ul>" +
-                "<h3 id=\"webpack\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Webpack</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">Example about using summernote with webpack.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/hackerwins/summernote-webpack-example\" target=\"_blank\">summernote-webpack-example</a></li></ul>" +
-                "<h3 id=\"meteor\" style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin-bottom: 8px; margin-right: 0px; margin-left: 0px;\">Meteor</h3>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\">Example about using summernote with meteor.</p>" +
-                "<ul style=\"color: rgb(51, 51, 51);\"><li style=\"font-size: 14px; color: rgb(104, 116, 127);\"><a href=\"https://github.com/hackerwins/summernote-meteor-example\" target=\"_blank\">summernote-meteor-example</a></li></ul>" +
-                "<p style=\"font-size: 14px; color: rgb(104, 116, 127);\"><br></p>";
-        editor.render();
+
+        JSONArray array1 = new JSONArray();
+        try {
+            for (int j=1; j<countCrm; j++) {
+                String contactPk = contactLites.get(posCrm).getPk();
+                array1.put(Integer.parseInt(contactPk));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        RequestParams params = new RequestParams();
+        params.put("contact",pk);
+        params.put("data",object);
+        params.put("internalUsers",array);
+        params.put("contacts",array1);
+        params.put("typ","meeting");
+        params.put("when","2018-06-19T10:19:37.931376Z");
+
+        client.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                Toast.makeText(MeetingActivity.this, "posted", Toast.LENGTH_SHORT).show();
+
+                finish();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
 
     }
 
@@ -443,69 +550,104 @@ public class MeetingActivity extends AppCompatActivity {
                 .show();
     }
 
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        setGhost((Button) findViewById(R.id.btnRender));
-//    }
 
-//    public Map<Integer, String> getHeadingTypeface() {
-//        Map<Integer, String> typefaceMap = new HashMap<>();
-//        typefaceMap.put(Typeface.NORMAL, "fonts/GreycliffCF-Bold.ttf");
-//        typefaceMap.put(Typeface.BOLD, "fonts/GreycliffCF-Heavy.ttf");
-//        typefaceMap.put(Typeface.ITALIC, "fonts/GreycliffCF-Heavy.ttf");
-//        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/GreycliffCF-Bold.ttf");
-//        return typefaceMap;
-//    }
-//
-//    public Map<Integer, String> getContentface() {
-//        Map<Integer, String> typefaceMap = new HashMap<>();
-//        typefaceMap.put(Typeface.NORMAL, "fonts/Lato-Medium.ttf");
-//        typefaceMap.put(Typeface.BOLD, "fonts/Lato-Bold.ttf");
-//        typefaceMap.put(Typeface.ITALIC, "fonts/Lato-MediumItalic.ttf");
-//        typefaceMap.put(Typeface.BOLD_ITALIC, "fonts/Lato-BoldItalic.ttf");
-//        return typefaceMap;
-//    }
 
     private void getContactList() {
-        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+//        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+//
+//        // loop over all contacts
+//        if(phones != null) {
+//            while (phones.moveToNext()) {
+//                // get contact info
+//                String phoneNumber = null;
+//                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+//                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+//                Uri avatarUri = null;
+//                if(avatarUriString != null)
+//                    avatarUri = Uri.parse(avatarUriString);
+//
+//                // get phone number
+//                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+//                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                            null,
+//                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+//
+//                    while (pCur != null && pCur.moveToNext()) {
+//                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                    }
+//
+//                    pCur.close();
+//
+//                }
+//
+//                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
+//                // add contact to the list
+//                mContactList.add(contactChip);
+//            }
+//            phones.close();
+//        }
+//
 
-        // loop over all contacts
-        if(phones != null) {
-            while (phones.moveToNext()) {
-                // get contact info
-                String phoneNumber = null;
-                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-                Uri avatarUri = null;
-                if(avatarUriString != null)
-                    avatarUri = Uri.parse(avatarUriString);
-
-                // get phone number
-                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
-
-                    while (pCur != null && pCur.moveToNext()) {
-                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        client.get(ServerUrl.url+"/api/HR/userSearch/", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String fname = object.getString("first_name");
+                        String lname = object.getString("last_name");
+                        UserSearch userSearch = new UserSearch(object);
+                        userSearchList.add(userSearch);
+                        String name = fname+" "+lname;
+                        ipContact.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    pCur.close();
-
                 }
-
-                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
-                // add contact to the list
-                mContactList.add(contactChip);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(MeetingActivity.this, android.R.layout.simple_dropdown_item_1line, ipContact);
+                editTagIP.setAdapter(arrayAdapter);
             }
-            phones.close();
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
+
+        client.get(ServerUrl.url+"/api/clientRelationships/contactLite/", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        ContactLite c = new ContactLite(object);
+                        contactLites.add(c);
+                        String name = object.getString("name");
+                        crmContact.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(MeetingActivity.this, android.R.layout.simple_dropdown_item_1line, crmContact);
+                editTagCRM.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+
+
+
 
         // pass contact list to chips input
-        mChipsInputIP.setFilterableList(mContactList);
-        mChipsInputCRM.setFilterableList(mContactList);
+//        mChipsInputIP.setFilterableList(mContactList);
+//        mChipsInputCRM.setFilterableList(mContactList);
     }
 
 }

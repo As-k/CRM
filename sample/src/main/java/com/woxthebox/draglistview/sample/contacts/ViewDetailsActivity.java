@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,17 +28,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
 import com.woxthebox.draglistview.sample.edittag.ContactChip;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+import me.originqiu.library.EditTag;
 
 public class ViewDetailsActivity extends FragmentActivity {
     ImageView contactImage;
@@ -52,12 +65,20 @@ public class ViewDetailsActivity extends FragmentActivity {
     Animation rotate_forward, rotate_Backward, fab_open, fab_close;
 
     int c_yr, c_month, c_day, c_hr, c_min;
+    Bundle b;
+    ServerUrl serverUrl;
+    AsyncHttpClient client;
+    EditTag editTagViewIP, editTagViewCRM;
+    AutoCompleteTextView editTagIP, editTagCRM;
 
     private static final String TAG = ViewDetailsActivity.class.toString();
-    private List<ContactChip> mContactList;
-    ChipsInput scheduleInternalPeople, scheduleOS, taskOtherStake;
+//    private List<ContactChip> mContactList;
+//    ChipsInput scheduleInternalPeople, scheduleOS, taskOtherStake;
 
     ArrayList noteList;
+    private List<String> ipContactSch = new ArrayList<>();
+    private List<String> crmContactSch = new ArrayList<>();
+    private List<String> crmContactTask = new ArrayList<>();
 
     public static String cpk,cname,street,city,state,pincode,country,eMail,mobile,designation,company,companyPk,telephone, cMobile, cin, tin, about, web,dp;
 
@@ -66,7 +87,379 @@ public class ViewDetailsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_details);
 
-        Bundle b = getIntent().getExtras();
+        b = getIntent().getExtras();
+
+        findIds();
+        serverUrl = new ServerUrl();
+        client = serverUrl.getHTTPClient();
+
+//        mContactList = new ArrayList<>();
+        noteList = new ArrayList<>();
+
+        tl = findViewById(R.id.tl_view);
+        tl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                switch (pos){
+                    case 0:
+                    {
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.view_fg, new TimelineFragment(), "TimelineFragment");
+                        ft.commit();
+                        break;
+                    }
+                    case 1:
+                    {
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.add(R.id.view_fg, new InfoFragment(), "ActiveFragment");
+                        ft.commit();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        Calendar c = Calendar.getInstance();
+        c_yr = c.get(Calendar.YEAR);
+        c_month = c.get(Calendar.MONTH);
+        c_day = c.get(Calendar.DAY_OF_MONTH);
+        c_hr = c.get(Calendar.HOUR_OF_DAY);
+        c_min = c.get(Calendar.MINUTE);
+
+        fabView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fabExpanded == true){
+                    closeSubMenusFab();
+                } else {
+                    openSubMenusFab();
+                }
+            }
+        });
+        closeSubMenusFab();
+
+        fabSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                mContactList = new ArrayList<>();
+                final EditText scheduleDate, scheduleTime, scheduleLocation, scheduleEventDetails;
+                Button scheduleCancel, scheduleSave;
+                final String[] format = new String[1];
+                View v = getLayoutInflater().inflate(R.layout.layout_schedule_style, null, false);
+
+                scheduleDate = v.findViewById(R.id.schedule_date);
+                scheduleTime = v.findViewById(R.id.schedule_time);
+                editTagViewIP = (EditTag) v.findViewById(R.id.edit_tag_view_ip);
+                editTagViewIP.setEditable(true);
+                editTagViewCRM = (EditTag) v.findViewById(R.id.edit_tag_view_crm);
+                editTagViewCRM.setEditable(true);
+                editTagIP = (AutoCompleteTextView) v.findViewById(R.id.medit_tag_ip);
+                editTagCRM = (AutoCompleteTextView) v.findViewById(R.id.medit_tag_crm);
+//                scheduleOS = v.findViewById(R.id.chips_input_os_schedule);
+//                scheduleInternalPeople = v.findViewById(R.id.chips_input_ip_schedule);
+                scheduleLocation = v.findViewById(R.id.schedule_loction);
+                scheduleEventDetails = v.findViewById(R.id.schedule_event_details);
+
+                scheduleCancel = v.findViewById(R.id.schedule_cancel);
+                scheduleSave = v.findViewById(R.id.schedule_save);
+
+                scheduleDate.setFocusableInTouchMode(false);
+                scheduleTime.setFocusableInTouchMode(false);
+                scheduleDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                scheduleDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                            }
+                        },c_yr,c_month,c_day);
+                        DatePicker dp = dpd.getDatePicker();
+//                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
+//                dp.setMaxDate(System.currentTimeMillis());
+                        dpd.show();
+                    }
+                });
+
+                scheduleTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TimePickerDialog timepickerdialog = new TimePickerDialog(ViewDetailsActivity.this,
+                                new TimePickerDialog.OnTimeSetListener() {
+
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+                                        if (hourOfDay == 0) {
+                                            hourOfDay += 12;
+                                            format[0] = "AM";
+                                        } else if (hourOfDay == 12) {
+                                            format[0] = "PM";
+                                        } else if (hourOfDay > 12) {
+                                            hourOfDay -= 12;
+                                            format[0] = "PM";
+                                        } else {
+                                            format[0] = "AM";
+                                        }
+                                        if (String.valueOf(hourOfDay).length()==1 && String.valueOf(minute).length()==1)
+                                            scheduleTime.setText("0"+hourOfDay + ": 0"+ minute + format[0]);
+                                        else  if (String.valueOf(hourOfDay).length()==1||String.valueOf(minute).length()==1)
+                                            if (String.valueOf(hourOfDay).length()==1)
+                                                scheduleTime.setText("0"+hourOfDay + ":" + minute + format[0]);
+                                        if (String.valueOf(minute).length()==1)
+                                            scheduleTime.setText(hourOfDay + ": 0" + minute + format[0]);
+                                        else
+                                            scheduleTime.setText(hourOfDay + ":" + minute + format[0]);
+                                    }
+                                }, c_hr, c_min, false);
+                        timepickerdialog.show();
+                    }
+                });
+
+                // get contact list
+//                new RxPermissions(ViewDetailsActivity.this).request(Manifest.permission.READ_CONTACTS).subscribe();
+                getContactList();
+
+                //Set tag add callback before set tag list
+                editTagViewIP.setTagAddCallBack(new EditTag.TagAddCallback() {
+                    @Override
+                    public boolean onTagAdd(String tagValue) {
+                        for (int i=0; i<ipContactSch.size(); i++) {
+                            if (ipContactSch.get(i).equals(tagValue)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+                editTagViewIP.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
+                    @Override
+                    public void onTagDelete(String deletedTagValue) {
+                        Toast.makeText(ViewDetailsActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                editTagViewIP.setTagList(ipContactSch);
+
+                //Set tag add callback before set tag list
+                editTagViewCRM.setTagAddCallBack(new EditTag.TagAddCallback() {
+                    @Override
+                    public boolean onTagAdd(String tagValue) {
+                        for (int i=0; i<crmContactSch.size(); i++) {
+                            if (crmContactSch.get(i).equals(tagValue)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+                editTagViewCRM.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
+                    @Override
+                    public void onTagDelete(String deletedTagValue) {
+                        Toast.makeText(ViewDetailsActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                editTagViewCRM.setTagList(crmContactSch);
+
+
+//                // chips listener
+//                scheduleInternalPeople.addChipsListener(new ChipsInput.ChipsListener() {
+//                    @Override
+//                    public void onChipAdded(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip added, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onChipRemoved(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip removed, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence text) {
+//                        Log.e(TAG, "text changed: " + text.toString());
+//                    }
+//                });
+//                // chips listener
+//                scheduleOS.addChipsListener(new ChipsInput.ChipsListener() {
+//                    @Override
+//                    public void onChipAdded(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip added, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onChipRemoved(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip removed, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence text) {
+//                        Log.e(TAG, "text changed: " + text.toString());
+//                    }
+//                });
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
+                adb.setView(v);
+                adb.setCancelable(false);
+                final AlertDialog ad = adb.create();
+                scheduleCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ad.dismiss();
+                    }
+                });
+                ad.show();
+            }
+        });
+
+        fabTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final EditText taskDate, taskDetails;
+                Button taskCancel, scheduleSave;
+                View v = getLayoutInflater().inflate(R.layout.layout_task_style, null, false);
+                taskDate = v.findViewById(R.id.task_date);
+//                taskOtherStake = v.findViewById(R.id.chips_input_os_task);
+                editTagViewCRM = (EditTag) v.findViewById(R.id.edit_tag_view_crm);
+                editTagViewCRM.setEditable(true);
+                editTagCRM = (AutoCompleteTextView) v.findViewById(R.id.medit_tag_crm);
+                taskDetails = v.findViewById(R.id.task_details);
+
+                taskCancel= v.findViewById(R.id.task_cancel);
+                scheduleSave = v.findViewById(R.id.task_save);
+
+                taskDate.setFocusableInTouchMode(false);
+                taskDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                taskDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                            }
+                        },c_yr,c_month,c_day);
+                        DatePicker dp = dpd.getDatePicker();
+//                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
+//                dp.setMaxDate(System.currentTimeMillis());
+                        dpd.show();
+                    }
+                });
+
+                // get contact list
+//                new RxPermissions(ViewDetailsActivity.this).request(Manifest.permission.READ_CONTACTS).subscribe();
+                getContactListTask();
+
+                //Set tag add callback before set tag list
+                editTagViewCRM.setTagAddCallBack(new EditTag.TagAddCallback() {
+                    @Override
+                    public boolean onTagAdd(String tagValue) {
+                        for (int i=0; i<crmContactTask.size(); i++) {
+                            if (crmContactTask.get(i).equals(tagValue)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
+                editTagViewCRM.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
+                    @Override
+                    public void onTagDelete(String deletedTagValue) {
+                        Toast.makeText(ViewDetailsActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                editTagViewCRM.setTagList(crmContactTask);
+                // chips listener
+//                taskOtherStake.addChipsListener(new ChipsInput.ChipsListener() {
+//                    @Override
+//                    public void onChipAdded(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip added, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onChipRemoved(ChipInterface chip, int newSize) {
+//                        Log.e(TAG, "chip removed, " + newSize);
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence text) {
+//                        Log.e(TAG, "text changed: " + text.toString());
+//                    }
+//                });
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
+                adb.setView(v);
+                adb.setCancelable(false);
+                final AlertDialog ad = adb.create();
+                taskCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ad.dismiss();
+                    }
+                });
+                ad.show();
+//                taskOtherStake.setFilterableList(mContactList);
+            }
+        });
+
+        fabMeeting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ViewDetailsActivity.this, MeetingActivity.class).putExtra("contactPk", cpk));
+            }
+        });
+
+        fabNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ImageView attachFile;
+                final EditText noteDetails;
+                Button noteCancel, noteSend;
+                View v = getLayoutInflater().inflate(R.layout.layout_note_style, null, false);
+                attachFile = v.findViewById(R.id.note_attach_file);
+                noteDetails = v.findViewById(R.id.note_details);
+                noteCancel = v.findViewById(R.id.note_cancel);
+                noteSend = v.findViewById(R.id.note_send);
+
+                attachFile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent.setType("*/*");
+                        startActivityForResult(intent, 101);
+                    }
+                });
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
+                adb.setView(v);
+                adb.setCancelable(false);
+                final AlertDialog ad = adb.create();
+                noteCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String details = noteDetails.getText().toString().trim();
+                        ad.dismiss();
+                    }
+                });
+                ad.show();
+            }
+        });
+    }
+
+    void findIds(){
         if (b!=null) {
             dp = b.getString("image");
             cname = b.getString("name");
@@ -149,306 +542,6 @@ public class ViewDetailsActivity extends FragmentActivity {
         rotate_Backward = AnimationUtils.loadAnimation(this, R.anim.rotate_backward);
         fab_open = AnimationUtils.loadAnimation(this, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(this, R.anim.fab_close);
-
-//        /*nameTv.setText(c.getName());
-//        companyTv.setText(c.getCompanyName());
-//        designationTv.setText(c.getDesignation());
-//        cnoTv.setText(c.getCompanyMobile());
-//        emailTv.setText(c.getEmail());
-
-        mContactList = new ArrayList<>();
-        noteList = new ArrayList<>();
-
-        tl = findViewById(R.id.tl_view);
-        tl.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int pos = tab.getPosition();
-                switch (pos){
-                    case 0:
-                    {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.view_fg, new TimelineFragment(), "TimelineFragment");
-                        ft.commit();
-                        break;
-                    }
-                    case 1:
-                    {
-                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.add(R.id.view_fg, new InfoFragment(), "ActiveFragment");
-                        ft.commit();
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        Calendar c = Calendar.getInstance();
-        c_yr = c.get(Calendar.YEAR);
-        c_month = c.get(Calendar.MONTH);
-        c_day = c.get(Calendar.DAY_OF_MONTH);
-        c_hr = c.get(Calendar.HOUR_OF_DAY);
-        c_min = c.get(Calendar.MINUTE);
-
-        fabView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fabExpanded == true){
-                    closeSubMenusFab();
-                } else {
-                    openSubMenusFab();
-                }
-            }
-        });
-        closeSubMenusFab();
-
-        fabSchedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                mContactList = new ArrayList<>();
-                final EditText scheduleDate, scheduleTime, scheduleLocation, scheduleEventDetails;
-                Button scheduleCancel, scheduleSave;
-                final String[] format = new String[1];
-                View v = getLayoutInflater().inflate(R.layout.layout_schedule_style, null, false);
-
-                scheduleDate = v.findViewById(R.id.schedule_date);
-                scheduleTime = v.findViewById(R.id.schedule_time);
-                scheduleOS = v.findViewById(R.id.chips_input_os_schedule);
-                scheduleInternalPeople = v.findViewById(R.id.chips_input_ip_schedule);
-                scheduleLocation = v.findViewById(R.id.schedule_loction);
-                scheduleEventDetails = v.findViewById(R.id.schedule_event_details);
-
-                scheduleCancel = v.findViewById(R.id.schedule_cancel);
-                scheduleSave = v.findViewById(R.id.schedule_save);
-
-                scheduleDate.setFocusableInTouchMode(false);
-                scheduleTime.setFocusableInTouchMode(false);
-                scheduleDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                scheduleDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                            }
-                        },c_yr,c_month,c_day);
-                        DatePicker dp = dpd.getDatePicker();
-//                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
-//                dp.setMaxDate(System.currentTimeMillis());
-                        dpd.show();
-                    }
-                });
-
-                scheduleTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        TimePickerDialog timepickerdialog = new TimePickerDialog(ViewDetailsActivity.this,
-                                new TimePickerDialog.OnTimeSetListener() {
-
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                                          int minute) {
-                                        if (hourOfDay == 0) {
-                                            hourOfDay += 12;
-                                            format[0] = "AM";
-                                        } else if (hourOfDay == 12) {
-                                            format[0] = "PM";
-                                        } else if (hourOfDay > 12) {
-                                            hourOfDay -= 12;
-                                            format[0] = "PM";
-                                        } else {
-                                            format[0] = "AM";
-                                        }
-                                        if (String.valueOf(hourOfDay).length()==1 && String.valueOf(minute).length()==1)
-                                            scheduleTime.setText("0"+hourOfDay + ": 0"+ minute + format[0]);
-                                        else  if (String.valueOf(hourOfDay).length()==1||String.valueOf(minute).length()==1)
-                                            if (String.valueOf(hourOfDay).length()==1)
-                                                scheduleTime.setText("0"+hourOfDay + ":" + minute + format[0]);
-                                        if (String.valueOf(minute).length()==1)
-                                            scheduleTime.setText(hourOfDay + ": 0" + minute + format[0]);
-                                        else
-                                            scheduleTime.setText(hourOfDay + ":" + minute + format[0]);
-                                    }
-                                }, c_hr, c_min, false);
-                        timepickerdialog.show();
-                    }
-                });
-
-                // get contact list
-                new RxPermissions(ViewDetailsActivity.this).request(Manifest.permission.READ_CONTACTS).subscribe();
-                getContactList();
-
-                // chips listener
-                scheduleInternalPeople.addChipsListener(new ChipsInput.ChipsListener() {
-                    @Override
-                    public void onChipAdded(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip added, " + newSize);
-                    }
-
-                    @Override
-                    public void onChipRemoved(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip removed, " + newSize);
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence text) {
-                        Log.e(TAG, "text changed: " + text.toString());
-                    }
-                });
-                // chips listener
-                scheduleOS.addChipsListener(new ChipsInput.ChipsListener() {
-                    @Override
-                    public void onChipAdded(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip added, " + newSize);
-                    }
-
-                    @Override
-                    public void onChipRemoved(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip removed, " + newSize);
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence text) {
-                        Log.e(TAG, "text changed: " + text.toString());
-                    }
-                });
-
-                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
-                adb.setView(v);
-                adb.setCancelable(false);
-                final AlertDialog ad = adb.create();
-                scheduleCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ad.dismiss();
-                    }
-                });
-                ad.show();
-            }
-        });
-
-        fabTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final EditText taskDate, taskDetails;
-                Button taskCancel, scheduleSave;
-                View v = getLayoutInflater().inflate(R.layout.layout_task_style, null, false);
-                taskDate = v.findViewById(R.id.task_date);
-                taskOtherStake = v.findViewById(R.id.chips_input_os_task);
-                taskDetails = v.findViewById(R.id.task_details);
-
-                taskCancel= v.findViewById(R.id.task_cancel);
-                scheduleSave = v.findViewById(R.id.task_save);
-
-                taskDate.setFocusableInTouchMode(false);
-                taskDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DatePickerDialog dpd = new DatePickerDialog(ViewDetailsActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                taskDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                            }
-                        },c_yr,c_month,c_day);
-                        DatePicker dp = dpd.getDatePicker();
-//                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
-//                dp.setMaxDate(System.currentTimeMillis());
-                        dpd.show();
-                    }
-                });
-
-                // get contact list
-                new RxPermissions(ViewDetailsActivity.this).request(Manifest.permission.READ_CONTACTS).subscribe();
-                getContactList();
-
-                // chips listener
-                taskOtherStake.addChipsListener(new ChipsInput.ChipsListener() {
-                    @Override
-                    public void onChipAdded(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip added, " + newSize);
-                    }
-
-                    @Override
-                    public void onChipRemoved(ChipInterface chip, int newSize) {
-                        Log.e(TAG, "chip removed, " + newSize);
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence text) {
-                        Log.e(TAG, "text changed: " + text.toString());
-                    }
-                });
-
-                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
-                adb.setView(v);
-                adb.setCancelable(false);
-                final AlertDialog ad = adb.create();
-                taskCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ad.dismiss();
-                    }
-                });
-                ad.show();
-//                taskOtherStake.setFilterableList(mContactList);
-            }
-        });
-
-        fabMeeting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(ViewDetailsActivity.this, MeetingActivity.class));
-            }
-        });
-
-        fabNotes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                ImageView attachFile;
-                final EditText noteDetails;
-                Button noteCancel, noteSend;
-                View v = getLayoutInflater().inflate(R.layout.layout_note_style, null, false);
-                attachFile = v.findViewById(R.id.note_attach_file);
-                noteDetails = v.findViewById(R.id.note_details);
-                noteCancel = v.findViewById(R.id.note_cancel);
-                noteSend = v.findViewById(R.id.note_send);
-
-                attachFile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*");
-                        startActivityForResult(intent, 101);
-                    }
-                });
-
-                AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
-                adb.setView(v);
-                adb.setCancelable(false);
-                final AlertDialog ad = adb.create();
-                noteCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String details = noteDetails.getText().toString().trim();
-                        ad.dismiss();
-                    }
-                });
-                ad.show();
-            }
-        });
     }
 
     //closes FAB submenus
@@ -484,50 +577,124 @@ public class ViewDetailsActivity extends FragmentActivity {
     }
 
     private void getContactList() {
-        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+//        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
+//
+//        // loop over all contacts
+//        if(phones != null) {
+//            while (phones.moveToNext()) {
+//                // get contact info
+//                String phoneNumber = null;
+//                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
+//                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+//                Uri avatarUri = null;
+//                if(avatarUriString != null)
+//                    avatarUri = Uri.parse(avatarUriString);
+//
+//                // get phone number
+//                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+//                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                            null,
+//                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
+//
+//                    while (pCur != null && pCur.moveToNext()) {
+//                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                    }
+//
+//                    pCur.close();
+//
+//                }
+//
+//                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
+//                // add contact to the list
+//                mContactList.add(contactChip);
+//            }
+//            phones.close();
+//        }
+//
+//        // pass contact list to chips input
+//
+//
+//        if (fabSchedule.isClickable()) {
+//            scheduleOS.setFilterableList(mContactList);
+//            scheduleInternalPeople.setFilterableList(mContactList);
+//        } else if (fabTask.isClickable()){
+//            taskOtherStake.setFilterableList(mContactList);
+//        }
 
-        // loop over all contacts
-        if(phones != null) {
-            while (phones.moveToNext()) {
-                // get contact info
-                String phoneNumber = null;
-                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-                Uri avatarUri = null;
-                if(avatarUriString != null)
-                    avatarUri = Uri.parse(avatarUriString);
 
-                // get phone number
-                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
-
-                    while (pCur != null && pCur.moveToNext()) {
-                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        client.get(ServerUrl.url+"/api/clientRelationships/contact/", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String name = object.getString("name");
+                        crmContactSch.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    pCur.close();
-
                 }
-
-                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
-                // add contact to the list
-                mContactList.add(contactChip);
+                ArrayAdapter arrayAdapter = new ArrayAdapter(ViewDetailsActivity.this, android.R.layout.simple_dropdown_item_1line, crmContactSch);
+                editTagCRM.setAdapter(arrayAdapter);
             }
-            phones.close();
-        }
 
-        // pass contact list to chips input
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
 
+        client.get(ServerUrl.url+"/api/HR/userSearch/", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String fname = object.getString("first_name");
+                        String lname = object.getString("last_name");
+                        String name = fname+" "+lname;
+                        ipContactSch.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(ViewDetailsActivity.this, android.R.layout.simple_dropdown_item_1line, ipContactSch);
+                editTagIP.setAdapter(arrayAdapter);
+            }
 
-        if (fabSchedule.isClickable()) {
-            scheduleOS.setFilterableList(mContactList);
-            scheduleInternalPeople.setFilterableList(mContactList);
-        } else if (fabTask.isClickable()){
-            taskOtherStake.setFilterableList(mContactList);
-        }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
+    }
+
+    private void getContactListTask() {
+        client.get(ServerUrl.url+"/api/clientRelationships/contact/", new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i=0; i<response.length(); i++) {
+                    try {
+                        JSONObject object = response.getJSONObject(i);
+                        String name = object.getString("name");
+                        crmContactTask.add(name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ArrayAdapter arrayAdapter = new ArrayAdapter(ViewDetailsActivity.this, android.R.layout.simple_dropdown_item_1line, crmContactTask);
+                editTagCRM.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+            }
+        });
     }
 
     @Override

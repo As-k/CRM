@@ -28,8 +28,8 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
 
     <application
         android:name=".app.AppController"
@@ -90,7 +90,10 @@
             android:name=".relationships.ActiveDealsDetailsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".MainProfileActivity" />
-        <activity android:name=".contacts.CallLogDetailsActivity">
+        <activity android:name=".contacts.CallLogDetailsActivity"
+            android:windowAnimationStyle="@android:style/Animation.Translucent"
+            android:windowBackground="@android:color/transparent"
+            android:windowIsTranslucent="true">
 
         </activity>
     </application>

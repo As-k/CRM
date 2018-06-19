@@ -156,8 +156,6 @@ public class InfoFragment extends Fragment {
                         super.onFailure(statusCode, headers, throwable, errorResponse);
                     }
                 });
-
-
             }
         });
 

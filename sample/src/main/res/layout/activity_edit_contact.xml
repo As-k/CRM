@@ -103,6 +103,7 @@
                     android:id="@+id/edit_mobile"
                     android:hint="Mobile"
                     android:inputType="phone"
+                    android:digits="01234567889"
                     style="@style/edit_text_style"
                     android:maxLength="10"/>
             </android.support.design.widget.TextInputLayout>

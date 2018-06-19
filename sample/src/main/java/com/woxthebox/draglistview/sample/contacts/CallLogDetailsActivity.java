@@ -12,17 +12,22 @@ import android.provider.CallLog;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.woxthebox.draglistview.sample.R;
 import com.woxthebox.draglistview.sample.ServerUrl;
 
@@ -39,7 +44,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class CallLogDetailsActivity extends Activity {
 
-    String phNumber, callDuration, dateString, timeString, dir;
+    String phNumber, callDuration, dateString, timeString, dir, date;
+    int tot_seconds;
     public AsyncHttpClient asyncHttpClient;
     ServerUrl serverUrl;
 
@@ -47,6 +53,30 @@ public class CallLogDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_log_details);
+//        try {
+//            Log.d("IncomingCall: onCreate:", "flag2");
+//
+//            super.onCreate(savedInstanceState);
+//
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//            getWindow().addFlags(
+//                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+//
+//            Log.d("IncomingCall: onCreate:", "flagy");
+//
+//            setContentView(R.layout.calllog_dialog_layout);
+//
+//            Log.d("IncomingCall:onCreate: ", "flagz");
+//
+//            String number = getIntent().getStringExtra(
+//                    TelephonyManager.EXTRA_INCOMING_NUMBER);
+//            TextView text = (TextView) findViewById(R.id.call_log_cno);
+//            text.setText(number);
+//        } catch (Exception e) {
+//            Log.d("Exception", e.toString());
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
 //        getSupportActionBar().hide();
         serverUrl = new ServerUrl();
@@ -56,17 +86,16 @@ public class CallLogDetailsActivity extends Activity {
 
         if (phNumber != null) {
             String mobNo = phNumber.replace("+91", "");
-
-            asyncHttpClient.get(ServerUrl.url+"api/clientRelationships/contactLite/?format=json&mobile="+mobNo, new JsonHttpResponseHandler() {
+            asyncHttpClient.get(ServerUrl.url + "api/clientRelationships/contactLite/?format=json&mobile=" + mobNo, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject obj = null;
                         try {
                             obj = response.getJSONObject(i);
-                            String removePk = obj.getString("pk");
+                            final String removePk = obj.getString("pk");
 //                            if (!removePk.equals(ViewDetailsActivity.cpk)) {
-                                ContactLite lite = new ContactLite(obj);
+                            ContactLite lite = new ContactLite(obj);
 //                                contactLiteList.add(contactLite);
 //                            }
 
@@ -75,7 +104,7 @@ public class CallLogDetailsActivity extends Activity {
                             TextView name = v.findViewById(R.id.call_log_name);
                             TextView cno = v.findViewById(R.id.call_log_cno);
                             TextView duration = v.findViewById(R.id.call_log_duration);
-                            EditText iv = v.findViewById(R.id.call_log_commment);
+                            final EditText comment = v.findViewById(R.id.call_log_comment);
                             Button yesBtn = v.findViewById(R.id.call_log_yes);
                             Button noBtn = v.findViewById(R.id.call_log_no);
                             cno.setText(phNumber);
@@ -118,16 +147,62 @@ public class CallLogDetailsActivity extends Activity {
                                     finish();
                                 }
                             });
+                            yesBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    comment.getText().toString();
+                                    SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                                    String date_time = sdf_datetime.format(new Date(Long.parseLong(date)));
+                                    JSONObject object = new JSONObject();
+                                    try {
+                                        object.put("duration",tot_seconds);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    RequestParams params = new RequestParams();
+                                    params.put("contact",removePk);
+                                    params.put("data",object);
+                                    params.put("typ","call");
+                                    params.put("when",date_time);
+
+                                    asyncHttpClient.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                            super.onSuccess(statusCode, headers, response);
+                                            Toast.makeText(CallLogDetailsActivity.this, "posted", Toast.LENGTH_SHORT).show();
+
+
+                                            ad.dismiss();
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            super.onFinish();
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                            super.onFailure(statusCode, headers, throwable, errorResponse);
+                                        }
+                                    });
+
+                                }
+                            });
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
+
                 @Override
                 public void onFinish() {
                     System.out.println("finished 001");
 
                 }
+
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
                     // called when response HTTP status is "4XX" (eg. 401, 403, 404)
@@ -135,10 +210,11 @@ public class CallLogDetailsActivity extends Activity {
                     finish();
                 }
             });
-
-
+        } else {
+            finish();
         }
     }
+
     private void getCalldetailsNow() {
         // TODO Auto-generated method stub
 
@@ -164,7 +240,7 @@ public class CallLogDetailsActivity extends Activity {
             String callDuration1 = managedCursor.getString(duration1);
 
             String type = managedCursor.getString(type1);
-            String date = managedCursor.getString(date1);
+            date = managedCursor.getString(date1);
             int dircode = Integer.parseInt(type);
             dir=null;
             switch (dircode)
@@ -187,7 +263,7 @@ public class CallLogDetailsActivity extends Activity {
             SimpleDateFormat sdf_time = new SimpleDateFormat("h:mm a");
 //            SimpleDateFormat sdf_dur = new SimpleDateFormat("KK:mm:ss");
 
-            int tot_seconds = Integer.parseInt(callDuration1);
+            tot_seconds = Integer.parseInt(callDuration1);
             int hours = tot_seconds / 3600;
             int minutes = (tot_seconds % 3600) / 60;
             int seconds = tot_seconds % 60;
@@ -206,5 +282,15 @@ public class CallLogDetailsActivity extends Activity {
         managedCursor.close();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

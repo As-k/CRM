@@ -577,6 +577,7 @@ public class EditContactActivity extends Activity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     Toast.makeText(EditContactActivity.this, "Saved Contact", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 @Override

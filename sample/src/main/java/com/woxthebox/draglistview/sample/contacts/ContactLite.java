@@ -21,7 +21,7 @@ public class ContactLite implements Serializable {
         public String designation;
         public String dp;
         public boolean male;
-    public JSONObject jsonObject;
+        public JSONObject jsonObject;
 
 
 
@@ -44,11 +44,31 @@ public class ContactLite implements Serializable {
         try {
             this.pk = jsonObject.getString("pk");
             this.user = jsonObject.getString("user");
-            this.name = jsonObject.getString("name");
-            this.email = jsonObject.getString("email");
-            this.mobile = jsonObject.getString("mobile");
+            String name = jsonObject.getString("name");
+            if (name.equals("null")) {
+                this.name = "";
+            } else {
+                this.name = name;
+            }
+            String email = jsonObject.getString("email");
+            if (email.equals("null")) {
+                this.email = "";
+            } else {
+                this.email = email;
+            }
+            String mobile = jsonObject.getString("mobile");
+            if (mobile.equals("null")) {
+                this.mobile = "";
+            } else {
+                this.mobile = mobile;
+            }
             this.companyPk = jsonObject.getString("company");
-            this.designation =jsonObject.getString("designation");
+            String designation = jsonObject.getString("designation");
+            if (designation.equals("null")) {
+                this.designation = "";
+            } else {
+                this.designation = designation;
+            }
             this.male = jsonObject.getBoolean("male");
             String img  = jsonObject.getString("dp");
             if (img.equals("null")){

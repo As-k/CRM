@@ -44,7 +44,7 @@ public class TimelineFragment extends Fragment {
     ServerUrl serverUrl;
 
     private List<FeedItem> feedItems;
-    private String URL_FEED = "https://api.androidhive.info/feed/feed.json";
+    private String URL_FEED = "https://api.androidhive.info/feed/feed.json";//http://192.168.1.104:8000/api/clientRelationships/activity/
     ArrayList<String> companiesList;
     public AsyncHttpClient client;
 
@@ -112,8 +112,7 @@ public class TimelineFragment extends Fragment {
     }
 
     protected void getContentValue(){
-        String serverURL = serverUrl.url;
-        client.get(serverURL+"api/clientRelationships/activity/?format=json",new JsonHttpResponseHandler(){
+        client.get(ServerUrl.class+"api/clientRelationships/activity/?format=json",new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 //                super.onSuccess(statusCode, headers, response);

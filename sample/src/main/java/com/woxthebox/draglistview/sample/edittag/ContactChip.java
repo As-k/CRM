@@ -20,6 +20,10 @@ public class ContactChip implements ChipInterface {
         this.phoneNumber = phoneNumber;
     }
 
+    public ContactChip(String name) {
+        this.name = name;
+    }
+
     @Override
     public Object getId() {
         return id;

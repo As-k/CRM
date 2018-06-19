@@ -509,6 +509,7 @@ public class NewContactActivity extends Activity {
                                 super.onSuccess(statusCode, headers, response);
                                 Toast.makeText(NewContactActivity.this, "saved", Toast.LENGTH_SHORT).show();
                                 new Contact(response);
+                                finish();
                             }
 
                             @Override

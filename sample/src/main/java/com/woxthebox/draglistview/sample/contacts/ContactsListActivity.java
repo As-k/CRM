@@ -10,8 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,14 +25,22 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ContactsListActivity extends Activity {
+import cz.msebera.android.httpclient.Header;
+
+public class ContactsListActivity extends AppCompatActivity {
     ListView listView;
-    EditText searchContact;
+//    EditText searchContact;
     String keys[] = {"k1", "k2"};
     int ids[] = {R.id.contact_name, R.id.contact_number};
     ArrayList storeContacts;
@@ -36,14 +50,12 @@ public class ContactsListActivity extends Activity {
     public static final int RequestPermissionCode = 1;
 //    ContentResolver mContentResolver = getContentResolver();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_contacts_list);
 
-        searchContact = findViewById(R.id.search_contact);
+//        searchContact = findViewById(R.id.search_contact);
         listView = findViewById(R.id.listview1);
 
         storeContacts = new ArrayList<String>();
@@ -52,7 +64,7 @@ public class ContactsListActivity extends Activity {
 
         allContacts();
 
-        textChange();
+//        textChange();
 
     }
 
@@ -77,87 +89,146 @@ public class ContactsListActivity extends Activity {
         });
     }
 
-    void textChange(){
-        searchContact.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        search(searchView);
 
+        search.setVisible(true);
+//        contactList.clear();
+//        browseAdapter.clearData();
+        return true;
+    }
+
+    private void search(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                query = query.toLowerCase();
+                storeContacts.clear();
+
+//                browseAdapter.clearData();
+
+//                        JSONArray jsonArray = null;
+//                        try {
+//                            jsonArray = response.getJSONArray("results");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            try {
+//                                JSONObject object = jsonArray.getJSONObject(i);
+//                                Contact c  = new Contact(object);
+//                                contactList.add(c);
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                Log.e("JSONObject", "Json parsing error: " + e.getMessage());
+//                            }
+//                        }
+//                        browseAdapter.notifyDataSetChanged();
+//                        browseAdapter.setLoaded();
+//                        contactList.add(null);
+
+
+
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String searchName = s.toString().trim();
-                listView.setVisibility(View.GONE);
-                if(searchName.equals("")){
-                    listView.setVisibility(View.VISIBLE);
-                    allContacts();
-                } else {
-//                    Toast.makeText(ContactsListActivity.this, "wait", Toast.LENGTH_SHORT).show();
-                    ContentResolver cr = getContentResolver();
-                    String[] result = null;
-                    // Find a contact using a partial name match
-//                    String searchName = "specify serach name here";
-                    Uri lookupUri = Uri.withAppendedPath(
-                            ContactsContract.Contacts.CONTENT_FILTER_URI, searchName);
-                    // Create a projection of the required column names.
-                    String[] projection = new String[] { ContactsContract.Contacts._ID };
-                    // Get a Cursor that will return the ID(s) of the matched name.
-                    Cursor idCursor = cr.query(lookupUri, projection, null, null, null);
-                    // Extract the first matching ID if it exists.
-                    String id = null;
-                    if (idCursor.moveToFirst()) {
-                        int idIdx = idCursor
-                                .getColumnIndexOrThrow(ContactsContract.Contacts._ID);
-                        id = idCursor.getString(idIdx);
-                    }
-                    // Close that Cursor.
-                    idCursor.close();
-                    // Create a new Cursor searching for the data associated with the
-                    // returned Contact ID.
-                    if (id != null) {
-                        // Return all the PHONE data for the contact.
-                        String where = ContactsContract.Data.CONTACT_ID + " = " + id
-                                + "AND" + ContactsContract.Data.MIMETYPE + " = ‘"
-                                + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
-                                + "’";
-                        projection = new String[] { ContactsContract.Data.DISPLAY_NAME,
-                                ContactsContract.CommonDataKinds.Phone.NUMBER };
-                        Cursor dataCursor = getContentResolver().query(
-                                ContactsContract.Data.CONTENT_URI, projection, where, null,
-                                null);
-                        // Get the indexes of the required columns.
-                        int nameIdx = dataCursor
-                                .getColumnIndexOrThrow(ContactsContract.Data.DISPLAY_NAME);
-                        int phoneIdx = dataCursor
-                                .getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                        result = new String[dataCursor.getCount()];
-                        while (dataCursor.moveToNext()) {
-                            // Extract the name.
-                            String name = dataCursor.getString(nameIdx);
-                            // Extract the phone number.
-                            String number = dataCursor.getString(phoneIdx);
-                            result[dataCursor.getPosition()] = name + "(" + number + ")";
-                            Toast.makeText(ContactsListActivity.this, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
-
-                        }
-                        dataCursor.close();
-                    }
+            public boolean onQueryTextChange(String newText) {
+                if(newText.equals("")){
+//                    text.setVisibility(View.VISIBLE);
+//                    contactList.clear();
+//                    browseAdapter.clearData();
                 }
+                return false;
             }
         });
     }
+
+//    void textChange(){
+//        searchContact.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String searchName = s.toString().trim();
+//                listView.setVisibility(View.GONE);
+//                if(searchName.equals("")){
+//                    listView.setVisibility(View.VISIBLE);
+//                    allContacts();
+//                } else {
+////                    Toast.makeText(ContactsListActivity.this, "wait", Toast.LENGTH_SHORT).show();
+//                    ContentResolver cr = getContentResolver();
+//                    String[] result = null;
+//                    // Find a contact using a partial name match
+////                    String searchName = "specify serach name here";
+//                    Uri lookupUri = Uri.withAppendedPath(
+//                            ContactsContract.Contacts.CONTENT_FILTER_URI, searchName);
+//                    // Create a projection of the required column names.
+//                    String[] projection = new String[] { ContactsContract.Contacts._ID };
+//                    // Get a Cursor that will return the ID(s) of the matched name.
+//                    Cursor idCursor = cr.query(lookupUri, projection, null, null, null);
+//                    // Extract the first matching ID if it exists.
+//                    String id = null;
+//                    if (idCursor.moveToFirst()) {
+//                        int idIdx = idCursor
+//                                .getColumnIndexOrThrow(ContactsContract.Contacts._ID);
+//                        id = idCursor.getString(idIdx);
+//                    }
+//                    // Close that Cursor.
+//                    idCursor.close();
+//                    // Create a new Cursor searching for the data associated with the
+//                    // returned Contact ID.
+//                    if (id != null) {
+//                        // Return all the PHONE data for the contact.
+//                        String where = ContactsContract.Data.CONTACT_ID + " = " + id
+//                                + "AND" + ContactsContract.Data.MIMETYPE + " = ‘"
+//                                + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+//                                + "’";
+//                        projection = new String[] { ContactsContract.Data.DISPLAY_NAME,
+//                                ContactsContract.CommonDataKinds.Phone.NUMBER };
+//                        Cursor dataCursor = getContentResolver().query(
+//                                ContactsContract.Data.CONTENT_URI, projection, where, null,
+//                                null);
+//                        // Get the indexes of the required columns.
+//                        int nameIdx = dataCursor
+//                                .getColumnIndexOrThrow(ContactsContract.Data.DISPLAY_NAME);
+//                        int phoneIdx = dataCursor
+//                                .getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER);
+//                        result = new String[dataCursor.getCount()];
+//                        while (dataCursor.moveToNext()) {
+//                            // Extract the name.
+//                            String name = dataCursor.getString(nameIdx);
+//                            // Extract the phone number.
+//                            String number = dataCursor.getString(phoneIdx);
+//                            result[dataCursor.getPosition()] = name + "(" + number + ")";
+//                            Toast.makeText(ContactsListActivity.this, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                        dataCursor.close();
+//                    }
+//                }
+//            }
+//        });
+//    }
 
     int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
 
         String order = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, order);
-        String temp_name="";
+        String temp_name = "";
         while (cursor.moveToNext()) {
             name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
             if (name.equals(temp_name))

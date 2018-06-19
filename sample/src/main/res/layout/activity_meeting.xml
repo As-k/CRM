@@ -77,12 +77,19 @@
                     android:padding="10dp"
                     >
 
-                    <com.pchmn.materialchips.ChipsInput
-                        android:id="@+id/chips_input_ip"
+                    <me.originqiu.library.EditTag
+                        android:id="@+id/edit_tag_view_ip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hint="Search and select a user to add him/her in this group"
-                        app:maxRows="3" />
+                        app:input_layout="@layout/auto_view_sample_input_tag"
+                        app:tag_layout="@layout/view_sample_tag" />
+
+                    <!--<com.pchmn.materialchips.ChipsInput-->
+                        <!--android:id="@+id/chips_input_ip"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--app:hint="Search and select a user to add him/her in this group"-->
+                        <!--app:maxRows="3" />-->
 
                     <!--<TextView-->
                     <!--android:id="@+id/chip_list_ip"-->
@@ -107,12 +114,19 @@
                     android:padding="10dp"
                     >
 
-                    <com.pchmn.materialchips.ChipsInput
-                        android:id="@+id/chips_input_crm"
+                    <me.originqiu.library.EditTag
+                        android:id="@+id/edit_tag_view_crm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hint="Search and select a user to add him/her in this group"
-                        app:maxRows="3" />
+                        app:input_layout="@layout/auto_crm_view_sample_input_tag"
+                        app:tag_layout="@layout/view_sample_tag" />
+
+                    <!--<com.pchmn.materialchips.ChipsInput-->
+                        <!--android:id="@+id/chips_input_crm"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--app:hint="Search and select a user to add him/her in this group"-->
+                        <!--app:maxRows="3" />-->
 
                     <!--<TextView-->
                     <!--android:id="@+id/chip_list_crm"-->
@@ -248,6 +262,7 @@
                 <Button
                     android:layout_width="match_parent"
                     android:text="Save"
+                    android:onClick="saveMeeting"
                     android:id="@+id/meeting_save"
                     style="@style/button_style"
                     />

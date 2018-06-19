@@ -61,6 +61,7 @@ public class ContactsActivity extends AppCompatActivity {
     public AsyncHttpClient client;
     ServerUrl serverUrl;
     private Contact c;
+    int res, index;
 
     Animation rotate_forward, rotate_Backward, fab_open, fab_close;
 
@@ -165,6 +166,7 @@ public class ContactsActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 query = query.toLowerCase();
                 contactList.clear();
+
 //                browseAdapter.clearData();
                 client.get(ServerUrl.url+"/api/clientRelationships/contact/?&limit=10&offset=0&format=json&name__contains="+query, new JsonHttpResponseHandler(){
                     @Override
@@ -188,6 +190,7 @@ public class ContactsActivity extends AppCompatActivity {
                         }
                         browseAdapter.notifyDataSetChanged();
                         browseAdapter.setLoaded();
+                        contactList.add(null);
                     }
 
                     @Override
@@ -213,21 +216,21 @@ public class ContactsActivity extends AppCompatActivity {
 
     protected void getUser(){
         String serverURL = serverUrl.url;
-        client.get(serverURL+"/api/clientRelationships/contact/?format=json&limit=10&offset=0",new JsonHttpResponseHandler() {
+        client.get(serverURL+"/api/clientRelationships/contact/",new JsonHttpResponseHandler() {//?format=json&limit=10&offset=0
             @Override
-            public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
-                JSONArray jsonArray=null;
-                try {
-                    jsonArray = response.getJSONArray("results");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                final int res = jsonArray.length();
+            public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
+//                JSONArray jsonArray=null;
+//                try {
+//                    jsonArray = response.getJSONArray("results");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                res = response.length();
                 int s;
-                for (s = 0; s < 9; s++) {
+                for (s = 0; s <= 9; s++) {
                     JSONObject usrObj = null;
                     try {
-                        usrObj = jsonArray.getJSONObject(s);
+                        usrObj = response.getJSONObject(s);
                         Contact c  = new Contact(usrObj);
                         contactList.add(c);
                     } catch (JSONException e) {
@@ -253,38 +256,39 @@ public class ContactsActivity extends AppCompatActivity {
                                 browseAdapter.notifyItemRemoved(contactList.size());
 
                                 //Load data
-                                final int index = contactList.size();
-//                                final int in = index + 9;
+                                int index = contactList.size();
+                                int in = index + 9;
 //                                if (in < res) {
-                                String serverURL = serverUrl.url;
-                                client.get(serverURL+"/api/clientRelationships/contact/?format=json&limit=10&offset="+index, new JsonHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
-                                                JSONArray jsonArray=null;
-                                                try {
-                                                    jsonArray = response.getJSONArray("results");
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                final int res = jsonArray.length();
-                                                for (int i = index; i < res; i++) {
-                                                    JSONObject usrObj = null;
+                                for (int i = index; i < in; i++) {
+//                                    client.get(ServerUrl.url + "/api/clientRelationships/contact/?format=json&limit=10&offset=" + index, new JsonHttpResponseHandler() {
+//                                        @Override
+//                                        public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
+//                                            JSONArray jsonArray = null;
+//                                            try {
+//                                                jsonArray = response.getJSONArray("results");
+//                                            } catch (JSONException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                            final int res = jsonArray.length();
+//                                            for (int i = index; i < in; i++) {
+                                    JSONObject usrObj = null;
 
-                                                    try {
-                                                        usrObj = jsonArray.getJSONObject(i);
-                                                        Contact c = new Contact(usrObj);
-                                                        // adding contact to contact list
-                                                        contactList.add(c);
+                                    try {
+                                        usrObj = response.getJSONObject(i);
+                                        Contact c = new Contact(usrObj);
+                                        // adding contact to contact list
+                                        contactList.add(c);
 
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                        Log.e("JSONException", "123456");
-                                                    }
-                                                }
-                                            }
-                                        });
-                                browseAdapter.notifyDataSetChanged();
-                                browseAdapter.setLoaded();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Log.e("JSONException", "123456");
+                                    }
+//                                            }
+//                                        }
+//                                    });
+                                    browseAdapter.notifyDataSetChanged();
+                                    browseAdapter.setLoaded();
+                                }
 //                                }else
 //                                    Toast.makeText(ContactsActivity.this, "JSONException", Toast.LENGTH_SHORT).show();
                             }
@@ -305,101 +309,5 @@ public class ContactsActivity extends AppCompatActivity {
             }
         });
     }
-
-    private String getCallDetails() {
-        StringBuffer sb = new StringBuffer();
-
-        Cursor managedCursor = managedQuery( CallLog.Calls.CONTENT_URI,null, null,null, null);
-        int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER);
-        int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
-        int date = managedCursor.getColumnIndex( CallLog.Calls.DATE);
-        int duration = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
-        sb.append( "Call Details :");
-        String data = "";
-        while ( managedCursor.moveToLast() ) {
-            String phNumber = managedCursor.getString( number );
-            String callType = managedCursor.getString( type );
-            String callDate = managedCursor.getString( date );
-            Date callDayTime = new Date(Long.valueOf(callDate));
-            String callDuration = managedCursor.getString( duration );
-            String dir = "";
-            int dircode = Integer.parseInt( callType );
-            switch( dircode ) {
-                case CallLog.Calls.OUTGOING_TYPE:
-                    dir = "OUTGOING";
-                    break;
-
-                case CallLog.Calls.INCOMING_TYPE:
-                    dir = "INCOMING";
-                    break;
-
-                case CallLog.Calls.MISSED_TYPE:
-                    dir = "MISSED";
-                    break;
-            }
-            data = "Phone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration;
-//            sb.append( "\nPhone Number:--- "+phNumber +" \nCall Type:--- "+dir+" \nCall Date:--- "+callDayTime+" \nCall duration in sec :--- "+callDuration );
-//            sb.append("\n----------------------------------");
-        }
-        managedCursor.close();
-//
-        return data;
-
-    }
-
-
-
-//    public static CallDetails getLastCallDetails(Context context) {
-//
-//        CallDetails callDetails = new CallDetails();
-//
-//        Uri contacts = CallLog.Calls.CONTENT_URI;
-//        try {
-//
-//            Cursor managedCursor = context.getContentResolver().query(contacts, null, null, null, android.provider.CallLog.Calls.DATE + " DESC limit 1;");
-//
-//            int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
-//            int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
-//            int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
-//            int incomingtype = managedCursor.getColumnIndex(String.valueOf(CallLog.Calls.INCOMING_TYPE));
-//
-//            if(managedCursor.moveToFirst()){ // added line
-//
-//                while (managedCursor.moveToNext()) {
-//                    String callType;
-//                    String phNumber = managedCursor.getString(number);
-////                    String callerName = getContactName(context, phNumber);
-//                    if(incomingtype == -1){
-//                        callType = "incoming";
-//                    }
-//                    else {
-//                        callType = "outgoing";
-//                    }
-//                    String callDate = managedCursor.getString(date);
-//                    String callDayTime = new      Date(Long.valueOf(callDate)).toString();
-//
-//                    String callDuration = managedCursor.getString(duration);
-//
-////                    callDetails.setCallerName(callerName);
-//                    callDetails.setCallerNumber(phNumber);
-//                    callDetails.setCallDuration(callDuration);
-//                    callDetails.setCallType(callType);
-//                    callDetails.setCallTimeStamp(callDayTime);
-//
-//                }
-//            }
-//            managedCursor.close();
-//
-//        } catch (SecurityException e) {
-//            Log.e("Security Exception", "User denied call log permission");
-//
-//        }
-//
-//        return callDetails;
-//
-//    }
-//
-//    private static String getContactName(Context context, String phNumber) {
-//    }
 
 }
