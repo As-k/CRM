@@ -3,15 +3,25 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/project_color">
+    android:background="@color/project_color"
+    >
 
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/browse_recyclerView">
+        android:id="@+id/browse_recyclerView"
+        >
 
     </android.support.v7.widget.RecyclerView>
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:layout_below="@id/browse_recyclerView"-->
+        <!--android:layout_marginTop="2dp"/>-->
+
 
     <include layout="@layout/layout_fab_submenu"/>
 

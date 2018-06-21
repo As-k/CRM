@@ -111,7 +111,6 @@
                     android:id="@+id/contacts_mobile"
                     android:hint="Mobile"
                     android:inputType="phone"
-                    android:maxLength="10"
                     style="@style/edit_text_style"
                     />
             </android.support.design.widget.TextInputLayout>

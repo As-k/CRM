@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:id="@+id/listview1"
+        android:id="@+id/import_contact_list_view"
        />
 
 </LinearLayout>

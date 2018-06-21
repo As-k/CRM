@@ -59,10 +59,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".opportunities.OpportunitiesActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".opportunities.StepView"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".relationships.RelationshipActivity"
             android:label="@string/relationships"
@@ -78,6 +82,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".contacts.ContactsListActivity"
+            android:label="@string/contacts_list"
             android:screenOrientation="portrait" />
         <activity
             android:name=".contacts.MeetingActivity"

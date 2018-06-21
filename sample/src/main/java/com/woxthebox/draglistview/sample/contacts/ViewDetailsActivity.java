@@ -32,11 +32,13 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.pchmn.materialchips.ChipsInput;
 import com.pchmn.materialchips.model.ChipInterface;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.woxthebox.draglistview.sample.R;
 import com.woxthebox.draglistview.sample.ServerUrl;
+import com.woxthebox.draglistview.sample.UserSearch;
 import com.woxthebox.draglistview.sample.edittag.ContactChip;
 
 import org.json.JSONArray;
@@ -79,6 +81,11 @@ public class ViewDetailsActivity extends FragmentActivity {
     private List<String> ipContactSch = new ArrayList<>();
     private List<String> crmContactSch = new ArrayList<>();
     private List<String> crmContactTask = new ArrayList<>();
+    private List<UserSearch> userSearchListSdl= new ArrayList<>();
+    private List<ContactLite> contactLitesSdl= new ArrayList<>();
+    private List<ContactLite> contactLitesTask= new ArrayList<>();
+    int posIpSdl, posCrmScl, countIpScl=0, countCrmScl=0;
+    int posCrmTask, countCrmTask=0;
 
     public static String cpk,cname,street,city,state,pincode,country,eMail,mobile,designation,company,companyPk,telephone, cMobile, cin, tin, about, web,dp;
 
@@ -130,7 +137,7 @@ public class ViewDetailsActivity extends FragmentActivity {
             }
         });
 
-        Calendar c = Calendar.getInstance();
+        final Calendar c = Calendar.getInstance();
         c_yr = c.get(Calendar.YEAR);
         c_month = c.get(Calendar.MONTH);
         c_day = c.get(Calendar.DAY_OF_MONTH);
@@ -155,7 +162,12 @@ public class ViewDetailsActivity extends FragmentActivity {
 //                mContactList = new ArrayList<>();
                 final EditText scheduleDate, scheduleTime, scheduleLocation, scheduleEventDetails;
                 Button scheduleCancel, scheduleSave;
+                final DatePicker[] dp = new DatePicker[1];
+                final TimePicker[] tp = new TimePicker[1];
                 final String[] format = new String[1];
+                final JSONArray array = new JSONArray();
+                final JSONArray array1 = new JSONArray();
+
                 View v = getLayoutInflater().inflate(R.layout.layout_schedule_style, null, false);
 
                 scheduleDate = v.findViewById(R.id.schedule_date);
@@ -185,7 +197,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                                 scheduleDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                             }
                         },c_yr,c_month,c_day);
-                        DatePicker dp = dpd.getDatePicker();
+                        dp[0] = dpd.getDatePicker();
 //                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
 //                dp.setMaxDate(System.currentTimeMillis());
                         dpd.show();
@@ -221,6 +233,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                                             scheduleTime.setText(hourOfDay + ": 0" + minute + format[0]);
                                         else
                                             scheduleTime.setText(hourOfDay + ":" + minute + format[0]);
+                                        tp[0] = view;
                                     }
                                 }, c_hr, c_min, false);
                         timepickerdialog.show();
@@ -232,11 +245,16 @@ public class ViewDetailsActivity extends FragmentActivity {
                 getContactList();
 
                 //Set tag add callback before set tag list
+//                countIpScl=0;
                 editTagViewIP.setTagAddCallBack(new EditTag.TagAddCallback() {
                     @Override
                     public boolean onTagAdd(String tagValue) {
                         for (int i=0; i<ipContactSch.size(); i++) {
                             if (ipContactSch.get(i).equals(tagValue)) {
+                                String userPk = userSearchListSdl.get(i).getPk();
+                                array.put(Integer.parseInt(userPk));
+//                                posIpSdl = i;
+//                                countIpScl++;
                                 return true;
                             }
                         }
@@ -250,14 +268,19 @@ public class ViewDetailsActivity extends FragmentActivity {
                     }
                 });
 
-                editTagViewIP.setTagList(ipContactSch);
+//                editTagViewIP.setTagList(ipContactSch);
 
                 //Set tag add callback before set tag list
+//                countCrmScl=0;
                 editTagViewCRM.setTagAddCallBack(new EditTag.TagAddCallback() {
                     @Override
                     public boolean onTagAdd(String tagValue) {
                         for (int i=0; i<crmContactSch.size(); i++) {
                             if (crmContactSch.get(i).equals(tagValue)) {
+                                String contactPk = contactLitesSdl.get(i).getPk();
+                                array1.put(Integer.parseInt(contactPk));
+//                                posCrmScl = i;
+//                                countCrmScl++;
                                 return true;
                             }
                         }
@@ -271,7 +294,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                     }
                 });
 
-                editTagViewCRM.setTagList(crmContactSch);
+//                editTagViewCRM.setTagList(crmContactSch);
 
 
 //                // chips listener
@@ -319,6 +342,75 @@ public class ViewDetailsActivity extends FragmentActivity {
                         ad.dismiss();
                     }
                 });
+
+                scheduleSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String date = scheduleDate.getText().toString();
+                        String time = scheduleTime.getText().toString();
+                        String place = scheduleLocation.getText().toString();
+                        String eventDetails = scheduleEventDetails.getText().toString();
+//        if (date.isEmpty()||time.isEmpty()){
+//            return;
+//        }
+                        String inputRaw = dp[0].getYear()+"-"+ dp[0].getMonth()+"-"+ dp[0].getDayOfMonth()+"T"+ tp[0].getHour()+":"+ tp[0].getMinute()+":00.000Z";//date+" "+time
+//        String input = inputRaw.replace( "/", "-" ).replace( " ", "T" );
+
+//        SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//        String date_time = sdf_datetime.format(new Date(Long.parseLong(date+" "+time)));
+
+//                        JSONArray array = new JSONArray();
+//                        try {
+//                            for (int j=1; j<=countIpScl; j++) {
+//                                String userPk = userSearchListSdl.get(posIpSdl).getPk();
+//                                array.put(Integer.parseInt(userPk));
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                        JSONArray array1 = new JSONArray();
+//                        try {
+//                            for (int j=1; j<=countCrmScl; j++) {
+//                                String contactPk = contactLitesSdl.get(posCrmScl).getPk();
+//                                array1.put(Integer.parseInt(contactPk));
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+
+                        RequestParams params = new RequestParams();
+                        params.put("venue",place);
+                        params.put("text",eventDetails);
+                        params.put("followers",array);
+                        params.put("clients",array1);
+                        params.put("eventType","Meeting");
+                        params.put("originator","CRM");
+                        params.put("when",inputRaw);//2018-06-19T10:19:37.931376Z
+
+                        client.post(ServerUrl.url+"api/PIM/calendar/", params, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Toast.makeText(ViewDetailsActivity.this, "posted", Toast.LENGTH_SHORT).show();
+
+                                ad.dismiss();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+                        });
+
+                    }
+                });
                 ad.show();
             }
         });
@@ -328,7 +420,9 @@ public class ViewDetailsActivity extends FragmentActivity {
             public void onClick(View view) {
 
                 final EditText taskDate, taskDetails;
-                Button taskCancel, scheduleSave;
+                Button taskCancel, taskSave;
+                final DatePicker[] dp = new DatePicker[1];
+                final JSONArray array1 = new JSONArray();
                 View v = getLayoutInflater().inflate(R.layout.layout_task_style, null, false);
                 taskDate = v.findViewById(R.id.task_date);
 //                taskOtherStake = v.findViewById(R.id.chips_input_os_task);
@@ -338,7 +432,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                 taskDetails = v.findViewById(R.id.task_details);
 
                 taskCancel= v.findViewById(R.id.task_cancel);
-                scheduleSave = v.findViewById(R.id.task_save);
+                taskSave = v.findViewById(R.id.task_save);
 
                 taskDate.setFocusableInTouchMode(false);
                 taskDate.setOnClickListener(new View.OnClickListener() {
@@ -350,7 +444,7 @@ public class ViewDetailsActivity extends FragmentActivity {
                                 taskDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                             }
                         },c_yr,c_month,c_day);
-                        DatePicker dp = dpd.getDatePicker();
+                        dp[0] = dpd.getDatePicker();
 //                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
 //                dp.setMaxDate(System.currentTimeMillis());
                         dpd.show();
@@ -367,6 +461,10 @@ public class ViewDetailsActivity extends FragmentActivity {
                     public boolean onTagAdd(String tagValue) {
                         for (int i=0; i<crmContactTask.size(); i++) {
                             if (crmContactTask.get(i).equals(tagValue)) {
+                                String contactPk = contactLitesTask.get(i).getPk();
+                                array1.put(Integer.parseInt(contactPk));
+//                                posCrmTask=i;
+//                                countCrmTask++;
                                 return true;
                             }
                         }
@@ -380,7 +478,8 @@ public class ViewDetailsActivity extends FragmentActivity {
                     }
                 });
 
-                editTagViewCRM.setTagList(crmContactTask);
+//                editTagViewCRM.setTagList(crmContactTask);
+
                 // chips listener
 //                taskOtherStake.addChipsListener(new ChipsInput.ChipsListener() {
 //                    @Override
@@ -398,7 +497,6 @@ public class ViewDetailsActivity extends FragmentActivity {
 //                        Log.e(TAG, "text changed: " + text.toString());
 //                    }
 //                });
-
                 AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
                 adb.setView(v);
                 adb.setCancelable(false);
@@ -409,8 +507,59 @@ public class ViewDetailsActivity extends FragmentActivity {
                         ad.dismiss();
                     }
                 });
+                taskSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String date = taskDate.getText().toString();
+                        String eventDetails = taskDetails.getText().toString();
+//        if (date.isEmpty()||time.isEmpty()){
+//            return;
+//        }
+                        String inputRaw = dp[0].getYear()+"-"+ dp[0].getMonth()+"-"+ dp[0].getDayOfMonth()+"T"+ c.get(Calendar.HOUR_OF_DAY)+":"+ c.get(Calendar.MINUTE)+":00.000Z";//date+" "+time
+//        String input = inputRaw.replace( "/", "-" ).replace( " ", "T" );
+
+//        SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//        String date_time = sdf_datetime.format(new Date(Long.parseLong(date+" "+time)));
+//                        JSONArray array1 = new JSONArray();
+//                        try {
+//                            for (int j=1; j<=countCrmTask; j++) {
+//                                String contactPk = contactLitesTask.get(posCrmTask).getPk();
+//                                array1.put(Integer.parseInt(contactPk));
+//                            }
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+
+                        RequestParams params = new RequestParams();
+                        params.put("text",eventDetails);
+                        params.put("eventType","Reminder");
+                        params.put("clients",array1);
+                        params.put("originator","CRM");
+                        params.put("when",inputRaw);//2018-06-19T10:19:37.931376Z
+
+                        client.post(ServerUrl.url+"api/PIM/calendar/", params, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Toast.makeText(ViewDetailsActivity.this, "posted", Toast.LENGTH_SHORT).show();
+
+                                ad.dismiss();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+                        });
+
+                    }
+                });
                 ad.show();
-//                taskOtherStake.setFilterableList(mContactList);
             }
         });
 
@@ -450,10 +599,48 @@ public class ViewDetailsActivity extends FragmentActivity {
                 noteCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String details = noteDetails.getText().toString().trim();
+
                         ad.dismiss();
                     }
                 });
+
+                noteSend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String details = noteDetails.getText().toString().trim();
+
+                        if (details.isEmpty()){
+                            return;
+                        }
+                        RequestParams params = new RequestParams();
+                        params.put("contact",Integer.parseInt(cpk));
+                        params.put("data",details);
+                        params.put("typ","note");
+//                        params.put("when",inputRaw);//2018-06-19T10:19:37.931376Z
+
+                        client.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                super.onSuccess(statusCode, headers, response);
+                                Toast.makeText(ViewDetailsActivity.this, "posted", Toast.LENGTH_SHORT).show();
+
+                                ad.dismiss();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                super.onFinish();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                super.onFailure(statusCode, headers, throwable, errorResponse);
+                            }
+                        });
+                    }
+                });
+
+
                 ad.show();
             }
         });
@@ -630,6 +817,8 @@ public class ViewDetailsActivity extends FragmentActivity {
                 for (int i=0; i<response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
+                        ContactLite c = new ContactLite(object);
+                        contactLitesSdl.add(c);
                         String name = object.getString("name");
                         crmContactSch.add(name);
                     } catch (JSONException e) {
@@ -653,6 +842,8 @@ public class ViewDetailsActivity extends FragmentActivity {
                 for (int i=0; i<response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
+                        UserSearch userSearch = new UserSearch(object);
+                        userSearchListSdl.add(userSearch);
                         String fname = object.getString("first_name");
                         String lname = object.getString("last_name");
                         String name = fname+" "+lname;
@@ -680,6 +871,8 @@ public class ViewDetailsActivity extends FragmentActivity {
                 for (int i=0; i<response.length(); i++) {
                     try {
                         JSONObject object = response.getJSONObject(i);
+                        ContactLite c = new ContactLite(object);
+                        contactLitesTask.add(c);
                         String name = object.getString("name");
                         crmContactTask.add(name);
                     } catch (JSONException e) {

@@ -14,18 +14,13 @@ import java.io.Serializable;
  */
 
 public class FeedActivity implements Serializable {
-    public String pk, contactPk, data, deal, contact, doc;
-    public String user;
-    public String name;
+    public String pk, contactPkContacts, contactPk, data, duration, location, deal, contact, doc;
+    public String user, name, email, mobile, designation, dp, companyPk;
+    public String nameContacts, emailContacts, mobileContacts, designationContacts, dpContacts, companyPkContacts;
     public String created;
     public String typ;
-    public String email;
-    public String mobile;
-    public String designation;
     public String notes;
-    public String dp;
-    public boolean male;
-    public String companyPk;
+    public boolean male, maleContacts;
     public JSONObject jsonObject;
 
     public FeedActivity() {
@@ -59,9 +54,21 @@ public class FeedActivity implements Serializable {
 
         try{
             this.pk = jsonObject.getString("pk");
-            this.typ = jsonObject.getString("typ");
+            this.user = jsonObject.getString("user");
+            String type = jsonObject.getString("typ");
             this.created = jsonObject.getString("created");
-            this.data = jsonObject.getString("data");
+            if (type.equals("note")) {
+                this.data = jsonObject.getString("data");
+            }
+            if (type.equals("call")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                this.duration = data.getString("duration");
+            }
+            if (type.equals("meeting")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                this.duration = data.getString("duration");
+                this.location = data.getString("location");
+            }
 
             String notes = jsonObject.getString("notes");
             if (notes.equals("null")) {
@@ -76,41 +83,40 @@ public class FeedActivity implements Serializable {
             } else {
                 this.doc = doc;
             }
+            JSONObject contactsObj = jsonObject.getJSONObject("contact");
 
-            JSONArray contactsArr = jsonObject.getJSONArray("contacts");
-            for (int i=0; i<contactsArr.length();i++) {
-                JSONObject contacts = contactsArr.getJSONObject(i);
-
-                this.contactPk = contacts.getString("pk");
-                String name = contacts.getString("name");
+            if (contactsObj!=null) {
+                this.contactPk = contactsObj.getString("pk");
+                String name = contactsObj.getString("name");
                 if (name.equals("null")) {
                     this.name = "";
                 } else {
                     this.name = name;
                 }
-                String email = contacts.getString("email");
+                this.companyPk = contactsObj.getString("company");
+                String email = contactsObj.getString("email");
                 if (email.equals("null")) {
                     this.email = "";
                 } else {
                     this.email = email;
                 }
 
-                String mobile = contacts.getString("mobile");
+                String mobile = contactsObj.getString("mobile");
                 if (mobile.equals("null")) {
                     this.mobile = "";
                 } else {
                     this.mobile = mobile;
                 }
 
-                String designation = contacts.getString("designation");
+                String designation = contactsObj.getString("designation");
                 if (designation.equals("null")) {
                     this.designation = "";
                 } else {
                     this.designation = designation;
                 }
 
-                this.male = contacts.getBoolean("male");
-                String img = contacts.getString("dp");
+                this.male = contactsObj.getBoolean("male");
+                String img = contactsObj.getString("dp");
                 if (img.equals("null")) {
                     if (this.male)
                         this.dp = ServerUrl.url + "/static/images/img_avatar_card.png";
@@ -119,9 +125,57 @@ public class FeedActivity implements Serializable {
                 } else {
                     this.dp = img;
                 }
-
-                this.companyPk = contacts.getString("pk");
             }
+
+            JSONArray contactsArr = jsonObject.getJSONArray("contacts");
+            for (int i=0; i<contactsArr.length();i++) {
+                JSONObject contacts = contactsArr.getJSONObject(i);
+
+                this.contactPkContacts = contacts.getString("pk");
+                String name1 = contacts.getString("name");
+                if (name1.equals("null")) {
+                    this.nameContacts = "";
+                } else {
+                    this.nameContacts = name1;
+                }
+                this.companyPkContacts = contacts.getString("company");
+                String email1 = contacts.getString("email");
+                if (email1.equals("null")) {
+                    this.emailContacts = "";
+                } else {
+                    this.emailContacts = email1;
+                }
+
+                String mobileContacts = contacts.getString("mobile");
+                if (mobileContacts.equals("null")) {
+                    this.mobileContacts = "";
+                } else {
+                    this.mobileContacts = mobileContacts;
+                }
+
+                String designation1 = contacts.getString("designation");
+                if (designation1.equals("null")) {
+                    this.designationContacts = "";
+                } else {
+                    this.designationContacts = designation1;
+                }
+
+                this.maleContacts = contacts.getBoolean("male");
+                String img1 = contacts.getString("dp");
+                if (img1.equals("null")) {
+                    if (this.maleContacts)
+                        this.dpContacts = ServerUrl.url + "/static/images/img_avatar_card.png";
+                    else
+                        this.dpContacts = ServerUrl.url + "/static/images/img_avatar_card2.png";
+                } else {
+                    this.dpContacts = img1;
+                }
+            }
+            JSONArray internalUsers = jsonObject.getJSONArray("internalUsers");
+            for (int j=0; j<internalUsers.length(); j++){
+                String arrStr = internalUsers.getString(j);
+            }
+
 
 
         }catch (JSONException e){
@@ -268,6 +322,90 @@ public class FeedActivity implements Serializable {
 
     public void setDoc(String doc) {
         this.doc = doc;
+    }
+
+    public String getContactPkContacts() {
+        return contactPkContacts;
+    }
+
+    public void setContactPkContacts(String contactPkContacts) {
+        this.contactPkContacts = contactPkContacts;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getNameContacts() {
+        return nameContacts;
+    }
+
+    public void setNameContacts(String nameContacts) {
+        this.nameContacts = nameContacts;
+    }
+
+    public String getEmailContacts() {
+        return emailContacts;
+    }
+
+    public void setEmailContacts(String emailContacts) {
+        this.emailContacts = emailContacts;
+    }
+
+    public String getMobileContacts() {
+        return mobileContacts;
+    }
+
+    public void setMobileContacts(String mobileContacts) {
+        this.mobileContacts = mobileContacts;
+    }
+
+    public String getDesignationContacts() {
+        return designationContacts;
+    }
+
+    public void setDesignationContacts(String designationContacts) {
+        this.designationContacts = designationContacts;
+    }
+
+    public String getDpContacts() {
+        return dpContacts;
+    }
+
+    public void setDpContacts(String dpContacts) {
+        this.dpContacts = dpContacts;
+    }
+
+    public boolean isMale() {
+        return male;
+    }
+
+    public boolean isMaleContacts() {
+        return maleContacts;
+    }
+
+    public void setMaleContacts(boolean maleContacts) {
+        this.maleContacts = maleContacts;
+    }
+
+    public String getCompanyPkContacts() {
+        return companyPkContacts;
+    }
+
+    public void setCompanyPkContacts(String companyPkContacts) {
+        this.companyPkContacts = companyPkContacts;
     }
 
     public JSONObject getJsonObject() {

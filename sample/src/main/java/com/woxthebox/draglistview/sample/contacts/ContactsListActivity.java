@@ -56,11 +56,11 @@ public class ContactsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts_list);
 
 //        searchContact = findViewById(R.id.search_contact);
-        listView = findViewById(R.id.listview1);
+        listView = findViewById(R.id.import_contact_list_view);
 
         storeContacts = new ArrayList<String>();
 
-        EnableRuntimePermission();
+        enableRuntimePermission();
 
         allContacts();
 
@@ -102,12 +102,11 @@ public class ContactsListActivity extends AppCompatActivity {
         return true;
     }
 
-    private void search(SearchView searchView) {
+    private void search(final SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                query = query.toLowerCase();
-                storeContacts.clear();
+
 
 //                browseAdapter.clearData();
 
@@ -131,9 +130,7 @@ public class ContactsListActivity extends AppCompatActivity {
 //                        browseAdapter.setLoaded();
 //                        contactList.add(null);
 
-
-
-                return true;
+                return false;
             }
 
             @Override
@@ -142,8 +139,14 @@ public class ContactsListActivity extends AppCompatActivity {
 //                    text.setVisibility(View.VISIBLE);
 //                    contactList.clear();
 //                    browseAdapter.clearData();
+                    simpleAdapter.getFilter().filter(newText);
+
+                } else {
+                    String query1 = newText.toLowerCase();
+                    simpleAdapter.getFilter().filter(query1);
                 }
-                return false;
+
+                return true;
             }
         });
     }
@@ -258,7 +261,7 @@ public class ContactsListActivity extends AppCompatActivity {
         return number.charAt(plus_sign_pos) == '+'; // Didn't String had contains() method?...
     }
 
-    public void EnableRuntimePermission(){
+    public void enableRuntimePermission(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 ContactsListActivity.this,
                 Manifest.permission.READ_CONTACTS)) {

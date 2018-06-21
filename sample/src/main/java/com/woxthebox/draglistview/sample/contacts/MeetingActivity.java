@@ -90,6 +90,10 @@ public class MeetingActivity extends AppCompatActivity {
     private List<UserSearch> userSearchList;
     int posIp, posCrm, countIp, countCrm;
     String pk;
+    DatePicker dp;
+    TimePicker tp;
+    JSONArray array = new JSONArray();
+    JSONArray array1 = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +146,10 @@ public class MeetingActivity extends AppCompatActivity {
                 countIp=0;
                 for (int i=0; i<ipContact.size();i++) {
                     if (ipContact.get(i).equals(tagValue)) {
-                        posIp = i;
-                        countIp++;
+                        String userPk = userSearchList.get(i).getPk();
+                        array.put(Integer.parseInt(userPk));
+//                        posIp = i;
+//                        countIp++;
                         return true;
                     }
                 }
@@ -166,8 +172,10 @@ public class MeetingActivity extends AppCompatActivity {
                 countCrm=0;
                 for (int i=0; i<crmContact.size();i++) {
                     if (crmContact.get(i).equals(tagValue)) {
-                        posCrm = i;
-                        countCrm++;
+                        String contactPk = contactLites.get(i).getPk();
+                        array1.put(Integer.parseInt(contactPk));
+//                        posCrm = i;
+//                        countCrm++;
                         return true;
                     }
                 }
@@ -244,7 +252,7 @@ public class MeetingActivity extends AppCompatActivity {
                         meetingDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
                     }
                 },c_yr,c_month,c_day);
-                DatePicker dp = dpd.getDatePicker();
+                dp = dpd.getDatePicker();
 //                dp.setMinDate(System.currentTimeMillis()-10*24*60*60*1000);
 //                dp.setMaxDate(System.currentTimeMillis());
                 dpd.show();
@@ -254,7 +262,7 @@ public class MeetingActivity extends AppCompatActivity {
         meetingTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timepickerdialog = new TimePickerDialog(MeetingActivity.this,
+                TimePickerDialog tpd = new TimePickerDialog(MeetingActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -278,9 +286,11 @@ public class MeetingActivity extends AppCompatActivity {
                                         meetingTime.setText(hourOfDay + ": 0" + minute + format);
                                 else
                                     meetingTime.setText(hourOfDay + ":" + minute + format);
+                                tp = view;
                             }
                         }, c_hr, c_min, false);
-                timepickerdialog.show();
+
+                tpd.show();
             }
         });
 
@@ -450,9 +460,10 @@ public class MeetingActivity extends AppCompatActivity {
 //        if (date.isEmpty()||time.isEmpty()){
 //            return;
 //        }
-        String inputRaw = date+" "+time;
-        String input = inputRaw.replace( "/", "-" ).replace( " ", "T" );
-        SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String inputRaw = dp.getYear()+"-"+dp.getMonth()+"-"+dp.getDayOfMonth()+"T"+ tp.getHour()+":"+tp.getMinute()+":00.000Z";//date+" "+time
+//        String input = inputRaw.replace( "/", "-" ).replace( " ", "T" );
+
+//        SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 //        String date_time = sdf_datetime.format(new Date(Long.parseLong(date+" "+time)));
         JSONObject object = new JSONObject();
         try {
@@ -461,34 +472,34 @@ public class MeetingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONArray array = new JSONArray();
-        try {
-            for (int j=1; j<countIp; j++) {
-                String userPk = contactLites.get(posIp).getPk();
-                array.put(Integer.parseInt(userPk));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        JSONArray array1 = new JSONArray();
-        try {
-            for (int j=1; j<countCrm; j++) {
-                String contactPk = contactLites.get(posCrm).getPk();
-                array1.put(Integer.parseInt(contactPk));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        JSONArray array = new JSONArray();
+//        try {
+//            for (int j=1; j<=countIp; j++) {
+//                String userPk = userSearchList.get(posIp).getPk();
+//                array.put(Integer.parseInt(userPk));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        JSONArray array1 = new JSONArray();
+//        try {
+//            for (int j=1; j<=countCrm; j++) {
+//                String contactPk = contactLites.get(posCrm).getPk();
+//                array1.put(Integer.parseInt(contactPk));
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         RequestParams params = new RequestParams();
-        params.put("contact",pk);
+        params.put("contact",Integer.parseInt(pk));
         params.put("data",object);
         params.put("internalUsers",array);
         params.put("contacts",array1);
         params.put("typ","meeting");
-        params.put("when","2018-06-19T10:19:37.931376Z");
+        params.put("when",inputRaw);//2018-06-19T10:19:37.931376Z
 
         client.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
             @Override

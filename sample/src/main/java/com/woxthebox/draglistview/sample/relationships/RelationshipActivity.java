@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -68,7 +69,7 @@ public class RelationshipActivity extends AppCompatActivity {
         rv = findViewById(R.id.realtionship_recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(RelationshipActivity.this));
         rv.setItemAnimator(new DefaultItemAnimator());
-        RelationshipsAdapter relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
+        relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
         rv.setAdapter(relationshipsAdapter);
         getData();
 
@@ -106,10 +107,10 @@ public class RelationshipActivity extends AppCompatActivity {
                         Obj = response.getJSONObject(i);
 
                         Relationships relationships = new Relationships(Obj);
-                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
-                        }.getType());
-                        relationship.clear();
-                        relationship.addAll(items);
+//                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
+//                        }.getType());
+                        relationship.add(relationships);
+//                        relationship.addAll(items);
 //                        relationshipsAdapter.notifyDataSetChanged();
 
                     } catch (JSONException e) {
@@ -117,7 +118,7 @@ public class RelationshipActivity extends AppCompatActivity {
                     }
 
                 }
-                RelationshipsAdapter relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
+                relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
                 rv.setAdapter(relationshipsAdapter);
 
 
@@ -163,63 +164,94 @@ public class RelationshipActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                String serverURL = serverUrl.url + "api/clientRelationships/relationships/?&name__contains=" + newText + "&limit=&offset=0";
-                JsonArrayRequest request = new JsonArrayRequest(serverURL,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                for (int i = 0; i < response.length(); i++) {
-                                    JSONObject Obj = null;
-                                    try {
-                                        Obj = response.getJSONObject(i);
-                                        if (response == null) {
-                                            Toast.makeText(getApplicationContext(), "Couldn't fetch the contacts! Pleas try again.", Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-
-                                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
-                                        }.getType());
-
-                                        // adding contacts to contacts list
-                                        relationship.clear();
-                                        relationship.addAll(items);
-
-                                        // refreshing recycler view
-//                                                                  relationshipsAdapter.notifyDataSetChanged();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }, new Response.ErrorListener() {
+//                relationshipsAdapter.getFilter().filter(newText);
+                relationship.clear();
+                String serverURL = serverUrl.url + "api/clientRelationships/relationships/?&name__contains=" + newText + "&limit=10&offset=0";
+                client.get(serverURL, new JsonHttpResponseHandler() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error in getting json
-//                                                          Log.e(TAG, "Error: " + error.getMessage());
-//                                                          Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onSuccess(int statusCode, Header[] headers, final JSONObject response)
+                    {
+                        JSONArray jsonRes = null;
+                        try {
+                             jsonRes = response.getJSONArray("results");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        for (int i = 0; i < jsonRes.length(); i++) {
+                            JSONObject Obj = null;
+                            try {
+                                Obj = jsonRes.getJSONObject(i);
+
+                                Relationships relationships = new Relationships(Obj);
+//                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
+//                        }.getType());
+                                relationship.add(relationships);
+//                        relationship.addAll(items);
+//                        relationshipsAdapter.notifyDataSetChanged();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
+                        rv.setAdapter(relationshipsAdapter);
 
                     }
 
+                    @Override
+                    public void onFinish() {
+                        System.out.println("finished 001");
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                        System.out.println("finished failed 001");
+                    }
                 });
 
-                AppController.getInstance().addToRequestQueue(request);
-                return true;
-
+//                JsonArrayRequest request = new JsonArrayRequest(serverURL,
+//                        new Response.Listener<JSONArray>() {
+//                            @Override
+//                            public void onResponse(JSONArray response) {
+//                                for (int i = 0; i < response.length(); i++) {
+//                                    JSONObject Obj = null;
+//                                    try {
+//                                        Obj = response.getJSONObject(i);
+//                                        if (response == null) {
+//                                            Toast.makeText(getApplicationContext(), "Couldn't fetch the contacts! Pleas try again.", Toast.LENGTH_LONG).show();
+//                                            return;
+//                                        }
 //
-//            @Override
-//                    public void onFinish() {
-//                        System.out.println("finished 001");
+//                                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
+//                                        }.getType());
 //
-//                    }
+//                                        // adding contacts to contacts list
+//                                        relationship.clear();
+//                                        relationship.addAll(items);
 //
+//                                        // refreshing recycler view
+////                                                                  relationshipsAdapter.notifyDataSetChanged();
+//                                    } catch (JSONException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
 //                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
-//                        // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-//                        System.out.println("finished failed 001");
+//                    public void onErrorResponse(VolleyError error) {
+//                        // error in getting json
+////                                                          Log.e(TAG, "Error: " + error.getMessage());
+////                                                          Toast.makeText(getApplicationContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+//
 //                    }
+//
 //                });
-
-//                if (relationshipsAdapter != null) relationshipsAdapter.getFilter().filter(newText);
+//
+//                AppController.getInstance().addToRequestQueue(request);
+                return true;
 
             }
 

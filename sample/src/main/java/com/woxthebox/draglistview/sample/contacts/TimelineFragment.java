@@ -44,6 +44,7 @@ public class TimelineFragment extends Fragment {
     ServerUrl serverUrl;
 
     private List<FeedItem> feedItems;
+    private List<FeedActivity> feedActivityList;
     private String URL_FEED = "https://api.androidhive.info/feed/feed.json";//http://192.168.1.104:8000/api/clientRelationships/activity/
     ArrayList<String> companiesList;
     public AsyncHttpClient client;
@@ -59,14 +60,14 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-//        getContentValue();
         serverUrl = new ServerUrl();
         feedItems = new ArrayList<FeedItem>();
+        feedActivityList = new ArrayList<FeedActivity>();
         recyclerViewTimeline = v.findViewById(R.id.timeline_rv);
         recyclerViewTimeline.setLayoutManager(new LinearLayoutManager(getActivity()));
         timelineAdapter = new TimelineAdapter(getActivity(), feedItems);
         recyclerViewTimeline.setAdapter(timelineAdapter);
-
+        getContentValue();
 
         // We first check for cached request
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
@@ -112,19 +113,19 @@ public class TimelineFragment extends Fragment {
     }
 
     protected void getContentValue(){
-        client.get(ServerUrl.class+"api/clientRelationships/activity/?format=json",new JsonHttpResponseHandler(){
+        client.get(ServerUrl.url+"/api/clientRelationships/activity/?format=json",new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 //                super.onSuccess(statusCode, headers, response);
                 for(int i=0; i<response.length(); i++){
                     try {
                         JSONObject json = response.getJSONObject(i);
+                        FeedActivity fa = new FeedActivity(json);
                         String time = json.getString("created");
                         String status = json.getString("data");
                         String doc = json.getString("doc");
 //                        String time = json.getString("created");
-
-//                        companiesList.add(companyName);
+                        feedActivityList.add(fa);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
