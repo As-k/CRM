@@ -129,7 +129,6 @@ public class ContactsListActivity extends AppCompatActivity {
 //                        browseAdapter.notifyDataSetChanged();
 //                        browseAdapter.setLoaded();
 //                        contactList.add(null);
-
                 return false;
             }
 

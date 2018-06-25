@@ -33,50 +33,68 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            style="@style/text_view_style"
-            android:layout_marginStart="10dp"
-            android:text="VALUATION " />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/text_view_style"
+                android:layout_marginStart="10dp"
+                android:text="VALUATION " />
 
-        <TextView
-            style="@style/text_view_style"
-            android:layout_marginStart="100dp"
-            android:text="CLOSING DATE" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_money" />
+
+                <TextView
+                    android:id="@+id/valuation_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:text="5000" />
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                style="@style/text_view_style"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_money" />
-
-            <TextView
-                android:id="@+id/valuation_money"
-                android:layout_width="wrap_content"
+                android:text="CLOSING DATE" />
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:text="5000" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:src="@drawable/ic_date"/>
-            <TextView
-                android:id="@+id/closing_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:text="12-Sep-2017"/>
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_date"/>
+                <TextView
+                    android:id="@+id/closing_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:text="12-Sep-2017"/>
+            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +102,7 @@
         android:layout_marginBottom="2dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -99,7 +117,7 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="2dp"
         android:background="@color/colorPrimary"
         android:layout_marginTop="2dp"/>
 

@@ -15,6 +15,7 @@ public class Company {
 
     }
 
+    // make a get request
     public Company(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
         try {
@@ -58,6 +59,7 @@ public class Company {
             } else {
                 this.web = web;
             }
+
             JSONObject address = jsonObject.getJSONObject("address");
             this.addressPk = address.getString("pk");
             String street = address.getString("street");

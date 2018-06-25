@@ -1,5 +1,6 @@
 package com.woxthebox.draglistview.sample.relationships;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,7 @@ import com.woxthebox.draglistview.sample.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,7 +28,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
     ImageView imageView;
     Deal d;
     private String pk;
-    private Integer contractPk;
+    private ArrayList<Integer> contractPk;
     private ActiveDealsViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
 
@@ -41,14 +43,14 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_deals_details);
 
-
+        contractPk = new ArrayList<Integer>();
         final Bundle b = getIntent().getExtras();
         if (b != null) {
             name = b.getString("name");
             value = b.getString("value");
             closedate = b.getString("closeDate");
             pk = b.getString("pk");
-            contractPk = b.getInt("contracts");
+            contractPk = b.getIntegerArrayList("contracts");
 
 //         /*   web = b.getString("web");
 //            cin = b.getString("cin");
@@ -93,7 +95,8 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         viewPager = findViewById(R.id.deal_viewpager);
 
         tabLayout = findViewById(R.id.deal_view);
-        viewPagerAdapter = new ActiveDealsViewPagerAdapter(getSupportFragmentManager(), pk,contractPk);
+        tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
+        viewPagerAdapter = new ActiveDealsViewPagerAdapter(getSupportFragmentManager(), pk, contractPk);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(4);
@@ -102,7 +105,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
 
 
         Bundle bundle = new Bundle();
-        bundle.putString("requirements",d.getRequirements());
+        bundle.putString("requirements", d.getRequirements());
         RequirementFragment requirementFragment = new RequirementFragment();
         requirementFragment.setArguments(bundle);
     }

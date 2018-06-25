@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 
 /**
- * Created by amit on 16/4/18.
+ * Created by admin on 20/06/18.
  */
 
 public class FeedActivity implements Serializable {
@@ -48,7 +48,7 @@ public class FeedActivity implements Serializable {
         this.companyPk = companyPk;
 
     }
-
+    //make get request
     public FeedActivity(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
 

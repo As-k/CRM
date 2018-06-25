@@ -73,7 +73,7 @@
             android:text="    Owner :"
             android:textColor="#000"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/owner_photo"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -106,7 +106,7 @@
             android:text=" Contact :"
             android:textColor="#000"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/contact_photo"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

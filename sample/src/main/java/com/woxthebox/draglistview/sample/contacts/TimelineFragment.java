@@ -67,7 +67,7 @@ public class TimelineFragment extends Fragment {
         recyclerViewTimeline.setLayoutManager(new LinearLayoutManager(getActivity()));
         timelineAdapter = new TimelineAdapter(getActivity(), feedItems);
         recyclerViewTimeline.setAdapter(timelineAdapter);
-        getContentValue();
+//        getContentValue();
 
         // We first check for cached request
         Cache cache = AppController.getInstance().getRequestQueue().getCache();

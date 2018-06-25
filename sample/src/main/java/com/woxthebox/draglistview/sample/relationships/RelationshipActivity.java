@@ -62,7 +62,7 @@ public class RelationshipActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         serverUrl = new ServerUrl();
-        client = new AsyncHttpClient();
+        client = serverUrl.getHTTPClient();
         relationship = new ArrayList<>();
 
 

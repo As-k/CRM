@@ -16,24 +16,15 @@ import com.woxthebox.draglistview.sample.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdapter.MyHolder> implements Filterable{
-
-
+public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdapter.MyHolder> implements Filterable {
     Context context;
     private List<Relationships> relationshipsList;
     private List<Relationships> mFilteredList;
-
-
-
-
-
 
     public RelationshipsAdapter(Context context, List<Relationships> relationshipList) {
         this.context = context;
         this.relationshipsList = relationshipList;
         this.mFilteredList = relationshipList;
-
-
     }
 
     @NonNull
@@ -56,6 +47,7 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
 
         }
     }
+
     @Override
     public int getItemCount() {
         return RelationshipActivity.relationship.size();
@@ -67,25 +59,18 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     mFilteredList = relationshipsList;
                 } else {
-
                     List<Relationships> filteredList = new ArrayList<>();
-
                     for (Relationships rel : relationshipsList) {
-
                         if (rel.getCompanyName().toLowerCase().contains(charString)) {
 
                             filteredList.add(rel);
                         }
                     }
-
                     mFilteredList = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mFilteredList;
                 return filterResults;
@@ -95,19 +80,13 @@ public class RelationshipsAdapter extends RecyclerView.Adapter<RelationshipsAdap
             protected void publishResults(CharSequence constraint, FilterResults filterResults) {
                 mFilteredList = (ArrayList<Relationships>) filterResults.values;
                 notifyDataSetChanged();
-
             }
         };
     }
 
-
-
-
     public class MyHolder extends RecyclerView.ViewHolder {
-
         ImageView accountimage, viewDetails;
         TextView accountdeal, companyname;
-
         public MyHolder(View itemView) {
             super(itemView);
 //            accountimage = itemView.findViewById(R.id.Account_photo);

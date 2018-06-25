@@ -71,6 +71,7 @@ public class Contact implements Serializable {
         this.country = country;
     }
 
+    // make a get request
     public Contact(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
 

@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.woxthebox.draglistview.sample.R;
 import com.woxthebox.draglistview.sample.ServerUrl;
+import com.woxthebox.draglistview.sample.contacts.Company;
 import com.woxthebox.draglistview.sample.contacts.Contact;
 
 import org.json.JSONObject;
@@ -32,9 +33,9 @@ public class DealInfoFragment extends Fragment {
     TextView companyname,address,web,cin,tin,mobile,telephone,about;
     Context context;
     ServerUrl serverUrl;
-     private Deal d;
-     private Contact c;
-     private Service s;
+    private Deal d;
+    private Contact c;
+    private Company company;
     public static ArrayList info;
     public AsyncHttpClient client;
     public String pk;
@@ -71,7 +72,7 @@ public class DealInfoFragment extends Fragment {
         telephone = view.findViewById(R.id.info_tele);
         about = view.findViewById(R.id.about);
         serverUrl = new ServerUrl();
-        client = new AsyncHttpClient();
+        client = serverUrl.getHTTPClient();
         info = new ArrayList();
 
 
@@ -95,18 +96,16 @@ public class DealInfoFragment extends Fragment {
 
 
     protected void getinfo() {
-        String serverURL = serverUrl.url;
-
-        client.get(serverURL+"api/ERP/service/"+pk+"/?format=json", new JsonHttpResponseHandler() {
+        client.get(ServerUrl.url+"api/ERP/service/"+pk+"/?format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 JSONObject Obj = null;
 
                     Obj  = response;
-                    s = new Service(Obj);
+                    company = new Company(Obj);
 
-                    info.add(s);
+                    info.add(company);
                     setData();
 
             }
@@ -125,15 +124,15 @@ public class DealInfoFragment extends Fragment {
     }
 
     private  void setData(){
-        companyname.setText(s.getCompanyName());
-        String address1 = s.getStreet()+" \n"+s.getCity()+" \n"+s.getState()+" \n"+s.getPincode()+" \n"+s.getCountry();
+        companyname.setText(company.getCompanyName());
+        String address1 = company.getStreet()+" \n"+company.getCity()+" \n"+company.getState()+" \n"+company.getPincode()+" \n"+company.getCountry();
         address.setText(address1);
-        web.setText(s.getWeb());
-        cin.setText(s.getCin());
-        tin.setText(s.getTin());
-        mobile.setText(s.getMobile());
-        telephone.setText(s.getTelepone());
-        about.setText(s.getAbout());
+        web.setText(company.getWeb());
+        cin.setText(company.getCin());
+        tin.setText(company.getTin());
+        mobile.setText(company.getCompanyMobile());
+        telephone.setText(company.getTelephone());
+        about.setText(company.getAbout());
 
     }
 

@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+
 /**
  * Created by amit on 21/4/18.
  */
@@ -12,9 +14,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class ActiveDealsViewPagerAdapter extends FragmentPagerAdapter {
 
     private String pk;
-    private int contractPk;
+    private ArrayList<Integer> contractPk;
 
-    public ActiveDealsViewPagerAdapter(FragmentManager fm, String pk, int contractPk) {
+    public ActiveDealsViewPagerAdapter(FragmentManager fm, String pk, ArrayList<Integer> contractPk) {
         super(fm);
         this.pk = pk;
         this.contractPk = contractPk;
@@ -50,7 +52,7 @@ public class ActiveDealsViewPagerAdapter extends FragmentPagerAdapter {
 
         Bundle bundle = new Bundle();
         bundle.putString("pk", pk);
-        bundle.putInt("contracts",contractPk);
+        bundle.putIntegerArrayList("contracts",contractPk);
         fragment.setArguments(bundle);
 
         return fragment;

@@ -117,8 +117,7 @@ public class MeetingActivity extends AppCompatActivity {
         editTagCRM = (AutoCompleteTextView) findViewById(R.id.medit_tag_crm);
 
 
-        editor = (Editor) findViewById(R.id.meeting_editor);
-        setUpEditor();
+
 
         meetingDate = findViewById(R.id.meeting_date);
         meetingTime = findViewById(R.id.meeting_time);
@@ -131,6 +130,8 @@ public class MeetingActivity extends AppCompatActivity {
 
         meetingDuration.setText("0");
         clickMethods();
+        editor = (Editor) findViewById(R.id.meeting_editor);
+        setUpEditor();
 
         ButterKnife.bind(this);
 //        mContactList = new ArrayList<>();
@@ -143,7 +144,7 @@ public class MeetingActivity extends AppCompatActivity {
         editTagViewIP.setTagAddCallBack(new EditTag.TagAddCallback() {
             @Override
             public boolean onTagAdd(String tagValue) {
-                countIp=0;
+//                countIp=0;
                 for (int i=0; i<ipContact.size();i++) {
                     if (ipContact.get(i).equals(tagValue)) {
                         String userPk = userSearchList.get(i).getPk();
@@ -159,6 +160,14 @@ public class MeetingActivity extends AppCompatActivity {
         editTagViewIP.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
             @Override
             public void onTagDelete(String deletedTagValue) {
+                for (int i=0; i<ipContact.size();i++) {
+                    if (ipContact.get(i).equals(deletedTagValue)) {
+                        String userPk = userSearchList.get(i).getPk();
+                        array.put(Integer.parseInt(userPk));
+//                        posIp = i;
+//                        countIp++;
+                    }
+                }
                 Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
             }
         });
@@ -169,7 +178,7 @@ public class MeetingActivity extends AppCompatActivity {
         editTagViewCRM.setTagAddCallBack(new EditTag.TagAddCallback() {
             @Override
             public boolean onTagAdd(String tagValue) {
-                countCrm=0;
+//                countCrm=0;
                 for (int i=0; i<crmContact.size();i++) {
                     if (crmContact.get(i).equals(tagValue)) {
                         String contactPk = contactLites.get(i).getPk();
@@ -185,6 +194,14 @@ public class MeetingActivity extends AppCompatActivity {
         editTagViewCRM.setTagDeletedCallback(new EditTag.TagDeletedCallback() {
             @Override
             public void onTagDelete(String deletedTagValue) {
+                for (int i=0; i<crmContact.size();i++) {
+                    if (crmContact.get(i).equals(deletedTagValue)) {
+                        String contactPk = contactLites.get(i).getPk();
+                        array1.remove(Integer.parseInt(contactPk));
+//                        posCrm = i;
+//                        countCrm++;
+                    }
+                }
                 Toast.makeText(MeetingActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
             }
         });
@@ -457,6 +474,7 @@ public class MeetingActivity extends AppCompatActivity {
         String time = meetingTime.getText().toString();
         String duration = meetingDuration.getText().toString();
         String place = meetingPlace.getText().toString();
+        String editorText = editor.getContentAsSerialized();
 //        if (date.isEmpty()||time.isEmpty()){
 //            return;
 //        }
@@ -520,8 +538,6 @@ public class MeetingActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-
-
     }
 
     @Override
@@ -600,7 +616,7 @@ public class MeetingActivity extends AppCompatActivity {
 //        }
 //
 
-        client.get(ServerUrl.url+"/api/HR/userSearch/", new JsonHttpResponseHandler(){
+        client.get(ServerUrl.url+"/api/HR/userSearch/", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);

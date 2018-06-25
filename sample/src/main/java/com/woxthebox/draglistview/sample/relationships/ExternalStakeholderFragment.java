@@ -29,11 +29,9 @@ public class ExternalStakeholderFragment extends Fragment {
     public AsyncHttpClient client;
     public String contact_Pk;
 
-
     public ExternalStakeholderFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +40,6 @@ public class ExternalStakeholderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_external_stakeholder, container, false);
 
         recyclerView = view.findViewById(R.id.stakeholder_rv);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ExternalStakeholderAdapter externalStakeholderAdapter = new ExternalStakeholderAdapter(getContext());

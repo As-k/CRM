@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by amit on 14/4/18.
@@ -23,16 +24,17 @@ public class Deal {
     public String requirements;
     public String probability;
     public String closeDate;
-    public String active;
+    public boolean active;
     public String result;
     public String doc;
     public String duePenalty;
     public String duePeriod;
     public String mobile;
-    public int contracts;
+    public ArrayList<Integer> contracts = new ArrayList<Integer>();
     public String contactPk,contactName,contactEmail,contactMobile,contactDesignation,contactDp;
     boolean contactMale;
     public JSONObject jsonObject;
+    public JSONArray jsonArray1;
 
 
     public Deal(){
@@ -43,10 +45,10 @@ public class Deal {
     public Deal(String pk, String user, String name, String addressPk, String street, String city, String add_state,
                 String pincode, String lat, String lon, String country, String companyPk, String companyName,
                 String companyMobile, String value, String currency, String state, String internalUsers,
-                String requirements, String probability, String closeDate, String active, String result, String doc,
+                String requirements, String probability, String closeDate, boolean active, String result, String doc,
                 String duePenalty, String duePeriod, String mobile, String contactPk,
                 String contactName, String contactEmail, String contactMobile, String contactDesignation,
-                String contactDp, boolean contactMale, int contracts) {
+                String contactDp, boolean contactMale, ArrayList contracts) {
         this.pk = pk;
         this.user = user;
         this.name = name;
@@ -86,7 +88,7 @@ public class Deal {
 
     }
 
-
+    //make get request
     public Deal(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
         try {
@@ -97,7 +99,7 @@ public class Deal {
             this.currency = jsonObject.getString("currency");
             this.probability = jsonObject.getString("probability");
             this.closeDate = jsonObject.getString("closeDate");
-            this.active = jsonObject.getString("active");
+            this.active = jsonObject.getBoolean("active");
             this.result = jsonObject.getString("result");
             this.doc = jsonObject.getString("doc");
             this.state = jsonObject.getString("state");
@@ -128,15 +130,11 @@ public class Deal {
                 this.contactDesignation = contacts.getString("designation");
                 this.contactDp = contacts.getString("dp");
                 this.contactMale = contacts.getBoolean("male");
+            }
 
-
-                JSONArray jsonArray1 = jsonObject.getJSONArray("contracts");
-                for (int j = 0; j < jsonArray1.length(); j++) {
-                    this.contracts = jsonArray1.getInt(j);
-//
-//
-//
-                }
+            this.jsonArray1 = jsonObject.getJSONArray("contracts");
+            for (int j = 0; j < this.jsonArray1.length(); j++) {
+                this.contracts.add(this.jsonArray1.getInt(j));
             }
 
             } catch(JSONException e){
@@ -226,11 +224,11 @@ public class Deal {
         this.lon = lon;
     }
 
-    public int getContracts() {
+    public ArrayList<Integer> getContracts() {
         return contracts;
     }
 
-    public void setContracts(int contracts) {
+    public void setContracts(ArrayList<Integer> contracts) {
         this.contracts = contracts;
     }
 
@@ -322,11 +320,11 @@ public class Deal {
         this.closeDate = closeDate;
     }
 
-    public String getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(String active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

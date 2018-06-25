@@ -34,18 +34,63 @@ public class Relationships implements Serializable{
         this.jsonObject = jsonObject;
         try {
             this.pk = jsonObject.getString("pk");
-            this.companyName = jsonObject.getString("name");
-            this.mobile = jsonObject.getString("mobile");
-            this.logo = jsonObject.getString("logo");
-            this.web = jsonObject.getString("web");
+            String companyName = jsonObject.getString("name");
+            if (companyName.equals("null")) {
+                this.companyName = "";
+            } else {
+                this.companyName = companyName;
+            }
+            String mobile = jsonObject.getString("mobile");
+            if (mobile.equals("null")) {
+                this.mobile = "";
+            } else {
+                this.mobile = mobile;
+            }
+            String logo = jsonObject.getString("logo");
+            if (logo.equals("null")) {
+                this.logo = "";
+            } else {
+                this.logo = logo;
+            }
+            String web = jsonObject.getString("web");
+            if (web.equals("null")) {
+                this.web = "";
+            } else {
+                this.web = web;
+            }
 
             JSONObject address = jsonObject.getJSONObject("address");
             this.addressPk = address.getString("pk");
-            this.street = address.getString("street");
-            this.city = address.getString("city");
-            this.state = address.getString("state");
-            this.pincode = address.getString("pincode");
-            this.country = address.getString("country");
+            String street = address.getString("street");
+            if (street.equals("null")||street==null) {
+                this.street = "";
+            } else {
+                this.street = street;
+            }
+            String city = address.getString("city");
+            if (street.equals("null")||city==null) {
+                this.city = "";
+            } else {
+                this.city = city;
+            }
+            String state = address.getString("state");
+            if (state.equals("null")||state==null) {
+                this.state = "";
+            } else {
+                this.state = state;
+            }
+            String pincode = address.getString("pincode");
+            if (pincode.equals("null")||pincode==null) {
+                this.pincode = "";
+            } else {
+                this.pincode = pincode;
+            }
+            String country = address.getString("country");
+            if (country.equals("null")||country==null) {
+                this.country = "";
+            } else {
+                this.country = country;
+            }
 
 
 

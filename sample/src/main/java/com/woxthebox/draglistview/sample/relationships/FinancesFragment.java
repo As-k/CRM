@@ -49,7 +49,6 @@ public class FinancesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         contractPk = getArguments().getInt("contracts");
     }
 
@@ -58,16 +57,12 @@ public class FinancesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_finances, container, false);
-
         rv = v.findViewById(R.id.finances_rv);
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
         serverUrl = new ServerUrl();
-        client = new AsyncHttpClient();
+        client = serverUrl.getHTTPClient();
         finance = new ArrayList<>();
-
-
         getFinances();
-
-
         return v;
     }
     protected void getFinances() {
@@ -77,18 +72,12 @@ public class FinancesFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject Obj = null;
-
                     Obj = response;
                     Contract r = new Contract(Obj);
-
-//
                     finance.add(r);
-
-
-                    rv.setLayoutManager(new LinearLayoutManager(getContext()));
                     FinancesAdapter financesAdapter = new FinancesAdapter(getContext(),finance);
                     rv.setAdapter(financesAdapter);
-            }
+                }
             }
             @Override
             public void onFinish() {
@@ -103,6 +92,4 @@ public class FinancesFragment extends Fragment {
             }
         });
     }
-
-
 }
