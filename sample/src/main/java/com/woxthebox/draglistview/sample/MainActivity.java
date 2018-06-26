@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
         sessionManager = new SessionManager(this);
         isPermissionGranted();
 
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 csrfId = arrStr[1];
                 sessionId = arrStr[3];
                 Toast.makeText(this, csrfId+ "\n" +sessionId, Toast.LENGTH_SHORT).show();
+                sessionManager.clearAll();
+                sessionManager.setCsrfId(csrfId);
+                sessionManager.setSessionId(sessionId);
                 dis.close();
                 fis.close();
             } catch (IOException e) {
@@ -182,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
                 csrfId = arrStr[1];
                 sessionId = arrStr[3];
                 Toast.makeText(this, csrfId+ "\n" +sessionId, Toast.LENGTH_SHORT).show();
+                sessionManager.clearAll();
+                sessionManager.setCsrfId(csrfId);
+                sessionManager.setSessionId(sessionId);
                 dis.close();
                 fis.close();
             } catch (IOException e) {

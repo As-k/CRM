@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -24,16 +26,30 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.woxthebox.draglistview.sample.contacts.CallLogDetailsActivity;
+import com.woxthebox.draglistview.sample.contacts.ContactLite;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.lang.reflect.Method;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+
+import cz.msebera.android.httpclient.Header;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -42,201 +58,218 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 
 public class CallBarring extends BroadcastReceiver {
-    // This String will hold the incoming phone number
-    private String number;
-//    CustomDialog dialog;
-    TelephonyManager telephonyManager;
-    PhoneStateListener listener;
-    Context context;
-    private WindowManager wm;
-    private static LinearLayout ly1;
-    private WindowManager.LayoutParams params1;
-    View v1;
+    Context cxt;
+    String phNumber, callDuration, dateString, timeString, dir, date;
+    int tot_seconds;
+    public AsyncHttpClient asyncHttpClient;
+    ServerUrl serverUrl;
+    Intent intent1;
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+        cxt = context;
+        serverUrl = new ServerUrl(context);
+        asyncHttpClient = serverUrl.getHTTPClient();
         // If, the received action is not a type of "Phone_State", ignore it
-        Intent i = new Intent(context, CallLogDetailsActivity.class);
+        intent1 = new Intent(context, CallLogDetailsActivity.class);
 
         if (!intent.getAction().equals("android.intent.action.PHONE_STATE")) {
             return;
-        }
-        // Else, try to do some action
-        else {
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        } else {
             try {
                 System.out.println("Receiver start");
                 String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
                 String incomingNo = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-
                 if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)||state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
                     Toast.makeText(context, "Incoming Call State", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(context, "Ringing State Number is -" + incomingNo, Toast.LENGTH_SHORT).show();
-                    i.putExtra("cno", incomingNo);
-//                    i.putExtras(intent);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                    wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//                    params1 = new WindowManager.LayoutParams(
-//                            ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.MATCH_PARENT,
-//                            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT |
-//                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-//                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-//                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-//                            PixelFormat.TRANSPARENT);
+                    intent.putExtra("cno", incomingNo);
+//                    getCalldetailsNow();
+                    if (incomingNo != null) {
+                        String mobNo = incomingNo.replace("+91", "");
+                        asyncHttpClient.get(ServerUrl.url + "api/clientRelationships/contactLite/?format=json&mobile=" + mobNo, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
+                                super.onSuccess(statusCode, headers, response);
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject obj = null;
+                                    try {
+                                        obj = response.getJSONObject(i);
+                                        final String removePk = obj.getString("pk");
+                                        ContactLite lite = new ContactLite(obj);
+                                        context.startActivity(intent1);
+//                                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+//                                        View v = inflater.inflate(R.layout.calllog_dialog_layout, null, false);
+//                                        final ImageView dp = v.findViewById(R.id.call_log_profile);
+//                                        TextView name = v.findViewById(R.id.call_log_name);
+//                                        TextView cno = v.findViewById(R.id.call_log_cno);
+//                                        TextView duration = v.findViewById(R.id.call_log_duration);
+//                                        final EditText comment = v.findViewById(R.id.call_log_comment);
+//                                        Button yesBtn = v.findViewById(R.id.call_log_yes);
+//                                        Button noBtn = v.findViewById(R.id.call_log_no);
+//                                        cno.setText(phNumber);
+//                                        name.setText(lite.name);
+//                                        duration.setText(callDuration);
 //
-//                    params1.height = 75;
-//                    params1.width = 512;
-//                    params1.x = 265;
-//                    params1.y = 400;
-//                    params1.format = PixelFormat.TRANSLUCENT;
+//                                        asyncHttpClient.get(lite.getDp(), new FileAsyncHttpResponseHandler(context) {
+//                                            @Override
+//                                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+//                                                asyncHttpClient.get(ServerUrl.url + "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(context) {
+//                                                    @Override
+//                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
 //
-//                    ly1 = new LinearLayout(context);
-//                    ly1.setOrientation(LinearLayout.HORIZONTAL);
+//                                                    }
 //
-//                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+//                                                    @Override
+//                                                    public void onSuccess(int statusCode, Header[] headers, File file) {
+//                                                        Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                                                        dp.setImageBitmap(pp);
+//                                                    }
+//                                                });
+//                                            }
 //
-//                    View hiddenInfo = inflater.inflate(R.layout.calllog_dialog_layout, ly1, false);
-//                    ly1.addView(hiddenInfo);
+//                                            @Override
+//                                            public void onSuccess(int statusCode, Header[] headers, File file) {
+//                                                Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                                                dp.setImageBitmap(pp);
+//                                            }
+//                                        });
 //
-//                    wm.addView(ly1, params1);
-                    context.startActivity(i);
+//
+//                                        final AlertDialog.Builder abd = new AlertDialog.Builder(context);
+//                                        abd.setView(v);
+//                                        final AlertDialog ad = abd.create();
+//                                        ad.show();
+//                                        noBtn.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                ad.dismiss();
+//                                            }
+//                                        });
+//                                        yesBtn.setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View v) {
+//                                                comment.getText().toString();
+//                                                SimpleDateFormat sdf_datetime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//                                                String date_time = sdf_datetime.format(new Date(Long.parseLong(date)));
+//                                                JSONObject object = new JSONObject();
+//                                                try {
+//                                                    object.put("duration",tot_seconds);
+//                                                } catch (JSONException e) {
+//                                                    e.printStackTrace();
+//                                                }
+//                                                RequestParams params = new RequestParams();
+//                                                params.put("contact",removePk);
+//                                                params.put("data",object);
+//                                                params.put("typ","call");
+//                                                params.put("when",date_time);
+//
+//                                                asyncHttpClient.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
+//                                                    @Override
+//                                                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                                                        super.onSuccess(statusCode, headers, response);
+//                                                        Toast.makeText(context, "posted", Toast.LENGTH_SHORT).show();
+//
+//
+//                                                        ad.dismiss();
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onFinish() {
+//                                                        super.onFinish();
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                                                        super.onFailure(statusCode, headers, throwable, errorResponse);
+//                                                    }
+//                                                });
+//
+//                                            }
+//                                        });
 
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                System.out.println("finished 001");
+
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                                System.out.println("finished failed 001");
+                            }
+                        });
+                    }
                 }
                 if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
                     Toast.makeText(context, "Call Received State", Toast.LENGTH_SHORT).show();
-//                    wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//                    params1 = new WindowManager.LayoutParams(
-//                            WindowManager.LayoutParams.MATCH_PARENT,
-//                            WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT |
-//                            WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-//                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-//                                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-//                            PixelFormat.TRANSPARENT);
-//
-//                    params1.height = 75;
-//                    params1.width = 512;
-//                    params1.x = 265;
-//                    params1.y = 400;
-//                    params1.format = PixelFormat.TRANSLUCENT;
-//
-//                    ly1 = new LinearLayout(context);
-//                    ly1.setBackgroundColor(Color.GREEN);
-//                    ly1.setOrientation(LinearLayout.VERTICAL);
-//
-//                    wm.addView(ly1, params1);
-//                }
-//
-//                // To remove the view once the dialer app is closed.
-//                if (intent.getAction().equals("android.intent.action.PHONE_STATE")) {
-//                    String state1 = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-//                    if (state1.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-//                        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//                        if (ly1 != null) {
-//                            wm.removeView(ly1);
-//                            ly1 = null;
-//                        }
-//                    }
                 }
                 if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)){
                     String number = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
                     Toast.makeText(context,"Call Idle State - "+number,Toast.LENGTH_SHORT).show();
-//                    LayoutInflater layoutInflater =
-//                            (LayoutInflater) context
-//                                    .getSystemService(LAYOUT_INFLATER_SERVICE);
-//                    View popupView = layoutInflater.inflate(R.layout.calllog_dialog_layout, null);
-//                    final PopupWindow popupWindow = new PopupWindow(
-//                            popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//                    Button btnDismiss = (Button)popupView.findViewById(R.id.call_log_no);
-//
-//                    btnDismiss.setOnClickListener(new Button.OnClickListener(){
-//
-//                        @Override
-//                        public void onClick(View v) {
-//                            popupWindow.dismiss();
-//                        }});
-//
-//                    popupWindow.showAsDropDown(, 50, -30);
-//
-//                    popupView.setOnTouchListener(new View.OnTouchListener() {
-//                        int orgX, orgY;
-//                        int offsetX, offsetY;
-//
-//                        @Override
-//                        public boolean onTouch(View v, MotionEvent event) {
-//                            switch (event.getAction()) {
-//                                case MotionEvent.ACTION_DOWN:
-//                                    orgX = (int) event.getX();
-//                                    orgY = (int) event.getY();
-//                                    break;
-//                                case MotionEvent.ACTION_MOVE:
-//                                    offsetX = (int)event.getRawX() - orgX;
-//                                    offsetY = (int)event.getRawY() - orgY;
-//                                    popupWindow.update(offsetX, offsetY, -1, -1, true);
-//                                    break;
-//                            }
-//                            return true;
-//                        }});
-//                    i.putExtra("cno",number);
-//                    context.startActivity(i);
                 }
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-
-//        }
         }
     }
-    // Method to disconnect phone automatically and programmatically
-    // Keep this method as it is
-//    @SuppressWarnings({ "rawtypes", "unchecked" })
-//    private void disconnectPhoneItelephony(Context context) {
-//        ITelephony telephonyService;
-//        TelephonyManager telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//        try {
-//            Class c = Class.forName(telephony.getClass().getName());
-//            Method m = c.getDeclaredMethod("getITelephony");
-//            m.setAccessible(true);
-//            telephonyService = (ITelephony) m.invoke(telephony);
-//            telephonyService.endCall();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    class CustomDialog extends Dialog implements View.OnClickListener {
-//
-//        public CustomDialog(Context context) {
-//            super(context);
-//            // TODO Auto-generated constructor stub
-//        }
-//
-//        @Override
-//        protected void onCreate(Bundle savedInstanceState) {
-//            // TODO Auto-generated method stub
-//            super.onCreate(savedInstanceState);
-//            setContentView(R.layout.list_item);
-//            Button btnEndCall = (Button) findViewById(R.id.end_call);
-//            //btnEndCall.set
-//            btnEndCall.setOnClickListener(this);
-//
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            // TODO Auto-generated method stub
-//            disconnectPhoneItelephony(context);
-//
-//        }
-//    }
-//
-//    interface ITelephony {
-//
-//        boolean endCall();
-//
-//    }
+    private void getCalldetailsNow() {
+        // TODO Auto-generated method stub
+        if (ActivityCompat.checkSelfPermission(cxt, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Cursor managedCursor = cxt.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, android.provider.CallLog.Calls.DATE + " ASC");
+
+        int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER );
+        int duration1 = managedCursor.getColumnIndex( CallLog.Calls.DURATION);
+        int type1 = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date1 = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+
+        if(managedCursor.moveToLast() == true) {
+            phNumber = managedCursor.getString(number);
+            String callDuration1 = managedCursor.getString(duration1);
+
+            String type = managedCursor.getString(type1);
+            date = managedCursor.getString(date1);
+            int dircode = Integer.parseInt(type);
+            dir=null;
+            switch (dircode)
+            {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+                default:
+                    dir = "MISSED";
+                    break;
+            }
+
+            SimpleDateFormat sdf_date = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf_time = new SimpleDateFormat("h:mm a");
+//            SimpleDateFormat sdf_dur = new SimpleDateFormat("KK:mm:ss");
+
+            tot_seconds = Integer.parseInt(callDuration1);
+            int hours = tot_seconds / 3600;
+            int minutes = (tot_seconds % 3600) / 60;
+            int seconds = tot_seconds % 60;
+
+            callDuration = String.format("%02d : %02d : %02d ", hours, minutes, seconds);
+
+            dateString = sdf_date.format(new Date(Long.parseLong(date)));
+            timeString = sdf_time.format(new Date(Long.parseLong(date)));
+            //  String duration_new=sdf_dur.format(new Date(Long.parseLong(callDuration)));
+        }
+        managedCursor.close();
+    }
 }

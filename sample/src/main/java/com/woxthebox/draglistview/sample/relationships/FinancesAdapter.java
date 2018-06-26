@@ -42,8 +42,6 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
     public FinancesAdapter(Context context,List<Contract> financeList) {
         this.context = context;
         this.financeList = financeList;
-
-
     }
 
 
@@ -57,14 +55,12 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
         return myHolder;
     }
 
-
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final FinancesAdapter.MyHolder holder, int position) {
         if (holder instanceof MyHolder) {
             MyHolder myHolder = (MyHolder) holder;
             Contract r = financeList.get(position);
-
 
             String dtc = r.getCreated();
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH);
@@ -105,9 +101,6 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 
             long diff1 = today1 - thatDay1.getTimeInMillis();
             long days1 = diff1/(24*60*60*1000);
-
-
-
 
             myHolder.idDeal.setText(r.getPk());
 //            holder.items.setText(dealitem[position]);
@@ -159,7 +152,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
 
     @Override
     public int getItemCount() {
-        return FinancesFragment.finance.size();
+        return financeList.size();
     }
     public class MyHolder extends RecyclerView.ViewHolder {
 

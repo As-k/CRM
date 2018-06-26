@@ -53,35 +53,10 @@ public class CallLogDetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_log_details);
-//        try {
-//            Log.d("IncomingCall: onCreate:", "flag2");
-//
-//            super.onCreate(savedInstanceState);
-//
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//            getWindow().addFlags(
-//                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
-//
-//            Log.d("IncomingCall: onCreate:", "flagy");
-//
-//            setContentView(R.layout.calllog_dialog_layout);
-//
-//            Log.d("IncomingCall:onCreate: ", "flagz");
-//
-//            String number = getIntent().getStringExtra(
-//                    TelephonyManager.EXTRA_INCOMING_NUMBER);
-//            TextView text = (TextView) findViewById(R.id.call_log_cno);
-//            text.setText(number);
-//        } catch (Exception e) {
-//            Log.d("Exception", e.toString());
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
 
-//        getSupportActionBar().hide();
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         asyncHttpClient = serverUrl.getHTTPClient();
-        String incomingNumber = getIntent().getExtras().getString("cno");
+//        String incomingNumber = getIntent().getExtras().getString("cno");
         getCalldetailsNow();
 
         if (phNumber != null) {
@@ -93,11 +68,8 @@ public class CallLogDetailsActivity extends Activity {
                         JSONObject obj = null;
                         try {
                             obj = response.getJSONObject(i);
-                            final String removePk = obj.getString("pk");
-//                            if (!removePk.equals(ViewDetailsActivity.cpk)) {
+                            final String contactPk = obj.getString("pk");
                             ContactLite lite = new ContactLite(obj);
-//                                contactLiteList.add(contactLite);
-//                            }
 
                             View v = getLayoutInflater().inflate(R.layout.calllog_dialog_layout, null, false);
                             final ImageView dp = v.findViewById(R.id.call_log_profile);
@@ -160,7 +132,7 @@ public class CallLogDetailsActivity extends Activity {
                                         e.printStackTrace();
                                     }
                                     RequestParams params = new RequestParams();
-                                    params.put("contact",removePk);
+                                    params.put("contact",contactPk);
                                     params.put("data",object);
                                     params.put("typ","call");
                                     params.put("when",date_time);

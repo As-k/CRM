@@ -44,6 +44,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         setContentView(R.layout.active_deals_details);
 
         contractPk = new ArrayList<Integer>();
+        d = new Deal();
         final Bundle b = getIntent().getExtras();
         if (b != null) {
             name = b.getString("name");
@@ -58,14 +59,12 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
 //            about = b.getString("about");
 //            telephone = b.getString("telephone");
 //            mobile = b.getString("mobile");*/
-            d = new Deal();
-            d.name = name;
-            d.value = value;
-            d.contactName = nameC;
-            d.contactDesignation = designation;
-            d.closeDate = closedate;
-
-
+//            d = new Deal();
+//            d.name = name;
+//            d.value = value;
+//            d.contactName = nameC;
+//            d.contactDesignation = designation;
+//            d.closeDate = closedate;
         }
 
 
@@ -73,12 +72,11 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         Valuation = findViewById(R.id.valuation_money);
         ClosingDate = findViewById(R.id.closing_date);
 
-
-      String close = closedate;
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-      Date date1 = null;
-      String string = null;
+        String close = closedate;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        Date date1 = null;
+        String string = null;
         try {
             date1 = simpleDateFormat.parse(close);
             string = dateFormat.format(date1);
@@ -88,8 +86,8 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         }
 
 
-        Dealname.setText(d.getName());
-        Valuation.setText(d.getValue());
+        Dealname.setText(name);
+        Valuation.setText(value);
         ClosingDate.setText(string);
 
         viewPager = findViewById(R.id.deal_viewpager);

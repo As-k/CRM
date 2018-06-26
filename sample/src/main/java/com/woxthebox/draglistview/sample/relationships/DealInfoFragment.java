@@ -71,7 +71,7 @@ public class DealInfoFragment extends Fragment {
         mobile = view.findViewById(R.id.info_mobile);
         telephone = view.findViewById(R.id.info_tele);
         about = view.findViewById(R.id.about);
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(getContext());
         client = serverUrl.getHTTPClient();
         info = new ArrayList();
 

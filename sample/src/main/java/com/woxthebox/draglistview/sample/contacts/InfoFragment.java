@@ -56,7 +56,7 @@ public class InfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(getContext());
         contactLiteList = new ArrayList<>();
         asyncHttpClient = serverUrl.getHTTPClient();
         View v = inflater.inflate(R.layout.fragment_info, container, false);

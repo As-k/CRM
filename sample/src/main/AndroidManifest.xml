@@ -94,7 +94,6 @@
         <activity
             android:name=".relationships.ActiveDealsDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainProfileActivity" />
         <activity android:name=".contacts.CallLogDetailsActivity"
             android:windowAnimationStyle="@android:style/Animation.Translucent"
             android:windowBackground="@android:color/transparent"

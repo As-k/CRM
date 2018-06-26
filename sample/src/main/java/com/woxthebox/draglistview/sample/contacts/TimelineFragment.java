@@ -60,7 +60,7 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_timeline, container, false);
 
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(getContext());
         feedItems = new ArrayList<FeedItem>();
         feedActivityList = new ArrayList<FeedActivity>();
         recyclerViewTimeline = v.findViewById(R.id.timeline_rv);

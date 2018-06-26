@@ -34,10 +34,11 @@ public class ActiveDealsAdapter extends RecyclerView.Adapter<ActiveDealsAdapter.
     Context context;
     List<DealLite> dealList;
     ServerUrl serverUrl;
-    AsyncHttpClient asyncHttpClient;
+    AsyncHttpClient client;
 
-    public ActiveDealsAdapter(Context context, List<DealLite> dealList) {
+    public ActiveDealsAdapter(Context context, AsyncHttpClient client, List<DealLite> dealList) {
         this.context = context;
+        this.client = client;
         this.dealList = dealList;
     }
 
@@ -46,8 +47,8 @@ public class ActiveDealsAdapter extends RecyclerView.Adapter<ActiveDealsAdapter.
     public ActiveDealsAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = layoutInflater.inflate(R.layout.active_deals_style, parent, false);
-        serverUrl = new ServerUrl();
-        asyncHttpClient = serverUrl.getHTTPClient();
+        serverUrl = new ServerUrl(context);
+//        asyncHttpClient = serverUrl.getHTTPClient();
         ActiveDealsAdapter.MyHolder myHolder = new ActiveDealsAdapter.MyHolder(v);
         return myHolder;
     }
@@ -67,29 +68,29 @@ public class ActiveDealsAdapter extends RecyclerView.Adapter<ActiveDealsAdapter.
             myHolder.dealid.setText(d.getPk());
             myHolder.dealname.setText(d.getName());
             myHolder.moneyvalue.setText(d.getValue());
-            asyncHttpClient.get(d.getContactDp(), new FileAsyncHttpResponseHandler(context) {
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                    asyncHttpClient.get(ServerUrl.url+ "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(context) {
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, File file) {
-                            Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
-                            ((MyHolder) myHolder).contactphoto.setImageBitmap(pp);
-                        }
-                    });
-                }
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, File file) {
-                    Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    ((MyHolder) myHolder).contactphoto.setImageBitmap(pp);
-                }
-            });
+//            client.get(d.getContactDp(), new FileAsyncHttpResponseHandler(context) {
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+//                    client.get(ServerUrl.url+ "/static/images/img_avatar_card.png", new FileAsyncHttpResponseHandler(context) {
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, File file) {
+//                            Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                            ((MyHolder) myHolder).contactphoto.setImageBitmap(pp);
+//                        }
+//                    });
+//                }
+//
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, File file) {
+//                    Bitmap pp = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                    ((MyHolder) myHolder).contactphoto.setImageBitmap(pp);
+//                }
+//            });
 //            myHolder.itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

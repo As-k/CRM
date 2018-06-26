@@ -1,15 +1,19 @@
 package com.woxthebox.draglistview.sample.relationships;
 
 
+import com.woxthebox.draglistview.sample.contacts.Contact;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by admin on 22/06/18..
  */
+
 public class DealLite {
     public String pk;
     public String user;
@@ -18,6 +22,8 @@ public class DealLite {
     public String value;
     public String currency;
     public ArrayList<Integer> internalUsers = new ArrayList<Integer>();
+    public List<Contact> contactsList;
+//    public ArrayList<Integer> contactsList;
     public String contactPk,contactName,contactEmail,contactMobile,contactDesignation,contactDp;
     boolean contactMale;
     public JSONObject jsonObject;
@@ -51,6 +57,7 @@ public class DealLite {
     // make a get request
     public DealLite(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
+        this.contactsList = new ArrayList<Contact>();
         try {
             this.pk = jsonObject.getString("pk");
             this.user = jsonObject.getString("user");
@@ -60,10 +67,11 @@ public class DealLite {
 
             this.companyPk = jsonObject.getString("company");
 
-            JSONArray jsonArray = jsonObject.getJSONArray("contacts");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject contacts = jsonArray.getJSONObject(i);
-
+            JSONArray contactsArry = jsonObject.getJSONArray("contacts");
+            for (int i = 0; i < contactsArry.length(); i++) {
+                JSONObject contacts = contactsArry.getJSONObject(i);
+                Contact contact = new Contact(contacts);
+                contactsList.add(contact);
                 this.contactPk = contacts.getString("pk");
                 String contactName = contacts.getString("name");
                 if (contactName.equals("null")) {
@@ -96,6 +104,7 @@ public class DealLite {
                     this.contactDp = contactDp;
                 }
                 this.contactMale = contacts.getBoolean("male");
+
             }
             JSONArray jsonArray1 = jsonObject.getJSONArray("internalUsers");
             for (int j = 0; j < jsonArray1.length(); j++) {
@@ -210,6 +219,14 @@ public class DealLite {
 
     public boolean isContactMale() {
         return contactMale;
+    }
+
+    public List<Contact> getContactsList() {
+        return contactsList;
+    }
+
+    public void setContactsList(ArrayList<Contact> contactsList) {
+        this.contactsList = contactsList;
     }
 
     public void setContactMale(boolean contactMale) {

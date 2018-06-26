@@ -108,11 +108,11 @@ public class Contact implements Serializable {
                 this.mobileSecondary = mobileSecondary;
             }
 
-            String designation = jsonObject.getString("designation");
-            if (designation.equals("null")) {
+            String contactDesignation = jsonObject.getString("designation");
+            if (contactDesignation.equals("null")) {
                 this.designation = "";
             } else {
-                this.designation = designation;
+                this.designation = contactDesignation;
             }
             String  notes = jsonObject.getString("notes");
             if (notes.equals("null")) {

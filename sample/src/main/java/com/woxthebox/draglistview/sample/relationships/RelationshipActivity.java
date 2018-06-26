@@ -61,7 +61,7 @@ public class RelationshipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_relationships);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
         relationship = new ArrayList<>();
 
@@ -81,9 +81,6 @@ public class RelationshipActivity extends AppCompatActivity {
 //                        Toast.makeText(RelationshipActivity.this, "" + position, Toast.LENGTH_SHORT).show();
                         pos = position;
                         Relationships rel = relationship.get(position);
-//                        d.getPk();
-//                        d.getName();
-//                        d.getContactName();
                         Intent intent = new Intent(RelationshipActivity.this, ActiveDealsActivity.class);
                         intent.putExtra("company_name", rel.getCompanyName());
                         intent.putExtra("pk", rel.getPk());
@@ -94,7 +91,6 @@ public class RelationshipActivity extends AppCompatActivity {
         );
     }
 
-
     protected void getData() {
         String serverURL = serverUrl.url;
         client.get(serverURL + "api/clientRelationships/relationships/?&name__contains=&limit=&offset=0", new JsonHttpResponseHandler() {
@@ -102,33 +98,21 @@ public class RelationshipActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject Obj = null;
-
                     try {
                         Obj = response.getJSONObject(i);
-
                         Relationships relationships = new Relationships(Obj);
-//                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
-//                        }.getType());
                         relationship.add(relationships);
-//                        relationship.addAll(items);
-//                        relationshipsAdapter.notifyDataSetChanged();
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
                 relationshipsAdapter = new RelationshipsAdapter(RelationshipActivity.this, relationship);
                 rv.setAdapter(relationshipsAdapter);
-
-
             }
-
 
             @Override
             public void onFinish() {
                 System.out.println("finished 001");
-
             }
 
             @Override
@@ -148,17 +132,10 @@ public class RelationshipActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void search(SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
@@ -169,8 +146,7 @@ public class RelationshipActivity extends AppCompatActivity {
                 String serverURL = serverUrl.url + "api/clientRelationships/relationships/?&name__contains=" + newText + "&limit=10&offset=0";
                 client.get(serverURL, new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, final JSONObject response)
-                    {
+                    public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
                         JSONArray jsonRes = null;
                         try {
                              jsonRes = response.getJSONArray("results");
@@ -181,14 +157,8 @@ public class RelationshipActivity extends AppCompatActivity {
                             JSONObject Obj = null;
                             try {
                                 Obj = jsonRes.getJSONObject(i);
-
                                 Relationships relationships = new Relationships(Obj);
-//                        List<Relationships> items = new Gson().fromJson(response.toString(), new TypeToken<List<Relationships>>() {
-//                        }.getType());
                                 relationship.add(relationships);
-//                        relationship.addAll(items);
-//                        relationshipsAdapter.notifyDataSetChanged();
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -202,7 +172,6 @@ public class RelationshipActivity extends AppCompatActivity {
                     @Override
                     public void onFinish() {
                         System.out.println("finished 001");
-
                     }
 
                     @Override

@@ -104,7 +104,12 @@ public class Deal {
             this.doc = jsonObject.getString("doc");
             this.state = jsonObject.getString("state");
             this.internalUsers = jsonObject.getString("internalUsers");
-            this.requirements = jsonObject.getString("requirements");
+            String requirements = jsonObject.getString("requirements");
+            if (requirements.equals("null")|| requirements == null) {
+                this.requirements = "";
+            } else {
+                this.requirements = requirements;
+            }
             this.duePeriod = jsonObject.getString("duePeriod");
             this.duePenalty = jsonObject.getString("duePenalty");
 
@@ -115,10 +120,36 @@ public class Deal {
 
             JSONObject address = company.getJSONObject("address");
             this.addressPk = address.getString("pk");
-            this.street = address.getString("street");
-            this.city = address.getString("city");
-            this.add_state = address.getString("state");
-            this.country = address.getString("country");
+            String street = address.getString("street");
+            if (street.equals("null")||street==null) {
+                this.street = "";
+            } else {
+                this.street = street;
+            }
+            String city = address.getString("city");
+            if (street.equals("null")||city==null) {
+                this.city = "";
+            } else {
+                this.city = city;
+            }
+            String state = address.getString("state");
+            if (state.equals("null") || state==null) {
+                this.state = "";
+            } else {
+                this.state = state;
+            }
+            String pincode = address.getString("pincode");
+            if (pincode.equals("null") || pincode==null) {
+                this.pincode = "";
+            } else {
+                this.pincode = pincode;
+            }
+            String country = address.getString("country");
+            if (country.equals("null")||country==null) {
+                this.country = "";
+            } else {
+                this.country = country;
+            }
 
             JSONArray jsonArray = jsonObject.getJSONArray("contacts");
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -132,9 +163,9 @@ public class Deal {
                 this.contactMale = contacts.getBoolean("male");
             }
 
-            this.jsonArray1 = jsonObject.getJSONArray("contracts");
-            for (int j = 0; j < this.jsonArray1.length(); j++) {
-                this.contracts.add(this.jsonArray1.getInt(j));
+            jsonArray1 = jsonObject.getJSONArray("contracts");
+            for (int j = 0; j < jsonArray1.length(); j++) {
+                this.contracts.add(jsonArray1.getInt(j));
             }
 
             } catch(JSONException e){

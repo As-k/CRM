@@ -70,7 +70,7 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         contactList = new ArrayList<>();
         client = new AsyncHttpClient();
         browse_rv = findViewById(R.id.browse_recyclerView);
@@ -198,7 +198,6 @@ public class ContactsActivity extends AppCompatActivity {
                         super.onFailure(statusCode, headers, throwable, errorResponse);
                     }
                 });
-
                 return true;
             }
 

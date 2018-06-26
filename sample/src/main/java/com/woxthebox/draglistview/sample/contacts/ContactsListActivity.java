@@ -107,123 +107,21 @@ public class ContactsListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-
-//                browseAdapter.clearData();
-
-//                        JSONArray jsonArray = null;
-//                        try {
-//                            jsonArray = response.getJSONArray("results");
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        for (int i = 0; i < jsonArray.length(); i++) {
-//                            try {
-//                                JSONObject object = jsonArray.getJSONObject(i);
-//                                Contact c  = new Contact(object);
-//                                contactList.add(c);
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                                Log.e("JSONObject", "Json parsing error: " + e.getMessage());
-//                            }
-//                        }
-//                        browseAdapter.notifyDataSetChanged();
-//                        browseAdapter.setLoaded();
-//                        contactList.add(null);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if(newText.equals("")){
-//                    text.setVisibility(View.VISIBLE);
-//                    contactList.clear();
-//                    browseAdapter.clearData();
                     simpleAdapter.getFilter().filter(newText);
-
                 } else {
                     String query1 = newText.toLowerCase();
                     simpleAdapter.getFilter().filter(query1);
                 }
-
                 return true;
             }
         });
     }
-
-//    void textChange(){
-//        searchContact.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                String searchName = s.toString().trim();
-//                listView.setVisibility(View.GONE);
-//                if(searchName.equals("")){
-//                    listView.setVisibility(View.VISIBLE);
-//                    allContacts();
-//                } else {
-////                    Toast.makeText(ContactsListActivity.this, "wait", Toast.LENGTH_SHORT).show();
-//                    ContentResolver cr = getContentResolver();
-//                    String[] result = null;
-//                    // Find a contact using a partial name match
-////                    String searchName = "specify serach name here";
-//                    Uri lookupUri = Uri.withAppendedPath(
-//                            ContactsContract.Contacts.CONTENT_FILTER_URI, searchName);
-//                    // Create a projection of the required column names.
-//                    String[] projection = new String[] { ContactsContract.Contacts._ID };
-//                    // Get a Cursor that will return the ID(s) of the matched name.
-//                    Cursor idCursor = cr.query(lookupUri, projection, null, null, null);
-//                    // Extract the first matching ID if it exists.
-//                    String id = null;
-//                    if (idCursor.moveToFirst()) {
-//                        int idIdx = idCursor
-//                                .getColumnIndexOrThrow(ContactsContract.Contacts._ID);
-//                        id = idCursor.getString(idIdx);
-//                    }
-//                    // Close that Cursor.
-//                    idCursor.close();
-//                    // Create a new Cursor searching for the data associated with the
-//                    // returned Contact ID.
-//                    if (id != null) {
-//                        // Return all the PHONE data for the contact.
-//                        String where = ContactsContract.Data.CONTACT_ID + " = " + id
-//                                + "AND" + ContactsContract.Data.MIMETYPE + " = ‘"
-//                                + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
-//                                + "’";
-//                        projection = new String[] { ContactsContract.Data.DISPLAY_NAME,
-//                                ContactsContract.CommonDataKinds.Phone.NUMBER };
-//                        Cursor dataCursor = getContentResolver().query(
-//                                ContactsContract.Data.CONTENT_URI, projection, where, null,
-//                                null);
-//                        // Get the indexes of the required columns.
-//                        int nameIdx = dataCursor
-//                                .getColumnIndexOrThrow(ContactsContract.Data.DISPLAY_NAME);
-//                        int phoneIdx = dataCursor
-//                                .getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER);
-//                        result = new String[dataCursor.getCount()];
-//                        while (dataCursor.moveToNext()) {
-//                            // Extract the name.
-//                            String name = dataCursor.getString(nameIdx);
-//                            // Extract the phone number.
-//                            String number = dataCursor.getString(phoneIdx);
-//                            result[dataCursor.getPosition()] = name + "(" + number + ")";
-//                            Toast.makeText(ContactsListActivity.this, name + "(" + number + ")", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                        dataCursor.close();
-//                    }
-//                }
-//            }
-//        });
-//    }
 
     int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
@@ -236,25 +134,17 @@ public class ContactsListActivity extends AppCompatActivity {
             if (name.equals(temp_name))
                 continue;
             temp_name = name;
-//            companyName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Organization.COMPANY));
             phonenumber = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//            email = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
             if (hasCountryCode(phonenumber)) {
                 String country_digits = phonenumber.replace("+91","");
                 phonenumber = country_digits;
             }
-
             HashMap hm = new HashMap();
             hm.put(keys[0],name);
-//            hm.put(keys[1],company_Name);
             hm.put(keys[1],phonenumber);
-//            hm.put(keys[3],email);
-
             storeContacts.add(hm);
         }
-
         cursor.close();
-
     }
     private boolean hasCountryCode(String number) {
         return number.charAt(plus_sign_pos) == '+'; // Didn't String had contains() method?...
@@ -264,7 +154,6 @@ public class ContactsListActivity extends AppCompatActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(
                 ContactsListActivity.this,
                 Manifest.permission.READ_CONTACTS)) {
-//            Toast.makeText(this,"CONTACTS permission allows us to Access CONTACTS app", Toast.LENGTH_LONG).show();
 
         } else {
             ActivityCompat.requestPermissions(this,new String[]{
@@ -278,10 +167,8 @@ public class ContactsListActivity extends AppCompatActivity {
         switch (RC) {
             case RequestPermissionCode:
                 if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(ContactsListActivity.this,"Permission Granted, Now your application can access CONTACTS.", Toast.LENGTH_LONG).show();
 
                 } else {
-//                    Toast.makeText(ContactsListActivity.this,"Permission Canceled, Now your application cannot access CONTACTS.", Toast.LENGTH_LONG).show();
                 }
                 break;
         }

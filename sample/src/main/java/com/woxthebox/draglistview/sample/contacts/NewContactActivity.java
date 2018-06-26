@@ -77,7 +77,7 @@ public class NewContactActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
 
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
         companiesList = new ArrayList<Company>();
         companyName = new ArrayList();

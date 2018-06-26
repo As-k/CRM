@@ -3,6 +3,7 @@ package com.woxthebox.draglistview.sample.relationships;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,16 +33,15 @@ public class ActiveDealsActivity extends Activity {
     TextView companyname,web;
     public static ArrayList<DealLite> dealLites;
     public static ArrayList<Deal> deals;
+    ServerUrl serverUrl;
     public AsyncHttpClient client;
     public static String c_pk,company,street,city,astate,pincode,country,pkc,requirements,namec,designation;
-//    public static JSONObject contracts;
+    //    public static JSONObject contracts;
     public static int pos;
     private Deal d;
-    String company_pk;
-    ArrayList<Integer> contractspk;
-
-
-    ServerUrl serverUrl;
+    DealLite dealLite;
+    String company_pk, closeDate;
+    public static ArrayList<Integer> contractspk;
     ActiveDealsAdapter activeDealsAdapter;
 
     @Override
@@ -53,7 +53,7 @@ public class ActiveDealsActivity extends Activity {
         web = findViewById(R.id.web_text);
         rv1 = findViewById(R.id.activedearl_recyclerView);
         rv1.setLayoutManager(new LinearLayoutManager(ActiveDealsActivity.this));
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
         dealLites = new ArrayList<DealLite>();
         deals = new ArrayList<Deal>();
@@ -66,30 +66,32 @@ public class ActiveDealsActivity extends Activity {
             companyname.setText(company_name);
             web.setText(web1);
         }
-        getDeal();
+
         getDealLites();
 
         rv1.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(ActiveDealsActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+                    public void onItemClick(View view, final int position) {
                         pos=position;
-                        DealLite d = dealLites.get(position);
-                        Deal deal = deals.get(position);
-                        Intent intent = new Intent(ActiveDealsActivity.this, ActiveDealsDetailsActivity.class);
-                        intent.putExtra("name", d.getContactName());
-                        intent.putExtra("value", d.getValue());
-                        intent.putExtra("closeDate", deal.getCloseDate());
-                        intent.putExtra("pk", company_pk);
-                        intent.putExtra("contracts", contractspk);
-                        startActivity(intent);
+                        dealLite = dealLites.get(position);
+                        getDeal(dealLite.getPk());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(ActiveDealsActivity.this, ActiveDealsDetailsActivity.class);
+                                intent.putExtra("name", dealLite.getContactName());
+                                intent.putExtra("value", dealLite.getValue());
+                                intent.putExtra("closeDate", closeDate);
+                                intent.putExtra("pk", company_pk);
+                                intent.putExtra("contracts", contractspk);
+                                startActivity(intent);
+                            }
+                        },500);
                     }
                 })
         );
-
     }
-
 
     protected void getDealLites() {
         client.get(ServerUrl.url+"api/clientRelationships/dealLite/?result=won&format=json&company="+company_pk, new JsonHttpResponseHandler() {
@@ -101,52 +103,48 @@ public class ActiveDealsActivity extends Activity {
                         Obj = response.getJSONObject(i);
                         DealLite dl = new DealLite(Obj);
                         dealLites.add(dl);
-
                     } catch(JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
-                activeDealsAdapter = new ActiveDealsAdapter(ActiveDealsActivity.this, dealLites);
+                activeDealsAdapter = new ActiveDealsAdapter(ActiveDealsActivity.this, client, dealLites);
                 rv1.setAdapter(activeDealsAdapter);
             }
-                @Override
-                public void onFinish() {
-                    System.out.println("finished 001");
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
-                    // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                    System.out.println("finished failed 001");
-                }
-
-        });
-
-    }
-    protected void getDeal() {
-        String serverURL = serverUrl.url;
-        client.get(serverURL+"api/clientRelationships/deal/?format=json", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
-                for (int i = 0; i < response.length(); i++) {
-                    JSONObject Obj = null;
+            public void onFinish() {
+                System.out.println("finished 001");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                System.out.println("finished failed 001");
+            }
+        });
+    }
+
+    protected void getDeal(String pos) {
+        int pk = Integer.parseInt(pos);
+        client.get(ServerUrl.url+"/api/clientRelationships/deal/"+pos+"/?format=json", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                for (int i = 0; i < response.length(); i++) {
+//                    JSONObject Obj = null;
                     try {
-                        Obj = response.getJSONObject(i);
-                        Deal d = new Deal(Obj);
+//                        Obj = response.getJSONObject(0);
+                        Deal d = new Deal(response);
                         if (d.companyPk.equals(company_pk)) {
                             d.contactPk = company_pk;
                             contractspk = d.contracts;
-
+                            closeDate = d.closeDate;
+                            requirements = d.getRequirements();
                             deals.add(d);
                             Log.d("deal", deals.size() + "");
                         }
-                    } catch(JSONException e) {
+                    } catch(Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }
+//            }
             @Override
             public void onFinish() {
                 System.out.println("finished 001");
@@ -158,9 +156,7 @@ public class ActiveDealsActivity extends Activity {
                 // called when response HTTP status is "4XX" (eg. 401, 403, 404)
                 System.out.println("finished failed 001");
             }
-
         });
-
     }
 
 }

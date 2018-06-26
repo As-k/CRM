@@ -131,14 +131,16 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--<view-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="10dp"-->
-        <!--android:background="@color/project_color"/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_color"
+        android:layout_marginBottom="2dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/activedearl_recyclerView">
+
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

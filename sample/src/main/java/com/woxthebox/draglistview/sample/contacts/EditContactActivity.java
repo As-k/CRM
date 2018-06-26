@@ -72,7 +72,7 @@ public class EditContactActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
 
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
 
 //        c = getIntent().getSerializableExtra("contact");
 

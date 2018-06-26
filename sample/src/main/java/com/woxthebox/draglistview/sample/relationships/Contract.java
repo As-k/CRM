@@ -1,5 +1,6 @@
 package com.woxthebox.draglistview.sample.relationships;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,7 +10,7 @@ import org.json.JSONObject;
 
 public class Contract {
     public String pk, user,created,updated,value,deal,status,dueDate,details,data,billedDate,
-            recivedDate, archivedDate,grandTotal;
+            recivedDate, archivedDate,grandTotal, currency, type, tax, desc, rate, quantity, taxCode, total, totalTax, subtotal, $$hashKey ;
     public JSONObject jsonObject;
 
     public Contract(){
@@ -47,6 +48,11 @@ public class Contract {
             this.status = jsonObject.getString("status");
             this.details = jsonObject.getString("details");
             this.dueDate = jsonObject.getString("dueDate");
+            JSONArray datas = jsonObject.getJSONArray("data");
+            for (int i=0; i<datas.length(); i++){
+                JSONObject object = datas.getJSONObject(i);
+                this.currency = object.getString("currency");
+            }
 
 
         } catch (JSONException e) {

@@ -97,7 +97,7 @@ public class ViewDetailsActivity extends FragmentActivity {
         b = getIntent().getExtras();
 
         findIds();
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
 
 //        mContactList = new ArrayList<>();

@@ -84,7 +84,7 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(getContext());
         client = new AsyncHttpClient();
         opportunities = new ArrayList();
 

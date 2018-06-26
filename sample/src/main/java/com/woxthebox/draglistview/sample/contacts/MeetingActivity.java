@@ -103,7 +103,7 @@ public class MeetingActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         pk = getIntent().getExtras().getString("contactPk");
 
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
         contactLites = new ArrayList<>();
         userSearchList = new ArrayList<>();
@@ -355,12 +355,12 @@ public class MeetingActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.updateTextStyle(EditorTextStyle.BOLD);
-            }
-        });
+//        findViewById(R.id.action_bold).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.updateTextStyle(EditorTextStyle.BOLD);
+//            }
+//        });
 
         findViewById(R.id.action_Italic).setOnClickListener(new View.OnClickListener() {
             @Override

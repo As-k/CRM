@@ -58,7 +58,7 @@ public class OppTimelineFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_opp_timeline, container, false);
 
 //        getContentValue();
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(getContext());
         feedItems = new ArrayList<FeedItem>();
         recyclerViewTimeline = v.findViewById(R.id.timeline_recycler);
         recyclerViewTimeline.setLayoutManager(new LinearLayoutManager(getActivity()));

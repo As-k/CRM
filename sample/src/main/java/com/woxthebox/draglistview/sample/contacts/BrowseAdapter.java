@@ -55,7 +55,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public BrowseAdapter(Context context, List<Contact> contactList){
         this.context = context;
         this.contactList = contactList;
-        serverUrl = new ServerUrl();
+        serverUrl = new ServerUrl(context);
         asyncHttpClient = serverUrl.getHTTPClient();
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) ContactsActivity.browse_rv.getLayoutManager();
         ContactsActivity.browse_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {

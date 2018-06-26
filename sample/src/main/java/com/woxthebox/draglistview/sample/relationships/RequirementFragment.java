@@ -22,27 +22,20 @@ public class RequirementFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_requirement, container, false);
+        TextView textView = (TextView) v.findViewById(R.id.requirements_tv);
 
-
-            // Inflate the layout for this fragment
-            View v = inflater.inflate(R.layout.fragment_requirement, container, false);
-
-
-//        String requirements = ActiveDealsActivity.requirements;
-
-//        String htmlAsString = getString(R.string.hello_world);
-
-            String requirements = this.getArguments().getString("requirements");
-            Spanned htmlAsSpanned = Html.fromHtml(String.valueOf(requirements));
-
-//
-            TextView textView = (TextView) v.findViewById(R.id.requirements_tv);
+//        String requirements = this.getArguments().getString("requirements");
+        Spanned htmlAsSpanned = Html.fromHtml(String.valueOf(ActiveDealsActivity.requirements));
+        if (htmlAsSpanned.toString().equals("null")|| htmlAsSpanned.toString() == null) {
+            textView.setText("");
+        } else {
             textView.setText(htmlAsSpanned);
+        }
 
-
-            return v;
+        return v;
         }
 
 
