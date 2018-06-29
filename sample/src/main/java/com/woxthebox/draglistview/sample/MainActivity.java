@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 csrfId = arrStr[1];
                 sessionId = arrStr[3];
-                Toast.makeText(this, csrfId+ "\n" +sessionId, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, csrfId+ "\n" + sessionId, Toast.LENGTH_SHORT).show();
                 sessionManager.clearAll();
                 sessionManager.setCsrfId(csrfId);
                 sessionManager.setSessionId(sessionId);
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             if (isCallable(MainActivity.this, intent)) {
                 // Attach any extras, start or start with callback
                 intent.putExtra("boolean", false);
+                sessionManager.clearAll();
                 startActivityForResult(intent, CHECKING_REQ_CODE);
             } else {
                 // Respond to the application or activity not being available
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                     && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     && checkSelfPermission(Manifest.permission.WRITE_CALL_LOG) == PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED) {
+                    ) {
                 Log.v(TAG,"Permission is granted");
                 return true;
             } else {
@@ -154,14 +155,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return;
             }
-            case 4: {
-                if (grantResults.length > 0
-                        && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
-                    Log.v(TAG, "Permission: " + permissions[3] + "was " + grantResults[3]);
-                    //resume tasks needing this permission
-                }
-                return;
-            }
         }
     }
 
@@ -172,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(Environment.getExternalStorageDirectory() + "/CIOC/libre.txt");
+                /* /data/user/0/com.woxthebox.draglistview.sample/cache/temp_2143357911_handled */
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -194,6 +188,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            sessionManager.clearAll();
         }
     }
 }

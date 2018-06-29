@@ -8,7 +8,7 @@ import com.loopj.android.http.AsyncHttpClient;
 public class ServerUrl {
 //   public String url = "http://10.0.2.2:8000/";
 //   public static String url = "http://192.168.1.114:9000/";
-    public static String url = "http://192.168.1.104:8000/";
+    public static String url = "http://192.168.1.103:8000/";
 //   public String url = "http://192.168.137.26:9000/";
     public Context context;
     SessionManager sessionManager;

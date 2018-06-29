@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:id="@+id/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:scrollbars="none"
+        >
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/description_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Description" />
+
+                <TextView
+                    android:id="@+id/type_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Type" />
+
+                <TextView
+                    android:id="@+id/price_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Price" />
+
+                <TextView
+                    android:id="@+id/tax_rate_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Tax Rate" />
+
+                <TextView
+                    android:id="@+id/hsn_sac_list"
+                    style="@style/text_view_style"
+                    android:layout_width="100dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="HSN/SAC code" />
+
+                <TextView
+                    android:id="@+id/quantity_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text=" Quantity " />
+
+                <TextView
+                    android:id="@+id/total_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Total tax" />
+
+                <TextView
+                    android:id="@+id/sub_total_list"
+                    style="@style/text_view_style"
+                    android:layout_width="80dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="Sub Total" />
+
+                <ImageView
+                    android:id="@+id/del_quote"
+                    android:layout_width="80dp"
+                    style="@style/text_view_style"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_delete"
+                    android:text="Sub Total" />
+
+            </TableRow>
+
+
+        </TableLayout>
+
+    </HorizontalScrollView>
+</android.support.constraint.ConstraintLayout>

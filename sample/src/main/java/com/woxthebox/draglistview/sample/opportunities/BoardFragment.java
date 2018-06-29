@@ -93,7 +93,7 @@ public class BoardFragment extends Fragment {
         mBoardView.setSnapToColumnsWhenScrolling(true);
         mBoardView.setSnapToColumnWhenDragging(true);
         mBoardView.setSnapDragItemToTouch(true);
-        mBoardView.setCustomDragItem(new MyDragItem(getActivity(), R.layout.column_item));
+        mBoardView.setCustomDragItem(new MyDragItem(getContext(), R.layout.column_item));
         mBoardView.setSnapToColumnInLandscape(false);
         mBoardView.setColumnSnapPosition(BoardView.ColumnSnapPosition.CENTER);
         mBoardView.setBoardListener(new BoardView.BoardListener() {
@@ -211,11 +211,11 @@ public class BoardFragment extends Fragment {
         final View header = View.inflate(getActivity(),R.layout.column_header, null);
         CardView color_item = header.findViewById(R.id.item_layout);
         ImageView columnImage = header.findViewById(R.id.column_image);
-        final TextView colom_item = header.findViewById(R.id.text);
+        final TextView column_item = header.findViewById(R.id.text);
 
 
         if (mColumns<items.length){
-            colom_item.setText(items[mColumns]);
+            column_item.setText(items[mColumns]);
             columnImage.setImageResource(img[mColumns]);
             color_item.setBackgroundColor(color1[mColumns]);
          }
@@ -296,16 +296,16 @@ public class BoardFragment extends Fragment {
 
     protected void getOpp() {
         String serverURL = serverUrl.url;
-        client.get(serverURL+"api/clientRelationships/deal/?&created=false&board", new JsonHttpResponseHandler() {
+        client.get(serverURL+"api/clientRelationships/deal/?&created=false&board&format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
                     JSONObject Obj = null;
                     try {
                         Obj = response.getJSONObject(i);
-                        Opportunities o = new Opportunities(Obj);
+                        Opportunities opp = new Opportunities(Obj);
 //
-                        opportunities.add(o);
+                        opportunities.add(opp);
 
                     }catch(JSONException e) {
                         e.printStackTrace();

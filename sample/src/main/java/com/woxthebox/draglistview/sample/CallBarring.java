@@ -86,6 +86,10 @@ public class CallBarring extends BroadcastReceiver {
 //                    getCalldetailsNow();
                     if (incomingNo != null) {
                         String mobNo = incomingNo.replace("+91", "");
+                        final AlertDialog.Builder abd = new AlertDialog.Builder(context);
+                                        abd.setIcon(R.drawable.phone_circle).setMessage("Mob:"+incomingNo);
+                                        final AlertDialog ad = abd.create();
+                                        ad.show();
                         asyncHttpClient.get(ServerUrl.url + "api/clientRelationships/contactLite/?format=json&mobile=" + mobNo, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {

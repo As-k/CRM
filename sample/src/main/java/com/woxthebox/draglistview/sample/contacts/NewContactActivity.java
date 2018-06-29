@@ -217,7 +217,7 @@ public class NewContactActivity extends Activity {
             public void afterTextChanged(Editable s) {
                 addNewCompany.setVisibility(View.VISIBLE);
                 updateCompany.setVisibility(View.GONE);
-                for (int i=0; i<companiesList.size(); i++){
+                for (int i=0; i<companiesList.size(); i++) {
                     Company c = (Company) companiesList.get(i);
                     if (s.toString().equals(c.getCompanyName())){
                         pos = i;

@@ -174,7 +174,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabBackground="@color/colorPrimary"
-        app:tabIndicatorColor="@color/pink"
+        app:tabIndicatorColor="@color/white"
         app:tabIndicatorHeight="3dp"
         app:tabGravity="fill"
         app:tabMode="fixed"

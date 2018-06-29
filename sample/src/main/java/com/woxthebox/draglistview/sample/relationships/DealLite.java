@@ -1,6 +1,8 @@
 package com.woxthebox.draglistview.sample.relationships;
 
 
+import android.util.Log;
+
 import com.woxthebox.draglistview.sample.contacts.Contact;
 
 import org.json.JSONArray;
@@ -71,6 +73,7 @@ public class DealLite {
             for (int i = 0; i < contactsArry.length(); i++) {
                 JSONObject contacts = contactsArry.getJSONObject(i);
                 Contact contact = new Contact(contacts);
+                Log.e("DealLite", "getDesignation " +contact.getDesignation());;
                 contactsList.add(contact);
                 this.contactPk = contacts.getString("pk");
                 String contactName = contacts.getString("name");

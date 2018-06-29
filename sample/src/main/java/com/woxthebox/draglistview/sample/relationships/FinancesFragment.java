@@ -4,9 +4,11 @@ package com.woxthebox.draglistview.sample.relationships;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,23 +70,24 @@ public class FinancesFragment extends Fragment {
 
         rv = v.findViewById(R.id.finances_rv);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        FloatingActionButton addQuote = v.findViewById(R.id.add_quote_fab);
+        addQuote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AddQuoteActivity.class));
+            }
+        });
 
         getFinances();
         return v;
     }
     protected void getFinances() {
-        Log.e("ActiveDeals size", "=====>" +  ActiveDealsActivity.contractspk.size());
         for (int i = 0; i < ActiveDealsActivity.contractspk.size(); i++) {
-            Log.e("ActiveDeals value", "=====>" +  ActiveDealsActivity.contractspk.get(i));
-            client.get(ServerUrl.url + "/api/clientRelationships/contract/" + ActiveDealsActivity.contractspk.get(i), new JsonHttpResponseHandler() { // " + contractPk.get(i) + "
+            client.get(ServerUrl.url + "/api/clientRelationships/contract/" + ActiveDealsActivity.contractspk.get(i), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, final JSONObject response) {
-//                    for (int i = 0; i < response.length(); i++) {
-//                        JSONObject Obj = null;
-//                        Obj = response;
                         Contract contract = new Contract(response);
                         finance.add(contract);
-//                    }
                 }
 
                 @Override
@@ -107,9 +110,8 @@ public class FinancesFragment extends Fragment {
             public void run() {
                 financesAdapter = new FinancesAdapter(getContext(), finance);
                 rv.setAdapter(financesAdapter);
-                Log.e("finance size", "=====>" + finance.size());
             }
-        },500);
+        },5000);
 
     }
 }

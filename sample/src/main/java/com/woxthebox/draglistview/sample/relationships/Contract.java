@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by amit on 16/4/18.
  */
@@ -12,6 +14,7 @@ public class Contract {
     public String pk, user,created,updated,value,deal,status,dueDate,details,data,billedDate,
             recivedDate, archivedDate,grandTotal, currency, type, tax, desc, rate, quantity, taxCode, total, totalTax, subtotal, $$hashKey ;
     public JSONObject jsonObject;
+    ArrayList<Integer> size= new ArrayList<Integer>();
 
     public Contract(){
 
@@ -48,13 +51,21 @@ public class Contract {
             this.status = jsonObject.getString("status");
             this.details = jsonObject.getString("details");
             this.dueDate = jsonObject.getString("dueDate");
-            JSONArray datas = jsonObject.getJSONArray("data");
-            for (int i=0; i<datas.length(); i++){
-                JSONObject object = datas.getJSONObject(i);
+            JSONArray data = jsonObject.getJSONArray("data");
+            for (int i=0; i<data.length(); i++){
+                JSONObject object = data.getJSONObject(i);
                 this.currency = object.getString("currency");
+                this.type = object.getString("type");
+                this.tax = object.getString("tax");
+                this.desc = object.getString("desc");
+                this.rate = object.getString("rate");
+                this.quantity = object.getString("quantity");
+                this.taxCode = object.getString("taxCode");
+                this.total = object.getString("total");
+                this.totalTax = object.getString("totalTax");
+                this.subtotal = object.getString("subtotal");
+                size.add(i);
             }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -172,6 +183,103 @@ public class Contract {
     public void setGrandTotal(String grandTotal) {
         this.grandTotal = grandTotal;
     }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTax() {
+        return tax;
+    }
+
+    public void setTax(String tax) {
+        this.tax = tax;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getTaxCode() {
+        return taxCode;
+    }
+
+    public void setTaxCode(String taxCode) {
+        this.taxCode = taxCode;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public String getTotalTax() {
+        return totalTax;
+    }
+
+    public void setTotalTax(String totalTax) {
+        this.totalTax = totalTax;
+    }
+
+    public String getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(String subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public String get$$hashKey() {
+        return $$hashKey;
+    }
+
+    public void set$$hashKey(String $$hashKey) {
+        this.$$hashKey = $$hashKey;
+    }
+
+    public ArrayList<Integer> getSize() {
+        return size;
+    }
+
+    public void setSize(ArrayList<Integer> size) {
+        this.size = size;
+    }
+
     public JSONObject getJsonObject(){
         return jsonObject;
     }
