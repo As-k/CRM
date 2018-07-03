@@ -59,10 +59,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".opportunities.OpportunitiesActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".opportunities.StepView"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".relationships.RelationshipActivity"
             android:label="@string/relationships"
@@ -94,8 +98,15 @@
             android:name=".contacts.CallLogDetailsActivity"
             android:windowAnimationStyle="@android:style/Animation.Translucent"
             android:windowBackground="@android:color/transparent"
-            android:windowIsTranslucent="true"></activity>
-        <activity android:name=".relationships.AddQuoteActivity"></activity>
+            android:windowIsTranslucent="true"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".relationships.AddQuoteActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

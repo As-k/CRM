@@ -20,6 +20,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
@@ -59,8 +60,8 @@ public class BoardFragment extends Fragment {
     public static List<Opportunities> opportunities;
     public AsyncHttpClient client;
     ServerUrl serverUrl;
-    ItemAdapter itemAdapter;
-
+    ItemAdapter itemAdapter, listAdapter;
+    ArrayList<Pair<Integer, String>> mitem;
 
 
 
@@ -76,18 +77,16 @@ public class BoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        serverUrl = new ServerUrl(getContext());
+        client = serverUrl.getHTTPClient();
+        opportunities = new ArrayList();
+        getOpp();
         setHasOptionsMenu(true);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_layout, container, false);
-        serverUrl = new ServerUrl(getContext());
-        client = new AsyncHttpClient();
-        opportunities = new ArrayList();
-
 
         mBoardView = view.findViewById(R.id.board_view);
         mBoardView.setSnapToColumnsWhenScrolling(true);
@@ -140,7 +139,7 @@ public class BoardFragment extends Fragment {
                 return true;
             }
         });
-        getOpp();
+
         return view;
 
     }
@@ -151,13 +150,18 @@ public class BoardFragment extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Board");
 
-        addColumnList();
-        addColumnList();
-        addColumnList();
-        addColumnList();
-        addColumnList();
-        addColumnList();
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                mitem = new ArrayList<>();
+                addColumnList();
+                addColumnList();
+                addColumnList();
+                addColumnList();
+                addColumnList();
+                addColumnList();
+            }
+        },500);
     }
 
 //    @Override
@@ -198,21 +202,19 @@ public class BoardFragment extends Fragment {
 //    }
 
     private void addColumnList() {
-        final ArrayList<Pair<Long, String>> mitem = new ArrayList<>();
+        ArrayList<Pair<Integer, String>> mitem = new ArrayList<>();
         int addItems = 1;
         for (int i = 0; i < addItems; i++) {
             long id = sCreatedItems++;
-            mitem.add(new Pair<>(id, "Name"));
+            mitem.add(new Pair<>(sCreatedItems++, "Name"));
         }
 
-        final int column = mColumns;
-        final ItemAdapter listAdapter = new ItemAdapter(mitem, R.layout.column_item, R.id.item_layout, true);
+        listAdapter = new ItemAdapter(mitem, R.layout.column_item, R.id.item_layout, true);
         itemAdapter = new ItemAdapter(getActivity(), opportunities);
-        final View header = View.inflate(getActivity(),R.layout.column_header, null);
+        View header = View.inflate(getActivity(), R.layout.column_header, null);
         CardView color_item = header.findViewById(R.id.item_layout);
         ImageView columnImage = header.findViewById(R.id.column_image);
-        final TextView column_item = header.findViewById(R.id.text);
-
+        TextView column_item = header.findViewById(R.id.text);
 
         if (mColumns<items.length){
             column_item.setText(items[mColumns]);
@@ -247,27 +249,31 @@ public class BoardFragment extends Fragment {
 
 
         public void onBindDragView(View clickedView, View dragView) {
-            CharSequence text = ((TextView) clickedView.findViewById(R.id.text)).getText();
-            ((TextView) dragView.findViewById(R.id.text)).setText(text);
+            CharSequence dealName = ((TextView) clickedView.findViewById(R.id.opp_card_deal)).getText();
+            CharSequence company = ((TextView) clickedView.findViewById(R.id.opp_card_company)).getText();
+            CharSequence name = ((TextView) clickedView.findViewById(R.id.opp_name)).getText();
+            ((TextView) dragView.findViewById(R.id.opp_name)).setText(name);
+            ((TextView) dragView.findViewById(R.id.opp_card_company)).setText(company);
+            ((TextView) dragView.findViewById(R.id.opp_card_deal)).setText(dealName);
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
             CardView clickedCard = ((CardView) clickedView.findViewById(R.id.card));
 
-            dragCard.setMaxCardElevation(30);
+            dragCard.setMaxCardElevation(2);
             dragCard.setCardElevation(clickedCard.getCardElevation());
             // I know the dragView is a FrameLayout and that is why I can use setForeground below api level 23
-            dragCard.setForeground(clickedView.getResources().getDrawable(R.drawable.card_view_drag_foreground));
+//            dragCard.setForeground(clickedView.getResources().getDrawable(R.drawable.card_view_drag_foreground));
         }
 
         @Override
         public void onMeasureDragView(View clickedView, View dragView) {
-            CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            CardView clickedCard = ((CardView) clickedView.findViewById(R.id.card));
-            int widthDiff = dragCard.getPaddingLeft() - clickedCard.getPaddingLeft() + dragCard.getPaddingRight() -
-                    clickedCard.getPaddingRight();
-            int heightDiff = dragCard.getPaddingTop() - clickedCard.getPaddingTop() + dragCard.getPaddingBottom() -
-                    clickedCard.getPaddingBottom();
-            int width = clickedView.getMeasuredWidth() + widthDiff;
-            int height = clickedView.getMeasuredHeight() + heightDiff;
+//            CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
+//            CardView clickedCard = ((CardView) clickedView.findViewById(R.id.card));
+//            int widthDiff = dragCard.getPaddingLeft() - clickedCard.getPaddingLeft() + dragCard.getPaddingRight() -
+//                    clickedCard.getPaddingRight();
+//            int heightDiff = dragCard.getPaddingTop() - clickedCard.getPaddingTop() + dragCard.getPaddingBottom() -
+//                    clickedCard.getPaddingBottom();
+            int width = clickedView.getMeasuredWidth();// + widthDiff;
+            int height = clickedView.getMeasuredHeight();// + heightDiff;
             dragView.setLayoutParams(new FrameLayout.LayoutParams(width, height));
 
             int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
@@ -278,7 +284,7 @@ public class BoardFragment extends Fragment {
         @Override
         public void onStartDragAnimation(View dragView) {
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 40);
+            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 2);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();
@@ -287,7 +293,7 @@ public class BoardFragment extends Fragment {
         @Override
         public void onEndDragAnimation(View dragView) {
             CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 6);
+            ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 2);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
             anim.start();
@@ -295,8 +301,7 @@ public class BoardFragment extends Fragment {
     }
 
     protected void getOpp() {
-        String serverURL = serverUrl.url;
-        client.get(serverURL+"api/clientRelationships/deal/?&created=false&board&format=json", new JsonHttpResponseHandler() {
+        client.get(ServerUrl.url+"api/clientRelationships/deal/?&created=false&board&format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 for (int i = 0; i < response.length(); i++) {
@@ -304,9 +309,7 @@ public class BoardFragment extends Fragment {
                     try {
                         Obj = response.getJSONObject(i);
                         Opportunities opp = new Opportunities(Obj);
-//
                         opportunities.add(opp);
-
                     }catch(JSONException e) {
                         e.printStackTrace();
                     }

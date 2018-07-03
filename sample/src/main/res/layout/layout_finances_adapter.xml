@@ -31,6 +31,7 @@
             android:text="ID  :"
             android:textAlignment="center"
             android:layout_gravity="center"
+            android:layout_centerVertical="true"
             android:textColor="#000"
             android:textStyle="bold"
             android:id="@+id/textView6" />
@@ -39,51 +40,38 @@
             android:id="@+id/id_deals"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:textAlignment="center"
             android:layout_gravity="center"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/textView6"
             android:text="1" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="90dp"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:text="Items       :"
-            android:layout_toEndOf="@+id/textView6"
-            android:textColor="#000"
-            android:textStyle="bold"
-            android:id="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/items_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/textView2"
-            android:text="2"
-
-            />
 
         <ImageButton
             android:id="@+id/notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="5dp"
             android:layout_marginStart="55dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_toStartOf="@+id/edit_contract"
+            android:background="@color/project_color"
+            android:src="@drawable/ic_notification" />
+
+        <ImageButton
+            android:id="@+id/edit_contract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_toStartOf="@+id/download"
             android:background="@color/project_color"
-            android:src="@drawable/ic_notification" />
+            android:src="@drawable/ic_edit" />
 
         <ImageButton
             android:id="@+id/download"
@@ -93,7 +81,7 @@
             android:layout_centerVertical="true"
             android:textAlignment="center"
             android:layout_gravity="center"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/project_color"
             android:src="@drawable/ic_download"
             />
@@ -109,7 +97,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
+            android:layout_marginStart="22dp"
             android:text="Value  :"
             android:textColor="#000"
             android:textStyle="bold"
@@ -124,6 +112,34 @@
             android:layout_toEndOf="@+id/textView5"
             android:text="1122" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/items_id"
+            android:layout_alignBottom="@+id/items_id"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView5"
+            android:text="Items       :"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/items_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/textView2"
+            android:text="2"
+
+            />
+
     </RelativeLayout>
 
 
@@ -136,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/created_txt"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="8dp"
             android:text="Created  :"
             android:textColor="#000"
             android:textStyle="bold"/>
@@ -151,7 +167,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="88dp"
+            android:layout_marginStart="100dp"
             android:id="@+id/updated_txt"
             android:text="Updated  :"
             android:layout_toEndOf="@id/created_txt"
@@ -162,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/updated_txt"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="10dp"
             android:text="22 Days"/>
 
     </RelativeLayout>
@@ -175,7 +191,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="17dp"
             android:layout_centerVertical="true"
             android:text="Status  :"
             android:textColor="#000"
@@ -196,7 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="42dp"
+            android:layout_marginStart="55dp"
             android:layout_toEndOf="@+id/status"
             android:text="Due Date :"
             android:textColor="#000"

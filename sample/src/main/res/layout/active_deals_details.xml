@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:text="First"
         style="@style/text_view_style"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 </LinearLayout>
 
     <LinearLayout
@@ -49,18 +49,19 @@
                 android:layout_marginTop="3dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_money" />
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="10dp"-->
+                    <!--android:src="@drawable/ic_money" />-->
 
                 <TextView
                     android:id="@+id/valuation_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:layout_gravity="center"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="13dp"
                     android:text="5000" />
             </LinearLayout>
         </LinearLayout>
@@ -115,6 +116,7 @@
             android:text="Admin CIOC"
             android:textStyle="bold"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
@@ -126,46 +128,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabBackground="@color/colorPrimary"
-        app:tabIndicatorColor="@color/pink"
+        app:tabIndicatorColor="@color/white"
         app:tabIndicatorHeight="3dp"
         app:tabGravity="fill"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/project_color"
         app:tabTextColor="@color/gray">
 
-        <!--<android.support.design.widget.TabItem
-            android:id="@+id/deal_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_info"/>
-
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/external_stakeholders"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_stakeholder"/>
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/finances"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_finances"/>
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/requirements"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_requirements"/>-->
-
     </android.support.design.widget.TabLayout>
-<!--<fragment
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/dealinfo_fragment"
-    clacom.woxthebox.draglistview.sample.relationships.DealInfoFragmentment">
 
-</fragment>-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/deal_viewpager"

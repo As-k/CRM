@@ -57,24 +57,17 @@ public class ContactsListActivity extends AppCompatActivity {
 
 //        searchContact = findViewById(R.id.search_contact);
         listView = findViewById(R.id.import_contact_list_view);
-
         storeContacts = new ArrayList<String>();
-
         enableRuntimePermission();
-
         allContacts();
-
 //        textChange();
 
     }
 
     public void allContacts(){
         GetContactsIntoArrayList();
-
         simpleAdapter = new SimpleAdapter(ContactsListActivity.this, storeContacts, R.layout.contact_items_listview, keys, ids);
-
         listView.setAdapter(simpleAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -95,7 +88,6 @@ public class ContactsListActivity extends AppCompatActivity {
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         search(searchView);
-
         search.setVisible(true);
 //        contactList.clear();
 //        browseAdapter.clearData();
@@ -106,7 +98,6 @@ public class ContactsListActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
@@ -125,7 +116,6 @@ public class ContactsListActivity extends AppCompatActivity {
 
     int plus_sign_pos = 0;
     public void GetContactsIntoArrayList(){
-
         String order = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null, null, order);
         String temp_name = "";

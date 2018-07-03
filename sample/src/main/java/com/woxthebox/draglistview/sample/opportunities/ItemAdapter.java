@@ -29,9 +29,10 @@ import com.woxthebox.draglistview.DragItemAdapter;
 import com.woxthebox.draglistview.sample.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.MyHolder> {
+class ItemAdapter extends DragItemAdapter<Pair<Integer, String>, ItemAdapter.MyHolder> {
     Context context;
     private int mLayoutId;
     private int mGrabHandleId;
@@ -40,14 +41,14 @@ class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.MyHold
     String cName[] = {"Purity Supreme","Team Electronics"};
     String dName[] = {"Blandit insolens pri ad","Duo in dolorum detracto"};
 
-    private List<Opportunities> opportunities;
+//    private List<Opportunities> opportunities;
 
-    public ItemAdapter(Context context,List<Opportunities> opportunitiesList){
+    public ItemAdapter(Context context, List<Opportunities> opportunitiesList){
         this.context = context;
-        this.opportunities = opportunitiesList;
+//        this.opportunities = opportunitiesList;
     }
 
-    ItemAdapter(ArrayList<Pair<Long, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
+    ItemAdapter(ArrayList<Pair<Integer, String>> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
         mLayoutId = layoutId;
         mGrabHandleId = grabHandleId;
         mDragOnLongPress = dragOnLongPress;
@@ -61,14 +62,15 @@ class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.MyHold
         return  myHolder;
     }
 
+
+
     @Override
     public void onBindViewHolder(ItemAdapter.MyHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         String text1 = mItemList.get(position).second;
 //        Opportunities o = opportunities.get(position);
-//
-        holder.mText.setText(text[position]);
-//        holder.mText.setText(o.getContactName());
+        holder.contactName.setText(text[position]);
+//        holder.contactName.setText(o.getContactName());
         holder.dealName.setText(dName[position]);
 //        holder.dealName.setText(o.getName());
         holder.companyName.setText(cName[position]);
@@ -76,18 +78,27 @@ class ItemAdapter extends DragItemAdapter<Pair<Long, String>, ItemAdapter.MyHold
 //        holder.itemView.setTag(mItemList.get(position));
 
     }
+//    @Override
+//    public long getUniqueItemId(int position) {
+//        return mItemList.get(position).first;//Long.parseLong(""+opportunities.size());
+//    }
 
     @Override
     public long getUniqueItemId(int position) {
-        return mItemList.get(position).first;
+        return Long.parseLong(""+mItemList.get(position).first);
     }
 
+//    @Override
+//    public int getItemCount() {
+//        return text.length;
+//    }
+
     class MyHolder extends DragItemAdapter.ViewHolder {
-        TextView mText, companyName,dealName;
+        TextView contactName, companyName,dealName;
 
         MyHolder(final View itemView) {
             super(itemView, mGrabHandleId, mDragOnLongPress);
-            mText = (TextView) itemView.findViewById(R.id.text);
+            contactName = (TextView) itemView.findViewById(R.id.opp_name);
             companyName =(TextView) itemView.findViewById(R.id.opp_card_company);
             dealName = (TextView) itemView.findViewById(R.id.opp_card_deal);
         }

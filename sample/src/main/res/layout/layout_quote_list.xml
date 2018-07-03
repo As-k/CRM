@@ -85,12 +85,21 @@
 
                 <ImageView
                     android:id="@+id/del_quote"
-                    android:layout_width="80dp"
+                    android:layout_width="40dp"
                     style="@style/text_view_style"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:src="@drawable/ic_delete"
-                    android:text="Sub Total" />
+                    />
+
+                <ImageView
+                    android:id="@+id/edit_quote"
+                    android:layout_width="40dp"
+                    style="@style/text_view_style"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_mode_edit"
+                    />
 
             </TableRow>
 

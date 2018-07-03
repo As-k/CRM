@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class ExternalStakeholderFragment extends Fragment {
-    RecyclerView recyclerView;
+    RecyclerView externalRecyclerView;
     Context context;
     ServerUrl serverUrl;
     private Deal d;
@@ -39,11 +39,11 @@ public class ExternalStakeholderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_external_stakeholder, container, false);
 
-        recyclerView = view.findViewById(R.id.stakeholder_rv);
+        externalRecyclerView = view.findViewById(R.id.stakeholder_rv);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        externalRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ExternalStakeholderAdapter externalStakeholderAdapter = new ExternalStakeholderAdapter(getContext());
-        recyclerView.setAdapter(externalStakeholderAdapter);
+        externalRecyclerView.setAdapter(externalStakeholderAdapter);
 
         return view;
     }

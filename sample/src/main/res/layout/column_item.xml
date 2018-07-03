@@ -27,38 +27,34 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:duplicateParentState="true"
         android:foreground="@drawable/card_view_selector"
         card_view:cardBackgroundColor="#ffffff"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="2dp"
-        card_view:cardPreventCornerOverlap="true"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/opp_card_deal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="21dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Blandit insolens pri ad"
-                    android:textColor="#000"
-                    android:textSize="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
                     android:textStyle="bold"
-                    tools:ignore="RtlCompat" />
+                    />
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
@@ -66,15 +62,17 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    tools:ignore="RtlCompat">
+
+                    android:layout_marginBottom="10dp"
+                    >
 
                     <ImageView
                         android:id="@+id/imageView4"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="19dp"
+                        android:layout_marginStart="20dp"
                         android:src="@drawable/ic_account" />
 
                     <TextView
@@ -82,41 +80,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/imageView4"
-                        android:text="Purity Supreme"
-                        android:textSize="16sp" />
+                        android:text=""
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
-                    tools:ignore="RtlCompat">
+                    android:layout_marginBottom="10dp"
+                    >
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imageView3"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginStart="19dp"
+                        android:layout_marginStart="20dp"
                         android:src="@drawable/male_circle" />
 
                     <TextView
-                        android:id="@+id/text"
+                        android:id="@+id/opp_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageView3"
-                        android:text="Joyce A. Neal"
-                        android:textColor="#000"
-                        android:textSize="16sp" />
+                        android:text=""
+                        android:textSize="14sp" />
                 </RelativeLayout>
-            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>

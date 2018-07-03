@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class Contract {
-    public String pk, user,created,updated,value,deal,status,dueDate,details,data,billedDate,
+    public String pk, user, created, updated, value, deal, status, dueDate, details, data, billedDate,
             recivedDate, archivedDate,grandTotal, currency, type, tax, desc, rate, quantity, taxCode, total, totalTax, subtotal, $$hashKey ;
     public JSONObject jsonObject;
     ArrayList<Integer> size= new ArrayList<Integer>();
@@ -51,7 +51,9 @@ public class Contract {
             this.status = jsonObject.getString("status");
             this.details = jsonObject.getString("details");
             this.dueDate = jsonObject.getString("dueDate");
-            JSONArray data = jsonObject.getJSONArray("data");
+            String str = jsonObject.getString("data");
+            this.data = str;
+            JSONArray data = new JSONArray(str);
             for (int i=0; i<data.length(); i++){
                 JSONObject object = data.getJSONObject(i);
                 this.currency = object.getString("currency");

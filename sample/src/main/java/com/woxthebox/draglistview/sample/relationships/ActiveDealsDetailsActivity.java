@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class ActiveDealsDetailsActivity extends FragmentActivity {
     TabLayout tabLayout;
-    TextView Dealname, Valuation, ClosingDate;
+    TextView dealName, valuation, closingDate;
     ImageView imageView;
     Deal d;
     private String pk;
@@ -32,11 +32,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
     private ActiveDealsViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
 
-
-    private static final String TAG = ActiveDealsDetailsActivity.class.toString();
-
-    public static String name, nameC, designation,value, closedate, web,cin,tin,about,telephone,mobile;
-
+    public static String name, value, closeDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,30 +45,15 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         if (b != null) {
             name = b.getString("name");
             value = b.getString("value");
-            closedate = b.getString("closeDate");
+            closeDate = b.getString("closeDate");
             pk = b.getString("pk");
             contractPk = b.getIntegerArrayList("contracts");
-
-//         /*   web = b.getString("web");
-//            cin = b.getString("cin");
-//            tin = b.getString("tin");
-//            about = b.getString("about");
-//            telephone = b.getString("telephone");
-//            mobile = b.getString("mobile");*/
-//            d = new Deal();
-//            d.name = name;
-//            d.value = value;
-//            d.contactName = nameC;
-//            d.contactDesignation = designation;
-//            d.closeDate = closedate;
         }
+        dealName = findViewById(R.id.deal_name);
+        valuation = findViewById(R.id.valuation_money);
+        closingDate = findViewById(R.id.closing_date);
 
-
-        Dealname = findViewById(R.id.deal_name);
-        Valuation = findViewById(R.id.valuation_money);
-        ClosingDate = findViewById(R.id.closing_date);
-
-        String close = closedate;
+        String close = closeDate;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         Date date1 = null;
@@ -82,26 +63,21 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
             string = dateFormat.format(date1);
         } catch (ParseException e) {
             e.printStackTrace();
-            Log.e("ParseException",""+e);
+            Log.d("ParseException",""+e);
         }
 
-
-        Dealname.setText(name);
-        Valuation.setText(value);
-        ClosingDate.setText(string);
+        dealName.setText(name);
+        valuation.setText(value);
+        closingDate.setText(string);
 
         viewPager = findViewById(R.id.deal_viewpager);
-
         tabLayout = findViewById(R.id.deal_view);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         viewPagerAdapter = new ActiveDealsViewPagerAdapter(getSupportFragmentManager(), pk, contractPk);
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(4);
-
         createTabs();
-
-
         Bundle bundle = new Bundle();
         bundle.putString("requirements", d.getRequirements());
         RequirementFragment requirementFragment = new RequirementFragment();

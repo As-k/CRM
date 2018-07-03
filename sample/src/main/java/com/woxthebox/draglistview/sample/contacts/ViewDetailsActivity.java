@@ -73,10 +73,6 @@ public class ViewDetailsActivity extends FragmentActivity {
     EditTag editTagViewIP, editTagViewCRM;
     AutoCompleteTextView editTagIP, editTagCRM;
 
-    private static final String TAG = ViewDetailsActivity.class.toString();
-//    private List<ContactChip> mContactList;
-//    ChipsInput scheduleInternalPeople, scheduleOS, taskOtherStake;
-
     ArrayList noteList;
     private List<String> ipContactSch = new ArrayList<>();
     private List<String> crmContactSch = new ArrayList<>();
@@ -84,8 +80,6 @@ public class ViewDetailsActivity extends FragmentActivity {
     private List<UserSearch> userSearchListSdl= new ArrayList<>();
     private List<ContactLite> contactLitesSdl= new ArrayList<>();
     private List<ContactLite> contactLitesTask= new ArrayList<>();
-    int posIpSdl, posCrmScl, countIpScl=0, countCrmScl=0;
-    int posCrmTask, countCrmTask=0;
 
     public static String cpk,cname,street,city,state,pincode,country,eMail,mobile,designation,company,companyPk,telephone, cMobile, cin, tin, about, web,dp;
 
@@ -159,7 +153,6 @@ public class ViewDetailsActivity extends FragmentActivity {
         fabSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mContactList = new ArrayList<>();
                 final EditText scheduleDate, scheduleTime, scheduleLocation, scheduleEventDetails;
                 Button scheduleCancel, scheduleSave;
                 final DatePicker[] dp = new DatePicker[1];
@@ -178,8 +171,6 @@ public class ViewDetailsActivity extends FragmentActivity {
                 editTagViewCRM.setEditable(true);
                 editTagIP = (AutoCompleteTextView) v.findViewById(R.id.medit_tag_ip);
                 editTagCRM = (AutoCompleteTextView) v.findViewById(R.id.medit_tag_crm);
-//                scheduleOS = v.findViewById(R.id.chips_input_os_schedule);
-//                scheduleInternalPeople = v.findViewById(R.id.chips_input_ip_schedule);
                 scheduleLocation = v.findViewById(R.id.schedule_loction);
                 scheduleEventDetails = v.findViewById(R.id.schedule_event_details);
 
@@ -293,44 +284,6 @@ public class ViewDetailsActivity extends FragmentActivity {
                         Toast.makeText(ViewDetailsActivity.this, deletedTagValue, Toast.LENGTH_SHORT).show();
                     }
                 });
-
-//                editTagViewCRM.setTagList(crmContactSch);
-
-
-//                // chips listener
-//                scheduleInternalPeople.addChipsListener(new ChipsInput.ChipsListener() {
-//                    @Override
-//                    public void onChipAdded(ChipInterface chip, int newSize) {
-//                        Log.e(TAG, "chip added, " + newSize);
-//                    }
-//
-//                    @Override
-//                    public void onChipRemoved(ChipInterface chip, int newSize) {
-//                        Log.e(TAG, "chip removed, " + newSize);
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence text) {
-//                        Log.e(TAG, "text changed: " + text.toString());
-//                    }
-//                });
-//                // chips listener
-//                scheduleOS.addChipsListener(new ChipsInput.ChipsListener() {
-//                    @Override
-//                    public void onChipAdded(ChipInterface chip, int newSize) {
-//                        Log.e(TAG, "chip added, " + newSize);
-//                    }
-//
-//                    @Override
-//                    public void onChipRemoved(ChipInterface chip, int newSize) {
-//                        Log.e(TAG, "chip removed, " + newSize);
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence text) {
-//                        Log.e(TAG, "text changed: " + text.toString());
-//                    }
-//                });
 
                 AlertDialog.Builder adb = new AlertDialog.Builder(ViewDetailsActivity.this);
                 adb.setView(v);

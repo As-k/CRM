@@ -29,16 +29,14 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class ActiveDealsActivity extends Activity {
-    RecyclerView rv1;
-    TextView companyname,web;
+    RecyclerView activeDealRV;
+    TextView companyName,web;
     public static ArrayList<DealLite> dealLites;
     public static ArrayList<Deal> deals;
     ServerUrl serverUrl;
     public AsyncHttpClient client;
-    public static String c_pk,company,street,city,astate,pincode,country,pkc,requirements,namec,designation;
-    //    public static JSONObject contracts;
+    public static String dealPk, requirements;
     public static int pos;
-    private Deal d;
     DealLite dealLite;
     String company_pk, closeDate;
     public static ArrayList<Integer> contractspk;
@@ -49,10 +47,10 @@ public class ActiveDealsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.active_deals);
 
-        companyname = findViewById(R.id.comapny_name);
+        companyName = findViewById(R.id.comapny_name);
         web = findViewById(R.id.web_text);
-        rv1 = findViewById(R.id.activedearl_recyclerView);
-        rv1.setLayoutManager(new LinearLayoutManager(ActiveDealsActivity.this));
+        activeDealRV = findViewById(R.id.activedearl_recyclerView);
+        activeDealRV.setLayoutManager(new LinearLayoutManager(ActiveDealsActivity.this));
         serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
         dealLites = new ArrayList<DealLite>();
@@ -63,19 +61,20 @@ public class ActiveDealsActivity extends Activity {
             String company_name = bundle.getString("company_name");
             company_pk = bundle.getString("pk");
             String web1 = bundle.getString("web");
-            companyname.setText(company_name);
+            companyName.setText(company_name);
             web.setText(web1);
         }
 
         getDealLites();
 
-        rv1.addOnItemTouchListener(
+        activeDealRV.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, final int position) {
-                        pos=position;
+                        pos = position;
                         dealLite = dealLites.get(position);
                         getDeal(dealLite.getPk());
+                        dealPk = dealLite.getPk();
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -108,7 +107,7 @@ public class ActiveDealsActivity extends Activity {
                     }
                 }
                 activeDealsAdapter = new ActiveDealsAdapter(ActiveDealsActivity.this, client, dealLites);
-                rv1.setAdapter(activeDealsAdapter);
+                activeDealRV.setAdapter(activeDealsAdapter);
             }
             @Override
             public void onFinish() {
@@ -123,14 +122,10 @@ public class ActiveDealsActivity extends Activity {
     }
 
     protected void getDeal(String pos) {
-        int pk = Integer.parseInt(pos);
         client.get(ServerUrl.url+"/api/clientRelationships/deal/"+pos+"/?format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                for (int i = 0; i < response.length(); i++) {
-//                    JSONObject Obj = null;
                     try {
-//                        Obj = response.getJSONObject(0);
                         Deal d = new Deal(response);
                         if (d.companyPk.equals(company_pk)) {
                             d.contactPk = company_pk;
@@ -144,7 +139,6 @@ public class ActiveDealsActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
-//            }
             @Override
             public void onFinish() {
                 System.out.println("finished 001");

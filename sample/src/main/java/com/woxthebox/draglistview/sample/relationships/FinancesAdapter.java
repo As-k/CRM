@@ -71,7 +71,6 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
     public FinancesAdapter(Context context,List<Contract> financeList) {
         this.context = context;
         this.financeList = financeList;
-
     }
 
     @NonNull
@@ -107,7 +106,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 date = sdf1.parse(dtc);
                 String newDate = sdf2.format(date);
                 System.out.println(newDate);
-                Log.e("Date",newDate);
+                Log.d("created Date",newDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -126,7 +125,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 date1 = simpleDateFormat.parse(dt);
                 String newDate1 = sdf.format(date1);
                 System.out.println(newDate1);
-                Log.e("Date",newDate1);
+                Log.d("updates Date",newDate1);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -146,6 +145,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
             if (r.getStatus().equals("received")) {
                 holder.notification.setVisibility(View.VISIBLE);
                 holder.download.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
                 holder.duaDate.setVisibility(View.GONE);
                 holder.duaDatetxt.setVisibility(View.GONE);
                 myHolder.status.setText("Received");
@@ -153,6 +153,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
             else if (r.getStatus().equals("approved")) {
                 holder.notification.setVisibility(View.GONE);
                 holder.download.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
                 holder.duaDate.setVisibility(View.GONE);
                 holder.duaDatetxt.setVisibility(View.GONE);
                 myHolder.status.setText("Approved");
@@ -160,6 +161,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
             else if (r.getStatus().equals("billed")) {
                 holder.notification.setVisibility(View.VISIBLE);
                 holder.download.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
                 holder.duaDate.setVisibility(View.VISIBLE);
                 holder.duaDatetxt.setVisibility(View.VISIBLE);
                 SimpleDateFormat dueDatefrmtIn = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -182,11 +184,13 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 holder.duaDatetxt.setVisibility(View.GONE);
                 holder.notification.setVisibility(View.GONE);
                 holder.download.setVisibility(View.GONE);
+                holder.edit.setVisibility(View.GONE);
                 myHolder.status.setText("Cancelled");
             }
             else if (r.getStatus().equals("quoted")) {
                 holder.notification.setVisibility(View.GONE);
                 holder.download.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
                 holder.duaDate.setVisibility(View.GONE);
                 holder.duaDatetxt.setVisibility(View.GONE);
                 myHolder.status.setText("Quoted");
@@ -196,6 +200,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 holder.duaDatetxt.setVisibility(View.GONE);
                 holder.notification.setVisibility(View.VISIBLE);
                 holder.download.setVisibility(View.VISIBLE);
+                holder.edit.setVisibility(View.VISIBLE);
                 myHolder.status.setText("Due Elapsed");
             }
 
@@ -244,6 +249,21 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                 }
             });
 
+            myHolder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddQuoteActivity.class);
+                    intent.putExtra("data", r.getData());
+                    intent.putExtra("value", Integer.parseInt(r.getValue()));
+                    intent.putExtra("edit", true);
+                    intent.putExtra("pk", r.getPk());
+                    context.startActivity(intent);
+                    Toast.makeText(context, "Edit", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+
             holder.menu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -256,6 +276,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                 case R.id.quoted: {
                                     holder.notification.setVisibility(View.GONE);
                                     holder.download.setVisibility(View.VISIBLE);
+                                    holder.edit.setVisibility(View.VISIBLE);
                                     holder.duaDate.setVisibility(View.GONE);
                                     holder.duaDatetxt.setVisibility(View.GONE);
                                     holder.status.setText("Quoted");
@@ -265,6 +286,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                 case R.id.approved: {
                                     holder.notification.setVisibility(View.GONE);
                                     holder.download.setVisibility(View.VISIBLE);
+                                    holder.edit.setVisibility(View.VISIBLE);
                                     holder.duaDate.setVisibility(View.GONE);
                                     holder.duaDatetxt.setVisibility(View.GONE);
                                     holder.status.setText("Approved");
@@ -274,6 +296,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                 case R.id.billed: {
                                     holder.notification.setVisibility(View.VISIBLE);
                                     holder.download.setVisibility(View.VISIBLE);
+                                    holder.edit.setVisibility(View.VISIBLE);
                                     holder.duaDate.setVisibility(View.VISIBLE);
                                     holder.duaDatetxt.setVisibility(View.VISIBLE);
                                     DatePickerDialog dpd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
@@ -305,6 +328,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                 case R.id.received: {
                                     holder.notification.setVisibility(View.VISIBLE);
                                     holder.download.setVisibility(View.VISIBLE);
+                                    holder.edit.setVisibility(View.VISIBLE);
                                     holder.duaDate.setVisibility(View.GONE);
                                     holder.duaDatetxt.setVisibility(View.GONE);
                                     holder.status.setText("Received");
@@ -316,6 +340,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                     holder.duaDatetxt.setVisibility(View.GONE);
                                     holder.notification.setVisibility(View.GONE);
                                     holder.download.setVisibility(View.GONE);
+                                    holder.edit.setVisibility(View.GONE);
                                     holder.status.setText("Cancelled");
                                     statusPatch(r.getPk(), "cancelled");
                                     break;
@@ -325,6 +350,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
                                     holder.duaDatetxt.setVisibility(View.GONE);
                                     holder.notification.setVisibility(View.VISIBLE);
                                     holder.download.setVisibility(View.VISIBLE);
+                                    holder.edit.setVisibility(View.VISIBLE);
                                     holder.status.setText("Due Elapsed");
                                     break;
                                 }
@@ -338,8 +364,6 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
         }
     }
 
-
-
     @Override
     public int getItemCount() {
         return financeList.size();
@@ -347,10 +371,9 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
     public class MyHolder extends RecyclerView.ViewHolder {
 
         TextView idDeal,items,value,created,update,status, duaDate, duaDatetxt;
-        ImageButton menu,download,notification;
+        ImageButton menu, download, edit, notification;
         public MyHolder(View itemView) {
             super(itemView);
-
             idDeal = itemView.findViewById(R.id.id_deals);
             items = itemView.findViewById(R.id.items_id);
             value = itemView.findViewById(R.id.value_id);
@@ -361,6 +384,7 @@ public class FinancesAdapter extends RecyclerView.Adapter<FinancesAdapter.MyHold
             duaDatetxt =itemView.findViewById(R.id.dua_date_txt);
             menu =itemView.findViewById(R.id.popup_menu);
             download =itemView.findViewById(R.id.download);
+            edit =itemView.findViewById(R.id.edit_contract);
             notification =itemView.findViewById(R.id.notification);
         }
     }
