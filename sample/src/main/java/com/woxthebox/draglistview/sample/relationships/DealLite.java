@@ -24,7 +24,7 @@ public class DealLite {
     public String value;
     public String currency;
     public ArrayList<Integer> internalUsers = new ArrayList<Integer>();
-    public List<Contact> contactsList;
+    public List<Contact> contactsList = new ArrayList<>();
 //    public ArrayList<Integer> contactsList;
     public String contactPk,contactName,contactEmail,contactMobile,contactDesignation,contactDp;
     boolean contactMale;

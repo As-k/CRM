@@ -126,6 +126,7 @@ public class BoardFragment extends Fragment {
                 Toast.makeText(getContext(), "Focused column changed from " + oldColumn + " to " + newColumn, Toast.LENGTH_SHORT).show();
             }
         });
+
         mBoardView.setBoardCallback(new BoardView.BoardCallback() {
             @Override
             public boolean canDragItemAtPosition(int column, int dragPosition) {
@@ -255,8 +256,8 @@ public class BoardFragment extends Fragment {
             ((TextView) dragView.findViewById(R.id.opp_name)).setText(name);
             ((TextView) dragView.findViewById(R.id.opp_card_company)).setText(company);
             ((TextView) dragView.findViewById(R.id.opp_card_deal)).setText(dealName);
-            CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
-            CardView clickedCard = ((CardView) clickedView.findViewById(R.id.card));
+            CardView dragCard = ((CardView) dragView.findViewById(R.id.opp_card));
+            CardView clickedCard = ((CardView) clickedView.findViewById(R.id.opp_card));
 
             dragCard.setMaxCardElevation(2);
             dragCard.setCardElevation(clickedCard.getCardElevation());
@@ -283,7 +284,7 @@ public class BoardFragment extends Fragment {
 
         @Override
         public void onStartDragAnimation(View dragView) {
-            CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
+            CardView dragCard = ((CardView) dragView.findViewById(R.id.opp_card));
             ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 2);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);
@@ -292,7 +293,7 @@ public class BoardFragment extends Fragment {
 
         @Override
         public void onEndDragAnimation(View dragView) {
-            CardView dragCard = ((CardView) dragView.findViewById(R.id.card));
+            CardView dragCard = ((CardView) dragView.findViewById(R.id.opp_card));
             ObjectAnimator anim = ObjectAnimator.ofFloat(dragCard, "CardElevation", dragCard.getCardElevation(), 2);
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(ANIMATION_DURATION);

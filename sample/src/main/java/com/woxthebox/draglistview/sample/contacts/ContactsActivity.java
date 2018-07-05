@@ -35,7 +35,7 @@ import cz.msebera.android.httpclient.Header;
 public class ContactsActivity extends AppCompatActivity {
 
     FloatingActionButton fab, fabImport, fabNew;
-    public static RecyclerView browse_rv;
+    public static RecyclerView browseRecyclerView;
     BrowseAdapter browseAdapter;
     private boolean fabExpanded = false;
     private LinearLayout layoutFabImport;
@@ -55,7 +55,8 @@ public class ContactsActivity extends AppCompatActivity {
         serverUrl = new ServerUrl(this);
         contactList = new ArrayList<>();
         client = new AsyncHttpClient();
-        browse_rv = findViewById(R.id.browse_recyclerView);
+        browseRecyclerView = findViewById(R.id.browse_recyclerView);
+        browseRecyclerView.setLayoutManager(new LinearLayoutManager(ContactsActivity.this));
         getUser();
 
         fab = findViewById(R.id.fab);
@@ -197,9 +198,10 @@ public class ContactsActivity extends AppCompatActivity {
                 }
                 Log.e("JSONExceptionresponse", ""+res);
 
-                browse_rv.setLayoutManager(new LinearLayoutManager(ContactsActivity.this));
+
                 browseAdapter = new BrowseAdapter(ContactsActivity.this, contactList);
-                browse_rv.setAdapter(browseAdapter);
+                browseRecyclerView.setAdapter(browseAdapter);
+                browseAdapter.notifyDataSetChanged();
 
                 browseAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
                     @Override

@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.relationships.RecyclerItemClickListener;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class OppStakeHolderFragment extends Fragment {
-    RecyclerView recyclerView;
+    RecyclerView oppStakeHolderRecyclerView;
 
 
     public OppStakeHolderFragment() {
@@ -29,12 +30,12 @@ public class OppStakeHolderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_opp_stake_holder, container, false);
 
-        recyclerView = view.findViewById(R.id.stakeholder_recycler);
+        oppStakeHolderRecyclerView = view.findViewById(R.id.stakeholder_recycler);
 
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        oppStakeHolderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         OppStakeHolderAdapter oppStakeHolderAdapter = new OppStakeHolderAdapter(getContext());
-        recyclerView.setAdapter(oppStakeHolderAdapter);
+        oppStakeHolderRecyclerView.setAdapter(oppStakeHolderAdapter);
 
         return view;
     }

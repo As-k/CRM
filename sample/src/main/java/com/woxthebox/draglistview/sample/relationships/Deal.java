@@ -1,6 +1,8 @@
 package com.woxthebox.draglistview.sample.relationships;
 
 
+import com.woxthebox.draglistview.sample.contacts.Contact;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +22,7 @@ public class Deal {
     public String value;
     public String currency;
     public String state;
-    public String internalUsers;
+//    public String internalUsers;
     public String requirements;
     public String probability;
     public String closeDate;
@@ -30,7 +32,9 @@ public class Deal {
     public String duePenalty;
     public String duePeriod;
     public String mobile;
+    public List<Contact> contactsList = new ArrayList<>();
     public ArrayList<Integer> contracts = new ArrayList<Integer>();
+    public ArrayList<Integer> internalUsers = new ArrayList<Integer>();
     public String contactPk,contactName,contactEmail,contactMobile,contactDesignation,contactDp;
     boolean contactMale;
     public JSONObject jsonObject;
@@ -55,7 +59,7 @@ public class Deal {
             this.result = jsonObject.getString("result");
             this.doc = jsonObject.getString("doc");
             this.state = jsonObject.getString("state");
-            this.internalUsers = jsonObject.getString("internalUsers");
+
             String requirements = jsonObject.getString("requirements");
             if (requirements.equals("null")|| requirements == null) {
                 this.requirements = "";
@@ -106,11 +110,17 @@ public class Deal {
             JSONArray jsonArray = jsonObject.getJSONArray("contacts");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject contacts = jsonArray.getJSONObject(i);
-
+                Contact c = new Contact(contacts);
+                this.contactsList.add(c);
                 this.contactPk = contacts.getString("pk");
                 this.contactName = contacts.getString("name");
                 this.contactEmail = contacts.getString("email");
-                this.contactDesignation = contacts.getString("designation");
+                String contactDesignation = contacts.getString("designation");
+                if (contactDesignation.equals("null")|| contactDesignation == null) {
+                    this.contactDesignation = "";
+                } else {
+                    this.contactDesignation = contactDesignation;
+                }
                 this.contactDp = contacts.getString("dp");
                 this.contactMale = contacts.getBoolean("male");
             }
@@ -118,6 +128,11 @@ public class Deal {
             jsonArray1 = jsonObject.getJSONArray("contracts");
             for (int j = 0; j < jsonArray1.length(); j++) {
                 this.contracts.add(jsonArray1.getInt(j));
+            }
+
+            JSONArray internal = jsonObject.getJSONArray("internalUsers");
+            for (int j = 0; j < internal.length(); j++) {
+                this.internalUsers.add(internal.getInt(j));
             }
 
             } catch(JSONException e){
@@ -215,6 +230,14 @@ public class Deal {
         this.contracts = contracts;
     }
 
+    public List<Contact> getContactsList() {
+        return contactsList;
+    }
+
+    public void setContactsList(List<Contact> contactsList) {
+        this.contactsList = contactsList;
+    }
+
     public String getCountry() {
         return country;
     }
@@ -269,14 +292,6 @@ public class Deal {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public String getInternalUsers() {
-        return internalUsers;
-    }
-
-    public void setInternalUsers(String internalUsers) {
-        this.internalUsers = internalUsers;
     }
 
     public String getRequirements() {
@@ -405,6 +420,14 @@ public class Deal {
 
     public void setContactMale(boolean contactMale) {
         this.contactMale = contactMale;
+    }
+
+    public ArrayList<Integer> getInternalUsers() {
+        return internalUsers;
+    }
+
+    public void setInternalUsers(ArrayList<Integer> internalUsers) {
+        this.internalUsers = internalUsers;
     }
 
     public JSONObject getJsonObject() {

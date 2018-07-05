@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by amit on 30/4/18.
  */
 
-public class OppViewPagerAdpater extends FragmentPagerAdapter {
-    public OppViewPagerAdpater(FragmentManager fm) {
+public class OppViewPagerAdapter extends FragmentPagerAdapter {
+    public OppViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

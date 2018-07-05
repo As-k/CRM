@@ -17,6 +17,7 @@
             android:id="@+id/info_network_img"
             app:civ_border_color="#ffffff"
             app:civ_border_width="2dp"
+            android:src="@drawable/male"
             />
 
 
@@ -27,7 +28,7 @@
             android:layout_marginTop="10dp"
             android:text="Name"
             android:layout_toEndOf="@+id/info_network_img"
-            android:textColor="#3c4650"
+            android:textColor="@color/text_color_gray"
             />
 
         <TextView
@@ -36,7 +37,7 @@
             android:layout_alignStart="@+id/info_network_name"
             android:layout_below="@+id/info_network_name"
             android:text="Software developer"
-            android:textColor="#3c4650" />
+            android:textColor="@color/text_color_gray" />
 
     </RelativeLayout>
 

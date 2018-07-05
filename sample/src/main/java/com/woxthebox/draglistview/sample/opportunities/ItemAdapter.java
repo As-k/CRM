@@ -107,12 +107,12 @@ class ItemAdapter extends DragItemAdapter<Pair<Integer, String>, ItemAdapter.MyH
         public void onItemClicked(View view) {
             Intent intent = new Intent(view.getContext(),StepView.class);
             view.getContext().startActivity(intent);
-            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(view.getContext(), "Item clicked", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(view.getContext(), "Item long clicked", Toast.LENGTH_SHORT).show();
             return true;
         }
     }

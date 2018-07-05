@@ -667,6 +667,24 @@ public class ViewDetailsActivity extends FragmentActivity {
         cnoTv.setText(mobile);
         emailTv.setText(eMail);
 
+        cnoTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                i.setData(Uri.parse("tel:" + mobile));
+                startActivity(i);
+            }
+        });
+
+        emailTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:" + eMail));
+                startActivity(emailIntent);
+            }
+        });
+
         fabView = findViewById(R.id.fab_view);
         fabSchedule = findViewById(R.id.fab_schedule);
         fabTask = findViewById(R.id.fab_task);
@@ -717,52 +735,6 @@ public class ViewDetailsActivity extends FragmentActivity {
     }
 
     private void getContactList() {
-//        Cursor phones = this.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null,null,null, null);
-//
-//        // loop over all contacts
-//        if(phones != null) {
-//            while (phones.moveToNext()) {
-//                // get contact info
-//                String phoneNumber = null;
-//                String id = phones.getString(phones.getColumnIndex(ContactsContract.Contacts._ID));
-//                String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-//                String avatarUriString = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
-//                Uri avatarUri = null;
-//                if(avatarUriString != null)
-//                    avatarUri = Uri.parse(avatarUriString);
-//
-//                // get phone number
-//                if (Integer.parseInt(phones.getString(phones.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
-//                    Cursor pCur = this.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                            null,
-//                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[] { id }, null);
-//
-//                    while (pCur != null && pCur.moveToNext()) {
-//                        phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                    }
-//
-//                    pCur.close();
-//
-//                }
-//
-//                ContactChip contactChip = new ContactChip(id, avatarUri, name, phoneNumber);
-//                // add contact to the list
-//                mContactList.add(contactChip);
-//            }
-//            phones.close();
-//        }
-//
-//        // pass contact list to chips input
-//
-//
-//        if (fabSchedule.isClickable()) {
-//            scheduleOS.setFilterableList(mContactList);
-//            scheduleInternalPeople.setFilterableList(mContactList);
-//        } else if (fabTask.isClickable()){
-//            taskOtherStake.setFilterableList(mContactList);
-//        }
-
-
         client.get(ServerUrl.url+"/api/clientRelationships/contact/", new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {

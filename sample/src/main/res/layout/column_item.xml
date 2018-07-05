@@ -19,13 +19,12 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
     android:paddingTop="2dp">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card"
+        android:id="@+id/opp_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -51,7 +50,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text=""
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="16dp"
                     android:textStyle="bold"
                     />
@@ -83,6 +82,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_toEndOf="@+id/imageView4"
                         android:text=""
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
                 </RelativeLayout>
 
@@ -110,6 +110,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imageView3"
                         android:text=""
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
                 </RelativeLayout>
         </LinearLayout>

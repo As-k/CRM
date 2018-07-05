@@ -17,60 +17,98 @@
 package com.woxthebox.draglistview.sample.opportunities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.woxthebox.draglistview.sample.R;
+import com.woxthebox.draglistview.sample.ServerUrl;
 import com.woxthebox.draglistview.sample.opportunities.BoardFragment;
+import com.woxthebox.draglistview.sample.relationships.ActiveDealsActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class OpportunitiesActivity extends AppCompatActivity {
+    public AsyncHttpClient client;
+    ServerUrl serverUrl;
+    List<Opportunities> opportunities;
+    RecyclerView opportunitiesRecyclerView;
+    OpportunitiesAdapter opportunitiesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opportunities);
-
-        if (savedInstanceState == null) {
-            showFragment(BoardFragment.newInstance());
-        }
-
         getSupportActionBar().hide();
-    }
+        serverUrl = new ServerUrl(this);
+        client = serverUrl.getHTTPClient();
+        opportunities = new ArrayList<>();
 
-    private void showFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment, "fragment").commit();
-    }
+        opportunitiesRecyclerView = findViewById(R.id.opportunities_recycleview);
+        opportunitiesRecyclerView.setLayoutManager(new LinearLayoutManager(OpportunitiesActivity.this));
 
-//        @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        boolean listFragment = getSupportFragmentManager().findFragmentByTag("fragment") instanceof ListFragment;
-//        menu.findItem(R.id.action_lists).setVisible(!listFragment);
-//        menu.findItem(R.id.action_board).setVisible(listFragment);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_lists:
-//                showFragment(ListFragment.newInstance());
-//                return true;
-//            case R.id.action_board:
-//                showFragment(BoardFragment.newInstance());
-//                return true;
+        getOpp();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                opportunitiesAdapter = new OpportunitiesAdapter(getApplicationContext(), opportunities);
+                opportunitiesRecyclerView.setAdapter(opportunitiesAdapter);
+            }
+        },500);
+//        if (savedInstanceState == null) {
+//            showFragment(BoardFragment.newInstance());
 //        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
+    }
+
+    protected void getOpp() {
+        client.get(ServerUrl.url+"api/clientRelationships/deal/?&created=false&board&format=json", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject Obj = null;
+                    try {
+                        Obj = response.getJSONObject(i);
+                        Opportunities opp = new Opportunities(Obj);
+                        opportunities.add(opp);
+                    }catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFinish() {
+                System.out.println("finished 001");
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+                System.out.println("finished failed 001");
+            }
+        });
+
+    }
+
+//    private void showFragment(Fragment fragment) {
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.container, fragment, "fragment").commit();
+//    }
 }
 

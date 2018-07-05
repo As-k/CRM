@@ -77,12 +77,19 @@ public class Contact implements Serializable {
 
         try{
             this.pk = jsonObject.getString("pk");
+            String contactDesignation = jsonObject.getString("designation");
+            if (contactDesignation.equals("null")) {
+                this.designation = "";
+            } else {
+                this.designation = contactDesignation;
+            }
             String name = jsonObject.getString("name");
             if (name.equals("null")) {
                 this.name = "";
             } else {
                 this.name = name;
             }
+
             String email = jsonObject.getString("email");
             if (email.equals("null")) {
                 this.email = "";
@@ -108,12 +115,7 @@ public class Contact implements Serializable {
                 this.mobileSecondary = mobileSecondary;
             }
 
-            String contactDesignation = jsonObject.getString("designation");
-            if (contactDesignation.equals("null")) {
-                this.designation = "";
-            } else {
-                this.designation = contactDesignation;
-            }
+
             String  notes = jsonObject.getString("notes");
             if (notes.equals("null")) {
                 this.notes = "";

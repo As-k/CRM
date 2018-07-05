@@ -36,56 +36,7 @@ public class Opportunities {
 
 
     public Opportunities(){
-
     }
-
-
-    public Opportunities(String pk, String user, String name, String addressPk, String street, String city, String add_state,
-                         String pincode, String lat, String lon, String country, String companyPk, String companyName,
-                         String companyMobile, String value, String currency, String state, String internalUsers,
-                         String requirements, String probability, String closeDate, String active, String result, String doc,
-                         String duePenalty, String duePeriod, String mobile, ArrayList<String> contacts, String contactPk,
-                         String contactName, String contactEmail, String contactMobile, String contactDesignation,
-                         String contactDp, boolean contactMale, ArrayList<String> contracts) {
-        this.pk = pk;
-        this.user = user;
-        this.name = name;
-        this.addressPk = addressPk;
-        this.street = street;
-        this.city = city;
-        this.add_state = add_state;
-        this.pincode = pincode;
-        this.lat = lat;
-        this.lon = lon;
-        this.country = country;
-        this.companyPk = companyPk;
-        this.companyName = companyName;
-        this.companyMobile = companyMobile;
-        this.value = value;
-        this.currency = currency;
-        this.state = state;
-        this.internalUsers = internalUsers;
-        this.requirements = requirements;
-        this.probability = probability;
-        this.closeDate = closeDate;
-        this.active = active;
-        this.result = result;
-        this.doc = doc;
-        this.duePenalty = duePenalty;
-        this.duePeriod = duePeriod;
-        this.mobile = mobile;
-        this.contactPk = contactPk;
-        this.contactName = contactName;
-        this.contactEmail = contactEmail;
-        this.contactMobile = contactMobile;
-        this.contactDesignation = contactDesignation;
-        this.contactDp = contactDp;
-        this.contactMale = contactMale;
-        this.contracts = contracts;
-
-
-    }
-
 
     public Opportunities(JSONObject jsonObject) {
         this.jsonObject = jsonObject;

@@ -42,7 +42,7 @@ public class InfoFragment extends Fragment {
     ImageView profileDp,searchLocImage, networkImg;
     TextView searchLocTv, infoCompany,infoNetworkName, infoNetworkDesg;
     public static List<ContactLite> contactLiteList;
-    public AsyncHttpClient asyncHttpClient;
+    AsyncHttpClient asyncHttpClient;
     ServerUrl serverUrl;
     ListView networkList;
 
@@ -55,10 +55,10 @@ public class InfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         serverUrl = new ServerUrl(getContext());
-        contactLiteList = new ArrayList<>();
         asyncHttpClient = serverUrl.getHTTPClient();
+        contactLiteList = new ArrayList<>();
+        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_info, container, false);
 
         profileDp = v.findViewById(R.id.info_image);

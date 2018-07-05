@@ -57,15 +57,14 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.contactList = contactList;
         serverUrl = new ServerUrl(context);
         asyncHttpClient = serverUrl.getHTTPClient();
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) ContactsActivity.browse_rv.getLayoutManager();
-        ContactsActivity.browse_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) ContactsActivity.browseRecyclerView.getLayoutManager();
+        ContactsActivity.browseRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 totalItemCount = linearLayoutManager.getItemCount();
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
                 if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
                     if (mOnLoadMoreListener != null) {
                         mOnLoadMoreListener.onLoadMore();
@@ -104,18 +103,8 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyHolder) {
-            String name,street,city,state,pincode,country,email,mobile,designation,company, dp, telephone, cMobile, cin, tin, about, web;
-            boolean gender;
             MyHolder myHolder = (MyHolder) holder;
             final Contact c = contactList.get(position);
-//            if (c.dp.equals("null")) {
-//                if (c.male)
-//                    myHolder.browseImage.setImageResource(R.drawable.male);
-//                else
-//                    myHolder.browseImage.setImageResource(R.drawable.female);
-//            } else {
-//                myHolder.browseImage.setImageUrl(c.dp, imageLoader);
-//            }
             asyncHttpClient.get(c.dp, new FileAsyncHttpResponseHandler(context) {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
@@ -167,8 +156,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             myHolder.editProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    pos = getLayoutPosition();
-//                    hashmapMethod();
                     Intent intent = new Intent(context, EditContactActivity.class);
                     intent.putExtra("pk",c.getPk());
                     intent.putExtra("image",c.getDp());
