@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,9 +46,10 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class AddQuoteActivity extends AppCompatActivity {
-
     EditText rate, quality, currency, description;
     AutoCompleteTextView productClass;
+    ImageView quoteDownload;
+    RelativeLayout quoteDownloadLayout;
     Spinner typeDropdown;
     Button addQuote, editProduct;
     TextView productTxt, codeType, code, taxRate;
@@ -79,7 +81,9 @@ public class AddQuoteActivity extends AppCompatActivity {
         if (bundle != null) {
             pk = bundle.getString("pk");
             editQuote = bundle.getBoolean("edit");
-//            total = bundle.getInt("value");
+            if (bundle.getBoolean("download")) {
+                quoteDownloadLayout.setVisibility(View.VISIBLE);
+            }
             String data = bundle.getString("data");
             try {
                 JSONArray dataJson = new JSONArray(data);
@@ -106,7 +110,7 @@ public class AddQuoteActivity extends AppCompatActivity {
         }
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.layout_style_spinner, items);
         typeDropdown.setAdapter(adapter);
 
         productClass.addTextChangedListener(new TextWatcher() {
@@ -180,6 +184,9 @@ public class AddQuoteActivity extends AppCompatActivity {
     }
 
     public void init(){
+        quoteDownloadLayout = findViewById(R.id.download_quote_layout);
+        quoteDownloadLayout.setVisibility(View.GONE);
+        quoteDownload = findViewById(R.id.download_quote);
         rate = findViewById(R.id.rate);
         productClass = findViewById(R.id.product_service);
         textInputLayout = findViewById(R.id.til_product_service);

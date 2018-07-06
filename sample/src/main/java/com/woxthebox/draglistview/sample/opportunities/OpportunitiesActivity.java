@@ -16,14 +16,17 @@
 
 package com.woxthebox.draglistview.sample.opportunities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -56,20 +59,17 @@ public class OpportunitiesActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         serverUrl = new ServerUrl(this);
         client = serverUrl.getHTTPClient();
-        opportunities = new ArrayList<>();
 
+
+        FloatingActionButton newCreateOppo = findViewById(R.id.create_new_oppo);
+        newCreateOppo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), NewOpportunityActivity.class));
+            }
+        });
         opportunitiesRecyclerView = findViewById(R.id.opportunities_recycleview);
         opportunitiesRecyclerView.setLayoutManager(new LinearLayoutManager(OpportunitiesActivity.this));
-
-        getOpp();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                opportunitiesAdapter = new OpportunitiesAdapter(getApplicationContext(), opportunities);
-                opportunitiesRecyclerView.setAdapter(opportunitiesAdapter);
-            }
-        },500);
 //        if (savedInstanceState == null) {
 //            showFragment(BoardFragment.newInstance());
 //        }
@@ -77,6 +77,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
     }
 
     protected void getOpp() {
+        opportunities.clear();
         client.get(ServerUrl.url+"api/clientRelationships/deal/?&created=false&board&format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
@@ -86,7 +87,7 @@ public class OpportunitiesActivity extends AppCompatActivity {
                         Obj = response.getJSONObject(i);
                         Opportunities opp = new Opportunities(Obj);
                         opportunities.add(opp);
-                    }catch(JSONException e) {
+                    } catch(JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -106,7 +107,24 @@ public class OpportunitiesActivity extends AppCompatActivity {
 
     }
 
-//    private void showFragment(Fragment fragment) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        opportunities = new ArrayList<>();
+
+        getOpp();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                opportunitiesAdapter = new OpportunitiesAdapter(getApplicationContext(), opportunities);
+                opportunitiesAdapter.notifyDataSetChanged();
+                opportunitiesRecyclerView.setAdapter(opportunitiesAdapter);
+            }
+        },500);
+    }
+
+    //    private void showFragment(Fragment fragment) {
 //        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //        transaction.replace(R.id.container, fragment, "fragment").commit();
 //    }

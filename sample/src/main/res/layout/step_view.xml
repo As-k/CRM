@@ -22,8 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="center"
-
-                android:src="@drawable/ic_deal" />
+                android:src="@drawable/opportunity_icon" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,6 +43,10 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +57,8 @@
             <TextView
                 style="@style/text_view_style"
                 android:layout_weight="1"
-                android:textAlignment="center"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
                 android:layout_marginStart="10dp"
                 android:text="VALUATION " />
 
@@ -81,9 +85,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:text="" />
+                    android:textAlignment="gravity"
+                    android:text="50000" />
             <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="0dp"
@@ -112,20 +117,57 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="2dp"
             android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/male" />
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/user_name"
-                android:layout_gravity="center"
-                android:layout_marginStart="3dp"
-                android:text="Admin CIOC"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/male" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_name"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:text="Admin CIOC"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_weight="1"
+                    android:id="@+id/edit_oppo"
+                    android:textAlignment="center"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/button_shape"
+                    android:text="Edit"
+                    android:layout_marginEnd="2dp"/>
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_weight="1"
+                    android:id="@+id/quote_oppo"
+                    android:textAlignment="center"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/button_shape"
+                    android:text="Quote"
+                    android:layout_marginEnd="2dp"/>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     </android.support.design.widget.CollapsingToolbarLayout>
@@ -150,13 +192,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="2dp">
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
+        >
 
         <TextView
             android:id="@+id/requirements_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/text_color"
             android:layout_gravity="center"
             android:text=""
             android:textAlignment="center"
@@ -168,12 +214,46 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="2dp"
-            android:background="@drawable/button_shape"
-            android:drawableLeft="@drawable/ic_mark"
+            android:background="@drawable/button_shape_blue"
             android:textAlignment="center"
             android:gravity="center_vertical"
-            android:text="Mark stage as complete"
-            android:textColor="@color/white" />
+            android:text="√ Mark stage as complete"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/won_lost_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/text_view_style"
+                android:layout_weight="1"
+                android:id="@+id/won_btn"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_shape_blue"
+                android:text="√ Won"
+                android:layout_marginEnd="2dp"/>
+
+            <TextView
+                style="@style/text_view_style"
+                android:layout_weight="1"
+                android:id="@+id/lost_btn"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_shape_red"
+                android:text="√ Lost"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -90,9 +90,9 @@ public class Deal {
             }
             String state = address.getString("state");
             if (state.equals("null") || state==null) {
-                this.state = "";
+                this.add_state = "";
             } else {
-                this.state = state;
+                this.add_state = state;
             }
             String pincode = address.getString("pincode");
             if (pincode.equals("null") || pincode==null) {

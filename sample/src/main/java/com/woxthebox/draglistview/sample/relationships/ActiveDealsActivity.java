@@ -81,6 +81,7 @@ public class ActiveDealsActivity extends Activity {
                                 Intent intent = new Intent(ActiveDealsActivity.this, ActiveDealsDetailsActivity.class);
                                 intent.putExtra("name", dealLite.getContactName());
                                 intent.putExtra("value", dealLite.getValue());
+                                intent.putExtra("currency", dealLite.getCurrency());
                                 intent.putExtra("closeDate", closeDate);
                                 intent.putExtra("pk", company_pk);
                                 intent.putExtra("contracts", contractspk);

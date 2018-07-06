@@ -15,6 +15,24 @@
             <!--android:layout_height="match_parent"-->
             <!--android:layout_weight="1"-->
             <!--&gt;-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/download_quote_layout"
+            android:background="@color/colorPrimary"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/download_quote"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_download_white"
+                />
+
+
+        </RelativeLayout>
 
             <HorizontalScrollView
                 android:id="@+id/tools"

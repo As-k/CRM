@@ -56,7 +56,6 @@ public class FinancesFragment extends Fragment {
         });
 
         getFinances();
-
         return v;
     }
 

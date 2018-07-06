@@ -32,7 +32,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
     private ActiveDealsViewPagerAdapter viewPagerAdapter;
     private ViewPager viewPager;
 
-    public static String name, value, closeDate;
+    public static String name, value, currency, closeDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         if (b != null) {
             name = b.getString("name");
             value = b.getString("value");
+            currency = b.getString("currency");
             closeDate = b.getString("closeDate");
             pk = b.getString("pk");
             contractPk = b.getIntegerArrayList("contracts");
@@ -67,7 +68,7 @@ public class ActiveDealsDetailsActivity extends FragmentActivity {
         }
 
         dealName.setText(name);
-        valuation.setText(value);
+        valuation.setText(currency +" "+ value);
         closingDate.setText(string);
 
         viewPager = findViewById(R.id.deal_viewpager);

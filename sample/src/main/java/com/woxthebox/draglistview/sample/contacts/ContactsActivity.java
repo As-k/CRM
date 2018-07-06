@@ -53,11 +53,10 @@ public class ContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
 
         serverUrl = new ServerUrl(this);
-        contactList = new ArrayList<>();
         client = new AsyncHttpClient();
         browseRecyclerView = findViewById(R.id.browse_recyclerView);
         browseRecyclerView.setLayoutManager(new LinearLayoutManager(ContactsActivity.this));
-        getUser();
+
 
         fab = findViewById(R.id.fab);
         fabImport = findViewById(R.id.fab_import);
@@ -95,6 +94,13 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(new Intent(ContactsActivity.this, NewContactActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        contactList = new ArrayList<>();
+        getUser();
     }
 
     //closes FAB submenus
@@ -180,8 +186,8 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     protected void getUser(){
-        String serverURL = serverUrl.url;
-        client.get(serverURL+"/api/clientRelationships/contact/",new JsonHttpResponseHandler() {//?format=json&limit=10&offset=0
+        contactList.clear();
+        client.get(ServerUrl.url+"/api/clientRelationships/contact/",new JsonHttpResponseHandler() {//?format=json&limit=10&offset=0
             @Override
             public void onSuccess(int statusCode, Header[] headers, final JSONArray response) {
                 res = response.length();
