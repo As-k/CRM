@@ -265,6 +265,7 @@ public class StepView extends FragmentActivity {
         indicator = findViewById(R.id.stepper_indicator);
         viewPager = findViewById(R.id.opp_viewpager);
         tabLayout = findViewById(R.id.opp_deal_view);
+
     }
 
 

@@ -34,8 +34,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     compile 'org.greenrobot:greendao:3.2.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-//    compile project(path: ':laser-native-editor')
-    compile 'com.github.irshulx:laser-native-editor:2.1.0'
+    compile project(path: ':laser-native-editor')
+//    compile 'com.github.irshulx:laser-native-editor:2.1.0'
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
 //    compile 'com.github.qiugang:EditTag:v1.2.3'
     compile project(':edittag')

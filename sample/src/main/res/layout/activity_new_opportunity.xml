@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="5dp"
-            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbarThumbVertical="@null"
             android:scrollIndicators="none"
             >
 
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/text_color">
-                    <EditText
+                    <AutoCompleteTextView
                         android:layout_width="match_parent"
                         style="@style/edit_text_style"
                         android:id="@+id/oppo_company"
@@ -78,7 +78,7 @@
                         android:id="@+id/oppo_tag_view_customer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:input_layout="@layout/auto_view_sample_input_tag"
+                        app:input_layout="@layout/auto_crm_view_sample_input_tag"
                         app:tag_layout="@layout/view_sample_tag" />
 
                 </LinearLayout>
@@ -102,7 +102,7 @@
                         android:id="@+id/oppo_tag_view_internal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:input_layout="@layout/auto_crm_view_sample_input_tag"
+                        app:input_layout="@layout/auto_view_sample_input_tag"
                         app:tag_layout="@layout/view_sample_tag" />
 
                 </LinearLayout>

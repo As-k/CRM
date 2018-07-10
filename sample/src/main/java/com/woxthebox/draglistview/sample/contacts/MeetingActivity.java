@@ -556,8 +556,6 @@ public class MeetingActivity extends AppCompatActivity {
             //Write your code if there's no result
             Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
             // editor.RestoreState();
-        } else if (requestCode == editor.MAP_MARKER_REQUEST) {
-            editor.insertMap(data.getStringExtra("cords"));
         }
     }
 
