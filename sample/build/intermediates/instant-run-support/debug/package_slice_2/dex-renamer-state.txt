@@ -1,0 +1,4 @@
+#Mon Jul 09 18:35:46 IST 2018
+base.0=/Users/admin/Desktop/CRM/sample/build/intermediates/transforms/dexMerger/debug/2
+path.0=classes.dex
+renamed.0=classes.dex

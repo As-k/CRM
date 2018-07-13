@@ -1,0 +1,277 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-19:12
+MERGED from [com.github.pchmn:MaterialChipsInput:1.0.8] /Users/admin/.gradle/caches/transforms-1/files-1.1/MaterialChipsInput-1.0.8.aar/55cf00a81ec86068a63be53e61ca677f/AndroidManifest.xml:2:1-17:12
+MERGED from [com.tbruyelle.rxpermissions2:rxpermissions:0.9.3] /Users/admin/.gradle/caches/transforms-1/files-1.1/rxpermissions-0.9.3.aar/001a46bbddd1105fd77ea08c1720822c/AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:design:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/434d994b3fd87a122593d45089f846e7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/5f0dee61915c96e95ede2b35f21f7e09/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/admin/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/4552d8f663f0d2ff973c57e0bed792a5/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.gms:play-services-places:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-places-10.0.1.aar/f5c1e272f45f11970d84719a859e64c0/AndroidManifest.xml:16:1-19:12
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:16:1-25:12
+MERGED from [com.google.android.gms:play-services-location:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-location-10.0.1.aar/c3c8ba90c407460c0764fcffb5657dfd/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:16:1-21:12
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/3eb9a2a04786e06bbe663df8d1ffc692/AndroidManifest.xml:2:1-5:12
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:16:1-23:12
+MERGED from [com.android.support:support-v4:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/7c00d6b60a8c3867e28a5c81f244d13e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/8871401ab8931750895d1b98157f842f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/f921fd2eecd9d35dc3b3de9d709bf112/AndroidManifest.xml:17:1-22:12
+MERGED from [com.beloo.widget:ChipsLayoutManager:0.3.7] /Users/admin/.gradle/caches/transforms-1/files-1.1/ChipsLayoutManager-0.3.7.aar/eb7a192527070d1a47be6f1193b4489b/AndroidManifest.xml:2:1-12:12
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/circleimageview-2.1.0.aar/d499187413fce65c3c0a69f3870f78fe/AndroidManifest.xml:2:1-11:12
+MERGED from [com.jakewharton:butterknife:8.5.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/butterknife-8.5.1.aar/a643e49fef532cf5a29758e13d1f97f9/AndroidManifest.xml:2:1-7:12
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/2fbac70933983c5765795694c2fbc42d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/eb1439040848f293c91ceb7203182c0d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/21bf86b0cc9d719558fbddfb46f26305/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/884bbddf36bc96b4a1a3d51b0b7f7c16/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/91c602379274ec82c845547f1f5c5505/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/04121f38de20392735d332c27bcd81ed/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/a836bd8445f2fd68edc76263d4aefa25/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/9082600bd0c8e6d22d314696ffaef033/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/cd800c1ffb9c6b22855aaa6e92f8b5cc/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/f04ae8ec0bbb2ecd8192de3da814f651/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/a3ed6e7d00134046f4e05b26331bd2d0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/bbe7e2c845562c72592e952dfbb2036d/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+	package
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:3:5-27
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:1-54:12
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.CALL_PHONE
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:5:5-69
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:5:22-66
+uses-permission#android.permission.READ_CONTACTS
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:6:5-72
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:6:22-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:7:5-66
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:5-67
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:5-67
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:20:5-66
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:20:5-66
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:7:22-64
+application
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:9:5-52:19
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:5-17:19
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:5-17:19
+MERGED from [com.github.pchmn:MaterialChipsInput:1.0.8] /Users/admin/.gradle/caches/transforms-1/files-1.1/MaterialChipsInput-1.0.8.aar/55cf00a81ec86068a63be53e61ca677f/AndroidManifest.xml:11:5-15:19
+MERGED from [com.github.pchmn:MaterialChipsInput:1.0.8] /Users/admin/.gradle/caches/transforms-1/files-1.1/MaterialChipsInput-1.0.8.aar/55cf00a81ec86068a63be53e61ca677f/AndroidManifest.xml:11:5-15:19
+MERGED from [com.tbruyelle.rxpermissions2:rxpermissions:0.9.3] /Users/admin/.gradle/caches/transforms-1/files-1.1/rxpermissions-0.9.3.aar/001a46bbddd1105fd77ea08c1720822c/AndroidManifest.xml:11:5-20
+MERGED from [com.tbruyelle.rxpermissions2:rxpermissions:0.9.3] /Users/admin/.gradle/caches/transforms-1/files-1.1/rxpermissions-0.9.3.aar/001a46bbddd1105fd77ea08c1720822c/AndroidManifest.xml:11:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/admin/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/4552d8f663f0d2ff973c57e0bed792a5/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/admin/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/4552d8f663f0d2ff973c57e0bed792a5/AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-places:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-places-10.0.1.aar/f5c1e272f45f11970d84719a859e64c0/AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-places:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-places-10.0.1.aar/f5c1e272f45f11970d84719a859e64c0/AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:24:5-19
+MERGED from [com.google.android.gms:play-services-location:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-location-10.0.1.aar/c3c8ba90c407460c0764fcffb5657dfd/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-location:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-location-10.0.1.aar/c3c8ba90c407460c0764fcffb5657dfd/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/3eb9a2a04786e06bbe663df8d1ffc692/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/3eb9a2a04786e06bbe663df8d1ffc692/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:19:5-21:19
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:19:5-21:19
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/circleimageview-2.1.0.aar/d499187413fce65c3c0a69f3870f78fe/AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/circleimageview-2.1.0.aar/d499187413fce65c3c0a69f3870f78fe/AndroidManifest.xml:9:5-20
+	android:supportsRtl
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:15:9-35
+	android:label
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:13:9-41
+	android:roundIcon
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:14:9-54
+	android:icon
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:12:9-43
+	android:allowBackup
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:11:9-35
+	android:theme
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:16:9-40
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:10:9-42
+activity#com.cioc.crm.MainActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:17:9-25:20
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:19:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:18:13-41
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:20:13-24:29
+action#android.intent.action.MAIN
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:23:27-74
+activity#com.cioc.crm.ContactsActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:26:9-28:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:28:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:27:13-45
+activity#com.cioc.crm.OpportunitiesActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:29:9-31:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:31:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:30:13-50
+activity#com.cioc.crm.RelationshipsActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:32:9-34:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:34:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:33:13-50
+activity#com.cioc.crm.EditContactActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:35:9-37:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:37:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:36:13-48
+activity#com.cioc.crm.ViewDetailsActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:38:9-40:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:40:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:39:13-48
+activity#com.cioc.crm.NewContactActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:41:9-43:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:43:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:42:13-47
+activity#com.cioc.crm.ContactsListActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:44:9-46:52
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:46:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:45:13-49
+activity#com.cioc.crm.MeetingActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:47:9-50:20
+	android:screenOrientation
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:48:13-49
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:47:19-50
+activity#com.cioc.crm.edittag.ContactListActivity
+ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:51:9-65
+	android:name
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml:51:19-62
+uses-sdk
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.pchmn:MaterialChipsInput:1.0.8] /Users/admin/.gradle/caches/transforms-1/files-1.1/MaterialChipsInput-1.0.8.aar/55cf00a81ec86068a63be53e61ca677f/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.pchmn:MaterialChipsInput:1.0.8] /Users/admin/.gradle/caches/transforms-1/files-1.1/MaterialChipsInput-1.0.8.aar/55cf00a81ec86068a63be53e61ca677f/AndroidManifest.xml:7:5-9:41
+MERGED from [com.tbruyelle.rxpermissions2:rxpermissions:0.9.3] /Users/admin/.gradle/caches/transforms-1/files-1.1/rxpermissions-0.9.3.aar/001a46bbddd1105fd77ea08c1720822c/AndroidManifest.xml:7:5-9:41
+MERGED from [com.tbruyelle.rxpermissions2:rxpermissions:0.9.3] /Users/admin/.gradle/caches/transforms-1/files-1.1/rxpermissions-0.9.3.aar/001a46bbddd1105fd77ea08c1720822c/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:design:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/434d994b3fd87a122593d45089f846e7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/434d994b3fd87a122593d45089f846e7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/5f0dee61915c96e95ede2b35f21f7e09/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/5f0dee61915c96e95ede2b35f21f7e09/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/admin/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/4552d8f663f0d2ff973c57e0bed792a5/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/admin/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/4552d8f663f0d2ff973c57e0bed792a5/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.gms:play-services-places:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-places-10.0.1.aar/f5c1e272f45f11970d84719a859e64c0/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-places:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-places-10.0.1.aar/f5c1e272f45f11970d84719a859e64c0/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:23:5-42
+MERGED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:23:5-42
+MERGED from [com.google.android.gms:play-services-location:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-location-10.0.1.aar/c3c8ba90c407460c0764fcffb5657dfd/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-location:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-location-10.0.1.aar/c3c8ba90c407460c0764fcffb5657dfd/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/3eb9a2a04786e06bbe663df8d1ffc692/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-tasks:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-10.0.1.aar/3eb9a2a04786e06bbe663df8d1ffc692/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:17:5-42
+MERGED from [com.android.support:support-v4:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/7c00d6b60a8c3867e28a5c81f244d13e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/7c00d6b60a8c3867e28a5c81f244d13e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/8871401ab8931750895d1b98157f842f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/8871401ab8931750895d1b98157f842f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/f921fd2eecd9d35dc3b3de9d709bf112/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/f921fd2eecd9d35dc3b3de9d709bf112/AndroidManifest.xml:20:5-44
+MERGED from [com.beloo.widget:ChipsLayoutManager:0.3.7] /Users/admin/.gradle/caches/transforms-1/files-1.1/ChipsLayoutManager-0.3.7.aar/eb7a192527070d1a47be6f1193b4489b/AndroidManifest.xml:8:5-10:41
+MERGED from [com.beloo.widget:ChipsLayoutManager:0.3.7] /Users/admin/.gradle/caches/transforms-1/files-1.1/ChipsLayoutManager-0.3.7.aar/eb7a192527070d1a47be6f1193b4489b/AndroidManifest.xml:8:5-10:41
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/circleimageview-2.1.0.aar/d499187413fce65c3c0a69f3870f78fe/AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:2.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/circleimageview-2.1.0.aar/d499187413fce65c3c0a69f3870f78fe/AndroidManifest.xml:5:5-7:41
+MERGED from [com.jakewharton:butterknife:8.5.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/butterknife-8.5.1.aar/a643e49fef532cf5a29758e13d1f97f9/AndroidManifest.xml:5:5-43
+MERGED from [com.jakewharton:butterknife:8.5.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/butterknife-8.5.1.aar/a643e49fef532cf5a29758e13d1f97f9/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/2fbac70933983c5765795694c2fbc42d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/2fbac70933983c5765795694c2fbc42d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/eb1439040848f293c91ceb7203182c0d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/eb1439040848f293c91ceb7203182c0d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/21bf86b0cc9d719558fbddfb46f26305/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/21bf86b0cc9d719558fbddfb46f26305/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/884bbddf36bc96b4a1a3d51b0b7f7c16/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/884bbddf36bc96b4a1a3d51b0b7f7c16/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/91c602379274ec82c845547f1f5c5505/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/91c602379274ec82c845547f1f5c5505/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/04121f38de20392735d332c27bcd81ed/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/04121f38de20392735d332c27bcd81ed/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/a836bd8445f2fd68edc76263d4aefa25/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/a836bd8445f2fd68edc76263d4aefa25/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/9082600bd0c8e6d22d314696ffaef033/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/9082600bd0c8e6d22d314696ffaef033/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/cd800c1ffb9c6b22855aaa6e92f8b5cc/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/cd800c1ffb9c6b22855aaa6e92f8b5cc/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/f04ae8ec0bbb2ecd8192de3da814f651/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/f04ae8ec0bbb2ecd8192de3da814f651/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/a3ed6e7d00134046f4e05b26331bd2d0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/a3ed6e7d00134046f4e05b26331bd2d0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/bbe7e2c845562c72592e952dfbb2036d/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/admin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/bbe7e2c845562c72592e952dfbb2036d/AndroidManifest.xml:20:5-44
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		ADDED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/admin/Desktop/CRM/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-81
+	android:name
+		ADDED from [:laser-native-editor] /Users/admin/Desktop/CRM/laser-native-editor/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:22-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:19:5-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:19:22-76
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:21:5-77
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:21:19-51
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-maps-10.0.1.aar/43b5818bee7f27aecffa88d1693f6921/AndroidManifest.xml:21:52-75
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:19:86-145
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-base-10.0.1.aar/426800e6238aa55d641e9cbb80fe248b/AndroidManifest.xml:19:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:20:66-119
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:10.0.1] /Users/admin/.gradle/caches/transforms-1/files-1.1/play-services-basement-10.0.1.aar/3f87806bdb145a61bacd75bf0b221802/AndroidManifest.xml:20:20-65

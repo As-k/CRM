@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="letter_tile_colors">
+        <item>#f16364</item>
+        <item>#f58559</item>
+        <item>#f9a43e</item>
+        <item>#e4c62e</item>
+        <item>#67bf74</item>
+        <item>#59a2be</item>
+        <item>#2093cd</item>
+        <item>#ad62a7</item>
+    </array>
+    <color name="chips_opened_bg">#009688</color>
+    <color name="colorAccent">?attr/colorAccent</color>
+    <color name="colorChipViewBackground">#E0E0E0</color>
+    <color name="colorCloseChip">#ababab</color>
+    <color name="white_transparency">#b9ffffff</color>
+    <declare-styleable name="ChipView"><attr format="string" name="label"/><attr format="color" name="labelColor"/><attr format="boolean" name="hasAvatarIcon"/><attr format="reference" name="avatarIcon"/><attr format="boolean" name="deletable"/><attr format="reference" name="deleteIcon"/><attr format="color" name="deleteIconColor"/><attr format="color" name="backgroundColor"/></declare-styleable>
+    <declare-styleable name="ChipsInput"><attr format="string" name="hint"/><attr format="color" name="hintColor"/><attr format="color" name="textColor"/><attr format="integer" name="maxRows"/><attr format="color" name="chip_labelColor"/><attr format="boolean" name="chip_hasAvatarIcon"/><attr format="boolean" name="chip_deletable"/><attr format="reference" name="chip_deleteIcon"/><attr format="color" name="chip_deleteIconColor"/><attr format="color" name="chip_backgroundColor"/><attr format="boolean" name="showChipDetailed"/><attr format="color" name="chip_detailed_textColor"/><attr format="color" name="chip_detailed_backgroundColor"/><attr format="color" name="chip_detailed_deleteIconColor"/><attr format="color" name="filterable_list_backgroundColor"/><attr format="color" name="filterable_list_textColor"/></declare-styleable>
+    <declare-styleable name="ScrollViewMaxHeight"><attr format="dimension" name="maxHeight"/></declare-styleable>
+    <dimen name="letter_tile_size">32dp</dimen>
+    <dimen name="tile_letter_font_size">17sp</dimen>
+    <string name="app_name">MaterialChipsInput</string>
+</resources>

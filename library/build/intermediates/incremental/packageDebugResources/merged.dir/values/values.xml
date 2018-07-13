@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ListSwipeItem"><attr format="integer" name="swipeViewId"/><attr format="integer" name="leftViewId"/><attr format="integer" name="rightViewId"/></declare-styleable>
+</resources>
