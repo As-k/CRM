@@ -1,12 +1,13 @@
-<ScrollView android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-    <LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <!--<TextView-->
         <!--style="@style/text_view_style"-->
@@ -18,37 +19,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
             android:gravity="center"
-            android:layout_marginBottom="2dp">
+            android:orientation="horizontal">
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <EditText
+                    android:id="@+id/schedule_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/schedule_date"
+                    android:drawableRight="@drawable/ic_date"
                     android:ems="10"
                     android:hint="Date"
                     android:inputType="date"
-                    android:keyboardNavigationCluster="true"
-                    android:drawableRight="@drawable/ic_date"/>
+                    android:keyboardNavigationCluster="true" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
                 <EditText
+                    android:id="@+id/schedule_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/schedule_time"
+                    android:drawableRight="@drawable/ic_time"
                     android:ems="10"
                     android:hint="Time"
                     android:inputType="time"
-                    android:keyboardNavigationCluster="false"
-                    android:drawableRight="@drawable/ic_time"/>
+                    android:keyboardNavigationCluster="false" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -56,17 +60,16 @@
             style="@style/text_view_style"
             android:layout_gravity="left"
             android:text="Other stakeholders"
-            android:textSize="15dp"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/text_color"
+            android:textSize="15dp" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <me.originqiu.library.EditTag
                 android:id="@+id/edit_tag_view_crm"
@@ -86,17 +89,16 @@
             style="@style/text_view_style"
             android:layout_gravity="left"
             android:text="Internal People"
-            android:textSize="15dp"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/text_color"
+            android:textSize="15dp" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <me.originqiu.library.EditTag
                 android:id="@+id/edit_tag_view_ip"
@@ -116,50 +118,52 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
+                android:id="@+id/schedule_loction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/schedule_loction"
                 android:ems="10"
                 android:hint="Location"
-                android:inputType="text"
-                />
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
+                android:id="@+id/schedule_event_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/schedule_event_details"
                 android:ems="10"
                 android:hint="Event Details"
-                android:inputType="text"
-                />
+                android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
+            android:layout_marginBottom="2dp"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="2dp">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Cancel"
                 android:id="@+id/schedule_cancel"
                 style="@style/button_style"
-                android:layout_margin="2dp"/>
-            <Button
                 android:layout_width="0dp"
+                android:layout_margin="2dp"
                 android:layout_weight="1"
-                android:text="Save"
+                android:text="Cancel" />
+
+            <Button
                 android:id="@+id/schedule_save"
                 style="@style/button_style"
-                android:layout_margin="2dp"/>
+                android:layout_width="0dp"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:text="Save" />
         </LinearLayout>
 
     </LinearLayout>

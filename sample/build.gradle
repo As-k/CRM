@@ -35,16 +35,16 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile project(path: ':laser-native-editor')
-//    compile 'com.github.irshulx:laser-native-editor:2.1.0'
+    //    compile 'com.github.irshulx:laser-native-editor:2.1.0'
     compile 'com.github.pchmn:MaterialChipsInput:1.0.8'
-//    compile 'com.github.qiugang:EditTag:v1.2.3'
+    //    compile 'com.github.qiugang:EditTag:v1.2.3'
     compile project(':edittag')
     compile 'io.reactivex.rxjava2:rxjava:2.0.8'
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile files('libs/volley.jar')
-//    implementation 'com.android.volley:volley:1.0.0'
+    //    implementation 'com.android.volley:volley:1.0.0'
     implementation 'com.google.code.gson:gson:2.6.2'
     compile 'com.githang:stepview:0.1'
     compile 'com.github.baoyachi:StepView:1.9'
