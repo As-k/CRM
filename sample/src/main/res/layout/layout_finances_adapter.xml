@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activeDeals_cardView"
+    android:layout_marginTop="2dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    app:cardBackgroundColor="@color/project_color"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:text="ID  :"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/id_deals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView6"
+            android:text="1" />
+
+
+        <ImageButton
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="55dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_toStartOf="@+id/edit_contract"
+            android:background="@color/project_color"
+            android:src="@drawable/ic_notification" />
+
+        <ImageButton
+            android:id="@+id/edit_contract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_toStartOf="@+id/download"
+            android:background="@color/project_color"
+            android:src="@drawable/ic_edit" />
+
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:background="@color/project_color"
+            android:src="@drawable/ic_download"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:text="Value  :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/value_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/textView5"
+            android:text="1122" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/items_id"
+            android:layout_alignBottom="@+id/items_id"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView5"
+            android:text="Items       :"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/items_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/textView2"
+            android:text="2"
+
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/created_txt"
+            android:layout_marginStart="8dp"
+            android:text="Created  :"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/created_txt"
+            android:layout_marginStart="10dp"
+            android:text="200 Days"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:id="@+id/updated_txt"
+            android:text="Updated  :"
+            android:layout_toEndOf="@id/created_txt"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/updated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/updated_txt"
+            android:layout_marginStart="10dp"
+            android:text="22 Days"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_centerVertical="true"
+            android:text="Status  :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:id="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/textView8"
+            android:text="Billed" />
+
+        <TextView
+            android:id="@+id/dua_date_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="55dp"
+            android:layout_toEndOf="@+id/status"
+            android:text="Due Date :"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/dua_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/dua_date_txt"
+            android:text="17-May-2018"
+            android:visibility="visible"
+            />
+
+        <ImageButton
+            android:id="@+id/popup_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@color/project_color"
+            android:src="@drawable/ic_menu"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
+</android.support.v7.widget.CardView>

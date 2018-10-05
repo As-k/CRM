@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "com.woxthebox.draglistview.sample"
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':library')
+    implementation project(':library2')
+    implementation('com.weiwangcn.betterspinner:library:1.1.0') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation project(path: ':laser-native-editor')
+    //    compile 'com.github.irshulx:laser-native-editor:2.1.0'
+    implementation 'com.github.pchmn:MaterialChipsInput:1.0.8'
+    //    compile 'com.github.qiugang:EditTag:v1.2.3'
+    implementation project(':edittag')
+    implementation 'io.reactivex.rxjava2:rxjava:2.0.8'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.3@aar'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation files('libs/volley.jar')
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.githang:stepview:0.1'
+    implementation 'com.github.baoyachi:StepView:1.9'
+    implementation 'com.layer-net:step-indicator:1.1.0'
+    implementation 'com.github.badoualy:stepper-indicator:1.0.7'
+    implementation 'org.sufficientlysecure:html-textview:3.2'
+}
+
+
+
+
+

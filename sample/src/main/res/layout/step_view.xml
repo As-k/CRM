@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/project_color">
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/opportunity_icon" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/opp_company_name"
+                    style="@style/text_view_style"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/opp_deal_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/text_view_style"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
+                android:layout_marginStart="10dp"
+                android:text="VALUATION " />
+
+            <TextView
+                android:layout_weight="1"
+                android:textAlignment="center"
+                style="@style/text_view_style"
+                android:text="CLOSING DATE" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+                <TextView
+                    android:id="@+id/opp_valuation_money"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:textAlignment="gravity"
+                    android:text="50000" />
+            <!--</LinearLayout>-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_date"/>
+                <TextView
+                    android:id="@+id/opp_closing_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:layout_marginStart="3dp"
+                    android:text=""/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/male" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_name"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="3dp"
+                    android:text="Admin CIOC"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_weight="1"
+                    android:id="@+id/edit_oppo"
+                    android:textAlignment="center"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/button_shape"
+                    android:text="Edit"
+                    android:layout_marginEnd="2dp"/>
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_weight="1"
+                    android:id="@+id/quote_oppo"
+                    android:textAlignment="center"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/button_shape"
+                    android:text="Quote"
+                    android:layout_marginEnd="2dp"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    </android.support.design.widget.CollapsingToolbarLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
+
+    <com.badoualy.stepperindicator.StepperIndicator
+        android:id="@+id/stepper_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:stpi_doneIconDrawable="@drawable/ic_done_white_18dp"
+        app:stpi_circleColor="@color/gray"
+        app:stpi_indicatorColor="@color/green"
+        app:stpi_animDuration="250"
+        app:stpi_stepCount="6"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginLeft="4dp"
+        >
+
+        <TextView
+            android:id="@+id/requirements_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/text_color"
+            android:layout_gravity="center"
+            android:text=""
+            android:textAlignment="center"
+            />
+
+        <TextView
+            android:id="@+id/mark_complete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:background="@drawable/button_shape_blue"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:text="√ Mark stage as complete"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/won_lost_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/text_view_style"
+                android:layout_weight="1"
+                android:id="@+id/won_btn"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_shape_blue"
+                android:text="√ Won"
+                android:layout_marginEnd="2dp"/>
+
+            <TextView
+                style="@style/text_view_style"
+                android:layout_weight="1"
+                android:id="@+id/lost_btn"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:background="@drawable/button_shape_red"
+                android:text="√ Lost"
+                android:layout_marginStart="2dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/opp_deal_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/colorPrimary"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="3dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/project_color"
+
+        app:tabTextColor="@color/gray">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/opp_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>

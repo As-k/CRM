@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/stakeholder_image"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="2dp"
+            android:src="@drawable/male"
+            />
+
+
+        <TextView
+            style="@style/text_view_style"
+            android:id="@+id/holder_name"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:text="Name"
+            android:layout_toEndOf="@+id/stakeholder_image"
+            android:textColor="@color/text_color_gray"
+            />
+
+        <TextView
+            android:id="@+id/holder_designation"
+            style="@style/text_view_style"
+            android:layout_alignStart="@+id/holder_name"
+            android:layout_below="@+id/holder_name"
+            android:text="Software developer"
+            android:textColor="@color/text_color_gray" />
+
+    </RelativeLayout>
+
+</LinearLayout>

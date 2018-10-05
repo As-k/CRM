@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoCompleteTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/medit_tag_crm"
+    android:background="@null"
+    android:minWidth="56dp"
+    android:drawablePadding="2dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="4dp"
+    android:singleLine="true"
+    android:maxEms="30"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="4dp"
+    android:hint="Search and select a user to add him/her to this group "
+    android:imeOptions="actionDone"
+    android:textColor="@color/dark_clr"
+    android:textSize="14sp"/>

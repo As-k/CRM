@@ -1,0 +1,93 @@
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_date"
+                android:ems="10"
+                android:hint="Date"
+                android:inputType="date"
+                android:drawableRight="@drawable/ic_date"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            style="@style/text_view_style"
+            android:layout_gravity="left"
+            android:text="Other stakeholders"
+            android:textSize="15dp"
+            android:textColor="@color/text_color"/>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+            <me.originqiu.library.EditTag
+                android:id="@+id/edit_tag_view_crm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:input_layout="@layout/auto_crm_view_sample_input_tag"
+                app:tag_layout="@layout/view_sample_tag" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/chip_list_ip"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="16dp"/>-->
+
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/task_details"
+                android:ems="10"
+                android:hint="Task Details"
+                android:inputType="text"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="2dp">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:id="@+id/task_cancel"
+                style="@style/button_style"
+                android:layout_margin="2dp"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="Save"
+                android:id="@+id/task_save"
+                style="@style/button_style"
+                android:layout_margin="2dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

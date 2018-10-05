@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.woxthebox.draglistview.sample.opportunities.NewOpportunityActivity">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:scrollbarThumbVertical="@null"
+            android:scrollIndicators="none"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_gravity="left"
+                    android:text="Create a new opportunity"
+                    android:textSize="15dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/text_color"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        android:layout_width="match_parent"
+                        style="@style/edit_text_style"
+                        android:id="@+id/oppo_name"
+                        android:hint="Name"
+                        android:inputType="text"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        style="@style/edit_text_style"
+                        android:id="@+id/oppo_company"
+                        android:hint="Company"
+                        android:inputType="text"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="left"
+                    android:textAlignment="gravity"
+                    android:text="Stakeholders at customer side"
+                    android:layout_marginStart="5dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    >
+
+                    <me.originqiu.library.EditTag
+                        android:id="@+id/oppo_tag_view_customer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:input_layout="@layout/auto_crm_view_sample_input_tag"
+                        app:tag_layout="@layout/view_sample_tag" />
+
+                </LinearLayout>
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="left"
+                    android:textAlignment="gravity"
+                    android:text="Internal stakeholders"
+                    android:layout_marginStart="5dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/text_color"/>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    >
+
+                    <me.originqiu.library.EditTag
+                        android:id="@+id/oppo_tag_view_internal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:input_layout="@layout/auto_view_sample_input_tag"
+                        app:tag_layout="@layout/view_sample_tag" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="2dp">
+                    <TextView
+                        style="@style/text_view_style"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="gravity"
+                        android:text="Initial State"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"
+                        android:textSize="14dp"
+                        android:textColor="@color/text_color"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="5dp"
+                        android:layout_weight="1"
+                        android:id="@+id/state_spinner"/>
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/text_color">
+                    <EditText
+                        style="@style/edit_text_style"
+                        android:layout_width="match_parent"
+                        android:id="@+id/oppo_close_date"
+                        android:hint="Tentative closing date "
+                        android:inputType="date"
+                        android:drawableRight="@drawable/ic_date"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="2dp">
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="5dp"
+                        android:layout_weight="1"
+                        android:id="@+id/currency_spinner"/>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/text_color">
+                        <EditText
+                            style="@style/edit_text_style"
+                            android:layout_width="match_parent"
+                            android:id="@+id/oppo_valuation"
+                            android:hint="Suspected value"
+                            android:inputType="number"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="left"
+                    android:textAlignment="gravity"
+                    android:text="Confidence (in %)"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/text_color"
+                    android:textSize="14dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:layout_marginBottom="2dp">
+
+                    <TextView
+                        android:id="@+id/min_confidence"
+                        style="@style/text_view_style"
+                        android:layout_weight="0"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="gravity"
+                        android:text="0"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="14dp" />
+
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/confidence_seekBar"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/max_confidence"
+                        style="@style/text_view_style"
+                        android:layout_weight="0"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="gravity"
+                        android:text="100"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="14dp" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/text_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="left"
+                    android:textAlignment="gravity"
+                    android:text="Comments"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/text_color"
+                    android:textSize="14dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="match_parent">
+
+
+                    <!-- Begin Editor toolbar -->
+
+                    <HorizontalScrollView android:id="@+id/tools"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#e6e6e6"
+                        android:layout_alignParentBottom="true"
+                        android:scrollbars="none">
+
+                        <include layout="@layout/editor_toolbar_linearlayout_horizontal" />
+
+
+                    </HorizontalScrollView>
+                    <!--End of Editor toolbar -->
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:scrollbars="vertical"
+                        android:layout_marginBottom="50dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_height="match_parent"
+                        >
+
+                        <com.github.irshulx.Editor
+                            android:id="@+id/oppo_requirement_editor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="110dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="10dp"
+                            app:placeholder="Start writing here..."
+                            app:render_type="Editor" />
+                    </ScrollView>
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            >
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <Button
+                    android:id="@+id/new_oppo_save"
+                    style="@style/button_style"
+                    android:layout_width="match_parent"
+                    android:onClick="saveOpportunity"
+                    android:text="Save" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

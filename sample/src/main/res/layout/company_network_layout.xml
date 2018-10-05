@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/info_network_img"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="2dp"
+            android:src="@drawable/male"
+            />
+
+
+        <TextView
+            style="@style/text_view_style"
+            android:id="@+id/info_network_name"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            android:text="Name"
+            android:layout_toEndOf="@+id/info_network_img"
+            android:textColor="@color/text_color_gray"
+            />
+
+        <TextView
+            android:id="@+id/info_network_designation"
+            style="@style/text_view_style"
+            android:layout_alignStart="@+id/info_network_name"
+            android:layout_below="@+id/info_network_name"
+            android:text="Software developer"
+            android:textColor="@color/text_color_gray" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
