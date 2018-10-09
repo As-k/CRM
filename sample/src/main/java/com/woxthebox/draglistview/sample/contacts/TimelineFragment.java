@@ -1,14 +1,18 @@
 package com.woxthebox.draglistview.sample.contacts;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Cache;
 import com.android.volley.Request;
@@ -35,20 +39,24 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
+import static android.view.View.GONE;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TimelineFragment extends Fragment {
     private static final String TAG = MainActivity.class.getSimpleName();
-    RecyclerView recyclerViewTimeline;
+    RecyclerView recyclerViewTimeline,externalRecycler,internalRecycler;
     TimelineAdapter timelineAdapter;
+    InternalEmployeesAdapter internalEmployeesAdapter;
+
     ServerUrl serverUrl;
     static JSONArray feedArray;
 
     private List<FeedItem> feedItems;
     private List<FeedActivity> feedActivityList;
-    private String URL_FEED = "http://crm.cioc.in/api/clientRelationships/activity/?contact=1&limit=5&offset=0";             //https://api.androidhive.info/feed/feed.json;            //http://192.168.1.104:8000/api/clientRelationships/activity/
+    private String URL_FEED = "http://crm.cioc.in/api/clientRelationships/activity/?contact=1&offset=0";             //https://api.androidhive.info/feed/feed.json;            //http://192.168.1.104:8000/api/clientRelationships/activity/
     ArrayList<String> companiesList;
     public AsyncHttpClient client;
 
@@ -63,55 +71,56 @@ public class TimelineFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_timeline, container, false);
 
+
         serverUrl = new ServerUrl(getContext());
+        client = serverUrl.getHTTPClient();
         feedItems = new ArrayList<>();
         feedActivityList = new ArrayList<>();
+        getContentValue();
         recyclerViewTimeline = v.findViewById(R.id.timeline_rv);
         recyclerViewTimeline.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewTimeline.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        timelineAdapter = new TimelineAdapter(getActivity(), feedItems);
-        recyclerViewTimeline.setAdapter(timelineAdapter);
-//        getContentValue();
 
-        // We first check for cached request
-        Cache cache = AppController.getInstance().getRequestQueue().getCache();
-        Cache.Entry entry = cache.get(URL_FEED);
-        if (entry != null) {
-            // fetch the data from cache.
-            try {
-                String data = new String(entry.data, "UTF-8");
-                try {
-                    parseJsonFeed(new JSONObject(data));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
 
-        } else {
-            // making fresh volley request and getting json
-            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
-                    URL_FEED, null, new Response.Listener<JSONObject>() {
 
-                @Override
-                public void onResponse(JSONObject response) {
-                    VolleyLog.d(TAG, "Response: " + response.toString());
-                    if (response != null) {
-                        parseJsonFeed(response);
-                    }
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-                }
-            });
-
-            // Adding request to volley request queue
-            AppController.getInstance().addToRequestQueue(jsonReq);
-        }
+//        // We first check for cached request
+//        Cache cache = AppController.getInstance().getRequestQueue().getCache();
+//        Cache.Entry entry = cache.get(URL_FEED);
+//        if (entry != null) {
+//            // fetch the data from cache.
+//            try {
+//                String data = new String(entry.data, "UTF-8");
+//                try {
+//                    parseJsonFeed(new JSONObject(data));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//
+//        } else {
+//            // making fresh volley request and getting json
+//            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,
+//                    URL_FEED, null, new Response.Listener<JSONObject>() {
+//
+//                @Override
+//                public void onResponse(JSONObject response) {
+//                    VolleyLog.d(TAG, "Response: " + response.toString());
+//                    if (response != null) {
+//                        parseJsonFeed(response);
+//                    }
+//                }
+//            }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+//                }
+//            });
+//
+//            // Adding request to volley request queue
+//            AppController.getInstance().addToRequestQueue(jsonReq);
+//        }
 
         return v;
     }
@@ -120,21 +129,23 @@ public class TimelineFragment extends Fragment {
         client.get(ServerUrl.url + "/api/clientRelationships/activity/?format=json", new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-//                super.onSuccess(statusCode, headers, response);
+                super.onSuccess(statusCode, headers, response);
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject json = response.getJSONObject(i);
-                        FeedActivity fa = new FeedActivity(json);
-                        String time = json.getString("created");
-                        String status = json.getString("data");
-                        String doc = json.getString("doc");
+                        FeedItem fa = new FeedItem(json);
 //                        String time = json.getString("created");
-                        feedActivityList.add(fa);
+//                        String status = json.getString("data");
+//                        String doc = json.getString("doc");
+//                        String time = json.getString("created");
+                        feedItems.add(fa);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+                timelineAdapter = new TimelineAdapter(getActivity(), feedItems);
+                recyclerViewTimeline.setAdapter(timelineAdapter);
             }
 
             @Override
@@ -171,5 +182,8 @@ public class TimelineFragment extends Fragment {
         }
     }
 }
+
+
+
 
 

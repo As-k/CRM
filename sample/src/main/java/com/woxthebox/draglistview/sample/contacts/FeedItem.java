@@ -11,8 +11,9 @@ public class FeedItem {
 
 	private int id;
 	int userId;
-	private String contactName, profilePic, timeStamp, url, notes,deal,dp,doc,contacts,internalUsers,data;
-	public String contactsName,designation;
+	String Pk;
+	private String designation,contactName, profilePic, timeStamp, url, notes,deal,dp,doc,contacts,internalUsers,data;
+	private String contactsName,designationContacts;
 	public JSONObject jsonObject;
 	public Boolean male;
 
@@ -24,22 +25,26 @@ public class FeedItem {
 				this.data=jsonObject.getString("data");
 				this.notes=jsonObject.getString("notes");
 				this.doc=jsonObject.getString("doc");
-				JSONArray jsonArray=new JSONArray(jsonObject.getString("contacts"));
+
+				JSONArray jsonArray = new JSONArray(jsonObject.getString("contacts"));
+
 				for(int i=0;i<jsonArray.length();i++){
 				    JSONObject jobj=jsonArray.getJSONObject(i);
 				    this.contactsName=jobj.getString("name");
-				    this.designation=jobj.getString("designation");
+				    this.designationContacts=jobj.getString("designation");
+				}
 
-                }
                 JSONArray jsonArray1=new JSONArray(jsonObject.getString("internalUsers"));
 				for(int i=0;i<jsonArray1.length();i++){
-				    this.internalUsers=jsonArray1.getString(i);
+					JSONObject jobj1=jsonArray1.getJSONObject(i);
+				    this.Pk=jobj1.getString("");
                 }
 
 
 
 				JSONObject contact=jsonObject.getJSONObject("contact");
 				this.contactName=contact.getString("name");
+				this.designation=contact.getString("designation");
 
 				String img = jsonObject.getString("dp");
 				if (img.equals("null")) {
@@ -99,6 +104,14 @@ public class FeedItem {
 
 	public String getDeal() {
 		return deal;
+	}
+
+	public String getPk() {
+		return Pk;
+	}
+
+	public void setPk(String pk) {
+		this.Pk = pk;
 	}
 
 	public String getDp() {
@@ -183,7 +196,15 @@ public class FeedItem {
 		return contactName;
 	}
 
-	public String getContactsName() {
+	public String getDesignationContacts() {
+		return designationContacts;
+	}
+
+	public void setDesignationContacts(String designationContacts) {
+		this.designationContacts = designationContacts;
+	}
+
+	public String getcontactsName() {
 		return contactsName;
 	}
 

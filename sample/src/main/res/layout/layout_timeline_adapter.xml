@@ -1,122 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="10dp">-->
+<android.support.v7.widget.CardView android:layout_marginTop="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp">
-    <android.support.v7.widget.CardView
-        android:layout_marginTop="20dp"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content">
+    app:cardElevation="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/profilePic"
+            android:layout_width="@dimen/feed_item_profile_pic"
+            android:layout_height="@dimen/feed_item_profile_pic"
+            android:scaleType="fitCenter"
+            android:src="@drawable/male"/>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/profilePic"
+            android:text="This is my App"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/profilePic"
+            android:text=" TIME"
+            android:textColor="@color/timestamp"
+            android:textSize="@dimen/feed_item_timestamp" />
+
+        <ImageView
+            android:id="@+id/pdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/html_text"
+            android:layout_alignEnd="@+id/timestamp"
+            android:src="@drawable/pdf" />
+
+        <TextView
+            android:id="@+id/docText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/pdf"
+            android:layout_toStartOf="@+id/layout_external"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="Demo"
+            android:textColor="@color/blue" />
+
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/html_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profilePic"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="Demo" />
+
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:src="@drawable/male"
-                android:id="@+id/profilePic"
-                android:layout_width="@dimen/feed_item_profile_pic"
-                android:layout_height="@dimen/feed_item_profile_pic"
-                android:scaleType="fitCenter" >
-            </ImageView>
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="This is my App"
-                android:textStyle="bold"
-                android:layout_toRightOf="@+id/profilePic"
-                android:layout_marginLeft="20dp"/>
-            <TextView
-                android:id="@+id/timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/timestamp"
-                android:textSize="@dimen/feed_item_timestamp"
-                android:layout_below="@+id/name"
-                android:layout_toRightOf="@+id/profilePic"
-                android:layout_marginTop="5dp"
-                android:text=" TIME"
-                android:layout_marginLeft="20dp"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/pdf"
-                android:id="@+id/pdf"
-                android:layout_toRightOf="@+id/name"
-                android:layout_marginLeft="40dp"
-              />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/docText"
-                android:clickable="true"
-                android:focusable="true"
-                android:textColor="@color/blue"
-                android:layout_below="@+id/pdf"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/name"
-                android:layout_marginLeft="40dp"/>
-            <org.sufficientlysecure.htmltextview.HtmlTextView
-                android:id="@+id/html_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/profilePic"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="20dp"
-                android:text=" "/>
+            android:id="@+id/layout_external"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_below="@+id/html_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp">
 
-            <RelativeLayout
-                android:id="@+id/layout_external"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_external"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/html_text"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_centerHorizontal="true">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_external"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
-            </RelativeLayout>
-            <TextView
-                android:id="@+id/txt_external"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="External:"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@+id/html_text"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/txt_internal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Internal:"
-                android:textStyle="bold"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@+id/layout_external"/>
-            <RelativeLayout
-                android:id="@+id/layout_internal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_external"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_centerHorizontal="true">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_internal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content">
 
-            </RelativeLayout>
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_external"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/html_text"
+            android:layout_marginLeft="10dp"
+            android:text="External:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_internal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_external"
+            android:layout_marginStart="10dp"
+            android:text="Internal:"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/layout_internal"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_below="@+id/layout_external"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_internal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
 
 
         </RelativeLayout>
+
+
+    </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 
 
-</RelativeLayout>
+<!--</RelativeLayout>-->

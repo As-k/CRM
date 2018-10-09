@@ -561,22 +561,20 @@ public class ViewDetailsActivity extends FragmentActivity {
                     @Override
                     public void onClick(View v) {
                         String details = noteDetails.getText().toString().trim();
-
-                        if (details.isEmpty()){
+                        if (details.isEmpty()) {
                             return;
                         }
                         RequestParams params = new RequestParams();
                         params.put("contact",Integer.parseInt(cpk));
                         params.put("data",details);
                         params.put("typ","note");
-//                        params.put("when",inputRaw);//2018-06-19T10:19:37.931376Z
+                        params.put("when","2018-06-19T10:19:37.931376Z");//2018-06-19T10:19:37.931376Z
 
                         client.post(ServerUrl.url+"api/clientRelationships/activity/", params, new JsonHttpResponseHandler(){
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 super.onSuccess(statusCode, headers, response);
                                 Toast.makeText(ViewDetailsActivity.this, "posted", Toast.LENGTH_SHORT).show();
-
                                 ad.dismiss();
                             }
 

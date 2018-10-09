@@ -23,21 +23,6 @@ public class ContactLite implements Serializable {
         public boolean male;
         public JSONObject jsonObject;
 
-
-
-    public ContactLite(String pk, String user, String name, String companyPk, String email, String mobile, String designation, String dp, boolean male) {
-        this.pk = pk;
-        this.user = user;
-        this.name = name;
-        this.companyPk = companyPk;
-        this.email = email;
-        this.mobile = mobile;
-        this.designation = designation;
-        this.dp = dp;
-        this.male = male;
-    }
-
-
     public ContactLite(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
 
