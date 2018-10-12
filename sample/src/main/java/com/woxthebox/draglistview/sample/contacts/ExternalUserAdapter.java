@@ -7,20 +7,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.woxthebox.draglistview.sample.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExternalUserAdapter extends RecyclerView.Adapter<ExternalUserAdapter.ViewHolder> {
     Context context;
     private LayoutInflater inflater;
-    private List<FeedItem> feedItems;
+    private ArrayList contactsExternal;
 
-    public ExternalUserAdapter(Context context, List<FeedItem> feedItems){
-        this.context=context;
-        this.feedItems=feedItems;
+
+    public ExternalUserAdapter(Context context, ArrayList contactsExternals){
+        this.context = context;
+        this.contactsExternal = contactsExternals;
 
     }
     @NonNull
@@ -35,28 +42,49 @@ public class ExternalUserAdapter extends RecyclerView.Adapter<ExternalUserAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ExternalUserAdapter.ViewHolder holder, int position) {
-        FeedItem item=feedItems.get(position);
-        if(item.getcontactsName()!=null) {
-            holder.empName.setText(item.getcontactsName());
-            holder.empDesign.setText(item.getDesignationContacts());
+        JSONObject jsonObject=null;
+
+            try {
+                jsonObject = (JSONObject) contactsExternal.get(position);
+                String contactsName = jsonObject.getString("name");
+                String contactsDesignation = jsonObject.getString("designation");
+                String contactsImage=jsonObject.getString("male");
+                if(contactsImage.equals("true")){
+                    holder.profilePic.setBackgroundResource(R.drawable.male_circlesmall);
+                }
+                else
+                {
+                   holder.profilePic.setBackgroundResource(R.drawable.femalesmall);
+                }
+                if (contactsName != null) {
+                    holder.empName.setText(contactsName);
+                    holder.empDesign.setText(contactsDesignation);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
-    }
+
+
 
     @Override
     public int getItemCount() {
-        return feedItems.size();
+        return contactsExternal.size();
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder {
         CardView cardExternal;
         TextView empName,empDesign;
+        ImageView profilePic;
+
         public ViewHolder(View itemView) {
 
             super(itemView);
             cardExternal=itemView.findViewById(R.id.card1);
             empName=itemView.findViewById(R.id.emp_name);
             empDesign=itemView.findViewById(R.id.emp_design);
+            profilePic=itemView.findViewById(R.id.user_image);
 
 
         }

@@ -21,33 +21,9 @@ public class FeedActivity implements Serializable {
     public String typ;
     public String notes;
     public boolean male, maleContacts;
+    public JSONArray contactsArr;
     public JSONObject jsonObject;
 
-    public FeedActivity() {
-
-    }
-
-    public FeedActivity(String pk, String contactPk, String data, String deal, String contact, String doc, String user, String name, String created,
-                        String typ, String email, String mobile, String designation, String notes, String dp, boolean male, String companyPk) {
-        this.pk = pk;
-        this.contactPk = contactPk;
-        this.data = data;
-        this.deal = deal;
-        this.contact = contact;
-        this.doc = doc;
-        this.user = user;
-        this.name = name;
-        this.created = created;
-        this.typ = typ;
-        this.email = email;
-        this.mobile = mobile;
-        this.designation = designation;
-        this.notes = notes;
-        this.dp = dp;
-        this.male = male;
-        this.companyPk = companyPk;
-
-    }
     //make get request
     public FeedActivity(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
@@ -84,7 +60,6 @@ public class FeedActivity implements Serializable {
                 this.doc = doc;
             }
             JSONObject contactsObj = jsonObject.getJSONObject("contact");
-
             if (contactsObj!=null) {
                 this.contactPk = contactsObj.getString("pk");
                 String name = contactsObj.getString("name");
@@ -127,7 +102,7 @@ public class FeedActivity implements Serializable {
                 }
             }
 
-            JSONArray contactsArr = jsonObject.getJSONArray("contacts");
+            this.contactsArr = new JSONArray(jsonObject.getString("contacts"));
             for (int i=0; i<contactsArr.length();i++) {
                 JSONObject contacts = contactsArr.getJSONObject(i);
 
@@ -406,6 +381,14 @@ public class FeedActivity implements Serializable {
 
     public void setCompanyPkContacts(String companyPkContacts) {
         this.companyPkContacts = companyPkContacts;
+    }
+
+    public JSONArray getContactsArr() {
+        return contactsArr;
+    }
+
+    public void setContactsArr(JSONArray contactsArr) {
+        this.contactsArr = contactsArr;
     }
 
     public JSONObject getJsonObject() {

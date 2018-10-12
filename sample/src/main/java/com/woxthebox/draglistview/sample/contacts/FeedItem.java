@@ -7,63 +7,87 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class FeedItem {
 
+	private  String location;
+	private String duration;
+	private  String created;
+	private String pk;
+	private  String user;
 	private int id;
 	int userId;
-	String Pk;
-	private String designation,contactName, profilePic, timeStamp, url, notes,deal,dp,doc,contacts,internalUsers,data;
+	String internalUser;
+	private JSONArray jsonArray1;
+	private  JSONArray jsonArray;
+
+	private String designation,contactName, profilePic, timeStamp, url, notes,deal,dp,doc,contacts,data;
+	private Integer internalUsers;
 	private String contactsName,designationContacts;
 	public JSONObject jsonObject;
-	public Boolean male;
+
+	public String  male;
 
 
 
 	public FeedItem(JSONObject jsonObject) {
 		this.jsonObject=jsonObject;
 		try{
-				this.data=jsonObject.getString("data");
+//			this.pk = jsonObject.getString("pk");
+//			this.user = jsonObject.getString("user");
+//			String type = jsonObject.getString("typ");
+//			this.created = jsonObject.getString("created");
+//			if (type.equals("note")) {
+//				this.data = jsonObject.getString("data");
+//			}
+//			if (type.equals("call")) {
+//				JSONObject data = jsonObject.getJSONObject("data");
+//				this.duration = data.getString("duration");
+//
+//			if (type.equals("meeting")) {
+//				JSONObject data = jsonObject.getJSONObject("data");
+//				this.duration = data.getString("duration");
+//				this.location = data.getString("location");
+//			}
+//
+//			String notes = jsonObject.getString("notes");
+//			if (notes.equals("null")) {
+//				this.notes = "";
+//			} else {
+//				this.notes = notes;
+//			}
+
+			    this.data=jsonObject.getString("data");
 				this.notes=jsonObject.getString("notes");
 				this.doc=jsonObject.getString("doc");
 
-				JSONArray jsonArray = new JSONArray(jsonObject.getString("contacts"));
+				jsonArray = new JSONArray(jsonObject.getString("contacts"));
 
 				for(int i=0;i<jsonArray.length();i++){
-				    JSONObject jobj=jsonArray.getJSONObject(i);
+					 JSONObject  jobj =jsonArray.getJSONObject(i);
 				    this.contactsName=jobj.getString("name");
 				    this.designationContacts=jobj.getString("designation");
+				    this.male=jobj.getString("male");
+
+
 				}
 
-                JSONArray jsonArray1=new JSONArray(jsonObject.getString("internalUsers"));
+				this.jsonArray1 = jsonObject.getJSONArray("internalUsers");
 				for(int i=0;i<jsonArray1.length();i++){
-					JSONObject jobj1=jsonArray1.getJSONObject(i);
-				    this.Pk=jobj1.getString("");
+				   this.internalUsers=jsonArray1.getInt(i);
                 }
 
 
 
 				JSONObject contact=jsonObject.getJSONObject("contact");
-				this.contactName=contact.getString("name");
-				this.designation=contact.getString("designation");
+				if(contact!=null) {
+				    this.contactName = contact.getString("name");
+					this.designation = contact.getString("designation");
 
-				String img = jsonObject.getString("dp");
-				if (img.equals("null")) {
-					if (this.male)
-						this.dp = ServerUrl.url + "/static/images/img_avatar_card.png";
-					else
-						this.dp = ServerUrl.url + "/static/images/img_avatar_card2.png";
-				} else {
-					this.dp = img;
+
+
 				}
-                   /* JSONArray contactsJsonArray=jsonObject.getJSONArray("contacts");
-				        for(int i=0;i<contactsJsonArray.length();i++) {
-				    JSONObject contactsObject=(JSONObject) contactsJsonArray.get(i);
-                    this.contactsName = contactsObject.getString("name");
-                    this.designation = contactsObject.getString("designation");
-                }*/
-
-
-				//	this.userId=internalUsersArray.getInt(i);
 
 
 		}
@@ -77,13 +101,20 @@ public class FeedItem {
 		this.deal = deal;
 	}
 
-	public void setDp(String dp) {
+    public String getMale() {
+        return male;
+    }
+
+    public void setMale(String male) {
+        this.male = male;
+    }
+
+    public void setDp(String dp) {
+
 		this.dp = dp;
 	}
 
-	public void setMale(Boolean male) {
-		this.male = male;
-	}
+
 
 
 	public void setDoc(String doc) {
@@ -94,8 +125,11 @@ public class FeedItem {
 		this.contacts = contacts;
 	}
 
-	public void setInternalUsers(String internalUsers) {
+	public void setInternalUsers(Integer internalUsers) {
 		this.internalUsers = internalUsers;
+	}
+	public Integer getInternalUsers(){
+		return this.internalUsers;
 	}
 
 	public void setData(String data) {
@@ -106,21 +140,16 @@ public class FeedItem {
 		return deal;
 	}
 
-	public String getPk() {
-		return Pk;
-	}
 
-	public void setPk(String pk) {
-		this.Pk = pk;
-	}
+
+//	public void setInternalUser(int internalUser) {
+//		this.internalUser = internalUser;
+//	}
 
 	public String getDp() {
 		return dp;
 	}
 
-	public Boolean getMale() {
-		return male;
-	}
 
 	public String getDoc() {
 		return doc;
@@ -130,9 +159,6 @@ public class FeedItem {
 		return contacts;
 	}
 
-	public String getInternalUsers() {
-		return internalUsers;
-	}
 
 	public String getData() {
 		return data;
@@ -184,6 +210,46 @@ public class FeedItem {
 		this.timeStamp = timeStamp;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getDuration() {
+		return duration;
+	}
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public String getCreated() {
+		return created;
+	}
+
+	public void setCreated(String created) {
+		this.created = created;
+	}
+
+	public String getPk() {
+		return pk;
+	}
+
+	public void setPk(String pk) {
+		this.pk = pk;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -204,9 +270,6 @@ public class FeedItem {
 		this.designationContacts = designationContacts;
 	}
 
-	public String getcontactsName() {
-		return contactsName;
-	}
 
 	public String getDesignation() {
 		return designation;
@@ -228,11 +291,26 @@ public class FeedItem {
 		this.contactsName = contactsName;
 	}
 
+	public JSONArray getJsonArray() {
+		return jsonArray;
+	}
+
+	public void setJsonArray(JSONArray jsonArray) {
+		this.jsonArray = jsonArray;
+	}
+
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
 
 	public void setJsonObject(JSONObject jsonObject) {
 		this.jsonObject = jsonObject;
+	}
+	public JSONArray getJsonArray1() {
+		return this.jsonArray1;
+	}
+
+	public void setJsonArray1(JSONArray jsonArray1) {
+		this.jsonArray1 = jsonArray1;
 	}
 }

@@ -51,16 +51,20 @@
             android:id="@+id/pdf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/html_text"
-            android:layout_alignEnd="@+id/timestamp"
+           android:layout_below="@+id/timestamp"
+            android:layout_toRightOf="@+id/profilePic"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/pdf" />
 
         <TextView
             android:id="@+id/docText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/pdf"
-            android:layout_toStartOf="@+id/layout_external"
+           android:layout_toRightOf="@+id/pdf"
+            android:layout_below="@+id/timestamp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
             android:clickable="true"
             android:focusable="true"
             android:text="Demo"
@@ -73,25 +77,8 @@
             android:layout_below="@id/profilePic"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="Demo" />
-
-        <RelativeLayout
-            android:id="@+id/layout_external"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_below="@+id/html_text"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_external"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/txt_external"
@@ -102,6 +89,26 @@
             android:text="External:"
             android:textStyle="bold" />
 
+        <LinearLayout
+            android:id="@+id/layout_external"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/html_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp">
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_external"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
         <TextView
             android:id="@+id/txt_internal"
             android:layout_width="wrap_content"
@@ -111,24 +118,27 @@
             android:text="Internal:"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layout_internal"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_below="@+id/layout_external"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp">
-
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_internal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
+            </android.support.v4.widget.NestedScrollView>
 
-
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </RelativeLayout>

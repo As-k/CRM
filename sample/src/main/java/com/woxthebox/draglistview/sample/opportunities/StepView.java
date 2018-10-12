@@ -55,7 +55,7 @@ public class StepView extends FragmentActivity {
     String listName[] = {"Contacting","Demo / POC","Requirements","Proposal","Negotiation","Won / Lost"};
     String stateParams[] = {"contacted","demo","requirements","proposal","negotiation","conclusion"};
     String dealPk;
-    int index = 0;
+    int index;
 
 
     @Override
@@ -78,7 +78,7 @@ public class StepView extends FragmentActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Deal deal = dealList.get(0);
+                final Deal deal = dealList.get(1);
                 oppViewPagerAdapter = new OppViewPagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(oppViewPagerAdapter);
                 tabLayout.setupWithViewPager(viewPager);
